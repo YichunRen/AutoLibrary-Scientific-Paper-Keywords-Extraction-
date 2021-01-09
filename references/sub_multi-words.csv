@@ -1,0 +1,101 @@
+score,phrase,label
+0.52273481,b & uuml,0
+0.70180388,inter agent dialogues,1
+0.55630401,dynamic translation,1
+0.89739974,assume guarantee reasoning,0
+0.69640972,resource descriptions,0
+0.53601235,deterministic annealing algorithm,1
+0.83270109,multicast group,1
+0.57277101,single versus multiple,0
+0.65434009,buy at bulk,0
+0.61724074,architecture based,0
+0.8754273,stock market indices,1
+0.82502383,kernel partial least squares,1
+0.60157465,rigid image registration,1
+0.70088196,xquery full text,0
+0.74758021,chromatic number œá,1
+0.7993546,marriage theorem,1
+0.91362354,vbr mpeg video,1
+0.69628441,monolingual and cross lingual,0
+0.85686728,precomputed visibility,1
+0.53057076,over quasi static fading channels,1
+0.97103605,hearing aid,1
+0.97523718,publicly verifiable,1
+0.77940945,depend linearly,0
+0.95802602,soft handover,1
+0.80274331,message exchange patterns,1
+0.74321815,automatically selecting,0
+0.70857946,rigorous bounds,1
+0.9472559,cmos vco,1
+0.5866688,finger mechanism,1
+0.5752805,tactile patterns,1
+0.61708319,passivity preserving model,1
+0.5940482,weak edges,1
+0.69070542,transaction monitor,1
+0.81712099,camera rotation,1
+0.52721086,deterministic exponential time,1
+0.65699152,learning situation,1
+0.72101845,vehicle detector,1
+0.64547842,general theory,1
+0.67110683,medical terms,1
+0.88734559,blotch detection,1
+0.51254107,minimum label,1
+0.94427354,waste water treatment,1
+0.7029931,care record,1
+0.77767442,hyper exponential,1
+0.5180744,real life workloads,1
+0.67587311,beta skeleton,1
+0.66543657,mimo relay networks,1
+0.62892823,imperfect communication,1
+0.745705,video decoders,1
+0.52770543,force feedback control,1
+0.51239092,identified shortcomings,1
+0.94229239,clinical pathways,1
+0.78080509,sip protocol,1
+0.75835419,affine equivalence,1
+0.81488489,linguistic phenomena,1
+0.55526464,testbed environment,1
+0.65648797,distance perception,1
+0.72489268,unstructured networks,1
+0.60478896,knuth bendix completion procedure,1
+0.86420062,ontology integration,1
+0.52356959,parallel databases,1
+0.86065986,smart sensor,1
+0.53166696,multi frame motion estimation,1
+0.73161671,sea level rise,1
+0.71389937,sequence labelling,1
+0.54290022,department of electrical engineering,1
+0.70053514,query based sampling,1
+0.96574311,authenticated key exchange,1
+0.61830641,auf ein,1
+0.59930874,vulnerability driven,1
+0.62908179,joint cfo,1
+0.60978806,bio operations,1
+0.61619221,quasi chaotic,1
+0.54745648,tree structured patterns,1
+0.69974689,active services,1
+0.8512441,ct registration,1
+0.51589021,token game,1
+0.86843199,software engineering principles,1
+0.74165265,briefly surveyed,0
+0.91190525,bilinear maps,1
+0.7334428,yield ramp,1
+0.58246073,histogram estimation,1
+0.72940603,logic circuitry,1
+0.64565039,stronger property,0
+0.66030164,energy efficient topology control,1
+0.84393522,air gap,1
+0.58929711,semiconductor process,1
+0.64950663,orthogonal cdma,1
+0.86265987,pulse repetition,1
+0.80163728,design studio,1
+0.73519527,syllable duration,1
+0.79167301,strain measurement,1
+0.93437564,smt solver,1
+0.90903312,product mix,1
+0.67719246,conceptual hierarchy,1
+0.64239587,functional associations,1
+0.81243996,weighted model counting,1
+0.60841788,acm symposium on virtual reality software,0
+0.60186095,union free,1
+0.92470645,velocity fields,1
