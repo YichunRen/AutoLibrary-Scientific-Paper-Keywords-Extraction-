@@ -1,0 +1,14 @@
+data/raw/*
+data/out/*
+data/report*
+data/eda/*
+references/annotated_multi-words.csv
+__pycache__
+.ipynb_checkpoints
+src/*.pyc
+src/*.sh
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
