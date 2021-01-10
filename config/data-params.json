@@ -1,4 +1,7 @@
 {
-	"outdir": "data/raw",
-    "textname": "data/raw/DBLP.txt"
+	"data_dir": "./data/",
+	"data":{
+		"English": ["/raw/DBLP.5K.txt", "/raw/DBLP.txt", "/raw/wiki_all.txt", "/raw/wiki_quality.txt", "/raw/stopwords.txt"],
+		"Other": ["BAD_POS_TAGS.txt"]
+	}
 }

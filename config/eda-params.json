@@ -1,8 +1,7 @@
 {
-    "outdir": "data/eda",
-    "text_name": "DBLP.txt",
-    "eda_in_path": "notebooks/eda-dev-version.ipynb",
-    "eda_out_path": "data/eda/eda-dev-version.html",
-    "report_in_path": "notebooks/report.ipynb",
-    "report_out_path": "data/report/report.html"
+    "data_path": "data/raw/DBLP.txt",
+    "outerdir": "data/eda",
+    "outdir": "data/eda/eda_files",
+    "eda_in_path": "notebooks/eda_notebook.ipynb",
+    "eda_out_path": "data/eda/eda_notebook.html"
 }
