@@ -1,0 +1,7 @@
+{
+    "data_path": "data/raw/DBLP.txt",
+    "outerdir": "data/eda",
+    "outdir": "data/eda/eda_files",
+    "eda_in_path": "notebooks/eda_notebook.ipynb",
+    "eda_out_path": "data/eda/eda_notebook.html"
+}
