@@ -1,10 +1,11 @@
-# DSC180A - Replication Assignment (Fall 2020)
-- Note: this is a replication of [AutoPhrase](https://github.com/shangjingbo1226/AutoPhrase) by Jingbo Shang.
+# AutoLibrary
+## DSC180B - Project (Winter 2021)
+- Note: This is an application based on [AutoPhrase](https://github.com/shangjingbo1226/AutoPhrase) by Jingbo Shang.
 
-### Docker: joeyhou10/dsc180_docker_hw
+### Docker: jfan1998/dsc180a-docker:latest
 #### Note: The docker uses dsmlp base container. Please login to a dsmlp jumpbox before entering the command below.
 ```
-launch-scipy-ml.sh -i joeyhou10/dsc180_docker_hw
+launch-scipy-ml.sh -i jfan1998/dsc180a-docker:latest
 ```
 
 ### Default Run (run all the targets)
