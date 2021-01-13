@@ -1,18 +1,19 @@
 # AutoLibrary
-## DSC180B - Project (Winter 2021)
+- DSC180B - Project (Winter 2021)
 - Note: This is an application based on [AutoPhrase](https://github.com/shangjingbo1226/AutoPhrase) by Jingbo Shang.
 
-### Docker: jfan1998/dsc180a-docker:latest
-#### Note: The docker uses dsmlp base container. Please login to a dsmlp jumpbox before entering the command below.
+## Docker
+- The Docker repository is jfan1998/dsc180a-docker:latest.
+- Note: The docker uses dsmlp base container. Please login to a dsmlp jumpbox before entering the command below.
 ```
 launch-scipy-ml.sh -i jfan1998/dsc180a-docker:latest
 ```
 
-### Default Run (run all the targets)
+## Default Run
 ```
 python run.py
 ```
-##### Note: The first four targets' parameters could be changed in the corresponding configuration files
+
 ### Target 1: Prepare data
 ```
 python run.py data_prep
@@ -45,10 +46,4 @@ python run.py test
 python run.py all
 ```
 
-### Target 7: Reset
-Reset the run if you want to rerun the whole repo or start a new run with another dataset
-```
-python run.py reset
-```
-
-## Responsbilities: Yichun and Joey equally contributed to the repo.
+## Responsbilities: 
