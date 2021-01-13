@@ -1,5 +1,0 @@
-{
-    
-    "RAW_TRAIN": "data/raw/DBLP.txt",
-    "LABEL_FILE": "tmp/labels.txt"
-}
