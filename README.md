@@ -14,7 +14,7 @@ launch-scipy-ml.sh -i jfan1998/dsc180a-docker:latest
 python run.py
 ```
 
-### Target 1: Convert the input pdf file into txt
+### Target 1: Convert the input .pdf file into .txt
 ```
 python run.py data
 ```
