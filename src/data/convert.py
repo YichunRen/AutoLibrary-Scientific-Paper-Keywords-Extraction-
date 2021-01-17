@@ -6,14 +6,13 @@ print(">>>>>>>>>>>>>>>>>>>>>>>> Installing PDFBox... <<<<<<<<<<<<<<<<<<<<<<<<<<<
 os.system('pip install python-pdfbox')
 print("\n")
 
-def convert_txt(input_fp):
-#def main():
-    #input_fp = '113 Validation of a standard forensic anthropology examination protocol .pdf'
-    
+def convert_txt(outdir, textname):
     print(">>>>>>>>>>>>>>>>>>>>>>>> Converting PDF to TXT... <<<<<<<<<<<<<<<<<<<<<<<<<<<<")
     print("  => Inputing a pdf document...")
+    input_fp = os.path.join(data_fp, text_name)
     p = pdfbox.PDFBox()
     p.extract_text(input_fp)
+    
     print("  => Converting to txt...")
     input_txt = input_fp.replace('.pdf', '.txt')
     output_txt = input_txt.replace('.txt', '_converted.txt')
@@ -27,6 +26,3 @@ def convert_txt(input_fp):
     output.close()
     print(" => Done! File is saved as '" + output_txt + "'")
     return
-
-#if __name__ == '__main__':
-    #main()
