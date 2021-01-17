@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 
-import sys
 import os
+import sys
 import json
 
-sys.path.insert(0, 'src/data')
-from convert import convert_txt
+sys.path.insert(0, 'src')
+from etl import convert_txt
+from model import autophrase
 
 def main(targets):
     data_config = json.load(open('config/data-params.json'))
@@ -16,6 +17,8 @@ def main(targets):
     
     if 'data' in targets:
         convert_txt(**data_config)
+    if 'autophrase' in targets:
+        autophrase(data_config['outdir'], data_config['pdfname'], model_config['outdir'], model_config['filename'])
 
     return
 
