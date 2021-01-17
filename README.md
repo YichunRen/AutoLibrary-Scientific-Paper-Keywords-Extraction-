@@ -18,7 +18,7 @@ python run.py
 ```
 python run.py data
 ```
-### Target 2: Run autophrase
+### Target 2: Run autophrase on the input file
 ```
 python run.py autophrase
 ```
