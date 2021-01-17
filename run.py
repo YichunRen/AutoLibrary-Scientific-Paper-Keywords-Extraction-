@@ -10,10 +10,10 @@ from convert import convert_txt
 def main(targets):
     data_config = json.load(open('config/data-params.json'))
 
-    os.system('git submodule update --init')
+    #os.system('git submodule update --init')
     
     if 'data' in targets:
-        convert_txt(data_config['outdir'], data_config['textname'])
+        convert_txt(**data_config)
 
     return
 

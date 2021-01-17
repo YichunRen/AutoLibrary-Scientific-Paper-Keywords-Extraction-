@@ -1,4 +1,5 @@
 {
-    "outdir": "data/raw",
-    "textname": "data/raw/input.txt"
+    "indir": "data/raw",
+    "outdir": "data/temp",
+    "pdfname": "113 Validation of a standard forensic anthropology examination protocol .pdf"
 }
