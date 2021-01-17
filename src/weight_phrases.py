@@ -2,6 +2,7 @@ import pandas as pd
 from operator import itemgetter
 
 def change_weight(paper_ap_path, domain_ap_path, out_path):
+    print("\n")
     print(">>>>>>>>>>>>>>>>>>>>>>>> Weighting quality according to domain <<<<<<<<<<<<<<<<<<<<<<<<<<<<")
     data = pd.read_csv(paper_ap_path, sep="\t", header = None, names=["score", "phrase"])
     data_domain = pd.read_csv(domain_ap_path, sep="\t", header = None, names=["score", "phrase"])
