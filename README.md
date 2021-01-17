@@ -22,13 +22,16 @@ python run.py data
 ```
 python run.py autophrase
 ```
-
-### Target 3: Run EDA
+### Target 3: Weight the quality scores of phrases according the corresponding qulaity score in the domain
+```
+python run.py weight
+```
+### Target 4: Run EDA
 The writings in the output html file explain the statistics of DBLP.txt dataset and its AutoPhrase results. Only look the graphs/tables if you use another dataset.
 ```
 python run.py eda
 ```
-### Target 4: Run Report 
+### Target 5: Run Report 
 - Note: 
   - This report is futher exploration on AutoPhrase results. Paper report link is stored in references.
   - Report requires manual labeling high-quality phrases. The result CSV file for DBLP.txt is stored in references directory and the result CSV file for test_raw.txt is stored in test directory.
@@ -36,12 +39,12 @@ python run.py eda
 ```
 python run.py report
 ```
-### Target 5: Test All previous targets on test data
+### Target 6: Test All previous targets on test data
 Note: For the test run, raw test data is in test/testdata directory.
 ```
 python run.py test
 ```
-### Target 6: Run All the targets
+### Target 7: Run All the targets
 ```
 python run.py all
 ```
