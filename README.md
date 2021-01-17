@@ -14,9 +14,9 @@ launch-scipy-ml.sh -i jfan1998/dsc180a-docker:latest
 python run.py
 ```
 
-### Target 1: Prepare data
+### Target 1: Convert the input pdf file into txt
 ```
-python run.py data_prep
+python run.py data
 ```
 ### Target 2: Run autophrase
 ```
