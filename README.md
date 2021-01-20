@@ -22,7 +22,7 @@ python run.py data
 ```
 python run.py autophrase
 ```
-### Target 3: Weight the quality scores of phrases according the corresponding qulaity score in the domain
+### Target 3: Weight the quality scores of phrases according the corresponding quality score in the domain
 ```
 python run.py weight
 ```
