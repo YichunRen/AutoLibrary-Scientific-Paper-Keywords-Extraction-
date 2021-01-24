@@ -9,13 +9,6 @@
 launch-scipy-ml.sh -i jfan1998/dsc180a-docker:latest
 ```
 
-## Website
-- To activate the website, open a terminal in the directory `AutoLibrary/website` and run the following command:
-```
-python manage.py runserver
-```
-- Now that the server’s running, visit `http://127.0.0.1:8000/` with your Web browser to use the website.
-
 ## Default Run
 ```
 python run.py
@@ -33,13 +26,13 @@ python run.py autophrase
 ```
 python run.py weight
 ```
+### Target 4: Activating the website
+```
+python run.py website
+```
+After running the command above, open a browser and go to `http://127.0.0.1:8000/autolibrary/` to use the website.
 
 ## TBC-->
-### Target 4: Run EDA
-The writings in the output html file explain the statistics of DBLP.txt dataset and its AutoPhrase results. Only look the graphs/tables if you use another dataset.
-```
-python run.py eda
-```
 ### Target 5: Run Report 
 - Note: 
   - This report is futher exploration on AutoPhrase results. Paper report link is stored in references.
