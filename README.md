@@ -9,6 +9,13 @@
 launch-scipy-ml.sh -i jfan1998/dsc180a-docker:latest
 ```
 
+## Website
+- To activate the website, open a terminal in the directory `AutoLibrary/website` and run the following command:
+```
+python manage.py runserver
+```
+- Now that the server’s running, visit `http://127.0.0.1:8000/` with your Web browser to use the website.
+
 ## Default Run
 ```
 python run.py
