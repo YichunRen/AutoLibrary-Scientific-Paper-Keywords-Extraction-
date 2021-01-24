@@ -13,7 +13,7 @@
         <script src="function.js"></script>
     </head>
 
-    <body onload="initiate_page();">
+    <body>
         <header>
             <h1>AutoLibrary</h1>
             <a href="https://github.com/jfan1998/AutoLibrary" target="_blank">For more info, visit our GitHub repo!</a>
@@ -23,13 +23,10 @@
             <section class="flex-container">
                 <div class="flex-item">
                     <h3>Use your own PDF document to search for articles.</h3>
-                    <form action="{{ url_for('upload') }}" method="POST" class="dropzone" enctype="multipart/form-data"
-      id="attachmentdropzone">
-                        
-                            <label for="input_pdf">Drag & drop a document here,<br> or select a document to start a search.</label>
-                            <input type="file" id="input_pdf" name="input_pdf" accept=".pdf"><br>
-                            <button type="submit">Start</button>
-                        
+                    <form id="dropzone" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
+                        <label>Drag & drop a document here, or select a document to start a search.</label>
+                        <input type="file" id="input_pdf" name="input_pdf" accept=".pdf"><br>
+                        <button type="submit">Start</button>
                     </form>
                 </div>
             </section>
