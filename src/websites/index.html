@@ -17,46 +17,21 @@
         <header>
             <h1>AutoLibrary</h1>
             <a href="https://github.com/jfan1998/AutoLibrary" target="_blank">For more info, visit our GitHub repo!</a>
-
-            <script type="application/javascript">
-                function sendFile(file) {
-                    const uri = "/index.php";
-                    const xhr = new XMLHttpRequest();
-                    const fd = new FormData();
-        
-                    xhr.open("POST", uri, true);
-                    xhr.onreadystatechange = function() {
-                        if (xhr.readyState == 4 && xhr.status == 200) {
-                            alert(xhr.responseText); // handle response.
-                        }
-                    };
-                    fd.append('myFile', file);
-                    // Initiate a multipart/form-data upload
-                    xhr.send(fd);
-                }
-            </script>
         </header><hr>
 
         <main>
             <section class="flex-container">
                 <div class="flex-item">
-                    <label for="domain">Field of Study:</label>
-                    <input type="text" id="domain" name="domain"><br>
-                </div>
-                <div class="flex-item">
-                    <h3>Use your own document to search for articles and books.</h3>
-                </div>
-                <div class="flex-item">
-                    <div id="dropzone">
-                        <form id="theForm">
-                            <label for="input_pdf">Drag & drop a PDF document here, or select a PDF document to start a search.</label>
+                    <h3>Use your own PDF document to search for articles.</h3>
+                    <form action="{{ url_for('upload') }}" method="POST" class="dropzone" enctype="multipart/form-data"
+      id="attachmentdropzone">
+                        
+                            <label for="input_pdf">Drag & drop a document here,<br> or select a document to start a search.</label>
                             <input type="file" id="input_pdf" name="input_pdf" accept=".pdf"><br>
-                            <button type="submit" onclick="saveFile();">Start</button>
-                        </form>
-                    </div>
+                            <button type="submit">Start</button>
+                        
+                    </form>
                 </div>
-
-                
             </section>
 
         </main>
