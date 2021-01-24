@@ -1,0 +1,56 @@
+* {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+h1 {
+    font-family: 'Carter One', cursive;
+    margin-top: 50px;
+    margin-left: 150px;
+}
+
+a {margin-left: 150px;}
+
+hr {margin-top: 30px;}
+
+body {font-family: 'Roboto Slab', serif;}
+
+.flex-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: white;
+    padding: 100px;
+}
+.flex-item {
+    width: 50%; 
+    text-align: center;
+}
+
+label {
+    display: block;
+    font-size: large;
+    font-weight: bolder;
+    padding: 20px;
+}
+
+input {
+    font-size: medium;
+    padding-bottom: 20px;
+}
+
+button {
+    background: rgb(28, 184, 65); /* this is a green */
+    border: none;
+    color: white;
+    padding: 12px;
+    text-align: center;
+    border-radius: 4px;
+}
+
+#dropzone {
+    margin:30px; 
+    width:500px; 
+    height:300px; 
+    border:1px dotted grey;
+}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>AutoLibrary</title>
+
+        <link rel="preconnect" href="https://fonts.gstatic.com"> 
+        <link href="https://fonts.googleapis.com/css2?family=Carter+One&family=Roboto+Slab&display=swap" rel="stylesheet">
+
+        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/pure-min.css" integrity="sha384-oAOxQR6DkCoMliIh8yFnu25d7Eq/PHS21PClpwjOTeU2jRSq11vu66rf90/cZr47" crossorigin="anonymous">
+        
+        <link rel="stylesheet" type="text/css" href="style.css" />
+        <script src="src/css.js"></script>
+    </head>
+
+    <body onload="initiate_page();">
+        <header>
+            <h1>AutoLibrary</h1>
+            <a href="https://github.com/jfan1998/AutoLibrary" target="_blank">For more info, visit our GitHub repo!</a>
+
+            <script type="application/javascript">
+                function sendFile(file) {
+                    const uri = "/index.php";
+                    const xhr = new XMLHttpRequest();
+                    const fd = new FormData();
+        
+                    xhr.open("POST", uri, true);
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState == 4 && xhr.status == 200) {
+                            alert(xhr.responseText); // handle response.
+                        }
+                    };
+                    fd.append('myFile', file);
+                    // Initiate a multipart/form-data upload
+                    xhr.send(fd);
+                }
+            </script>
+        </header><hr>
+
+        <main>
+            <section class="flex-container">
+                <div class="flex-item">
+                    <label for="domain">Field of Study:</label>
+                    <input type="text" id="domain" name="domain"><br>
+                </div>
+                <div class="flex-item">
+                    <h3>Use your own document to search for articles and books.</h3>
+                </div>
+                <div class="flex-item">
+                    <div id="dropzone">
+                        <form id="theForm">
+                            <label for="input_pdf">Drag & drop a PDF document here, or select a PDF document to start a search.</label>
+                            <input type="file" id="input_pdf" name="input_pdf" accept=".pdf"><br>
+                            <button type="submit" onclick="saveFile();">Start</button>
+                        </form>
+                    </div>
+                </div>
+
+                
+            </section>
+
+        </main>
+    </body>
+</html>
