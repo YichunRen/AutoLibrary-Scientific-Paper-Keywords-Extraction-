@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>AutoLibrary</title>
+        <title>Blog</title>
 
         <link rel="preconnect" href="https://fonts.gstatic.com"> 
         <link href="https://fonts.googleapis.com/css2?family=Carter+One&family=Roboto+Slab&display=swap" rel="stylesheet">
@@ -14,42 +14,35 @@
         <script src="{% static 'function.js' %}"></script>
     </head>
 
-    <body onload="initiate()">
+    <body>
         <header>
-            <h1>AutoLibrary</h1>
+            <h1>Blog</h1>
             <a href="https://github.com/jfan1998/AutoLibrary" target="_blank">For more info, visit our GitHub repo!</a>
         </header><hr>
 
         <main>
-            <section>
-                <h3>Documents: </h3>
-                <ul id="list"></ul><br><br>
-            </section>
             <section class="flex-container">
                 <div class="flex-item">
                     <h3>Use your own PDF document to search for articles.</h3>
                     <form id="dropzone" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
                         <label>Drag & drop a document here, or select a document to start a search.</label>
                         <input type="file" id="input_pdf" name="input_pdf" accept=".pdf"><br>
-                        <button type="submit">Start</button> 
+                        <button type="submit">Start</button>
                     </form>
                 </div>
             </section>
         </main>
+
+        <script type="text/javascript">
+
+            function getFilePath(){
+                $('#input_pdf').on('change',function ()
+                {
+                    var filePath = $(this).val();
+                    console.log(filePath);
+                });
+            };
+        
+        </script>
     </body>
 </html>
-<script>
-    function initiate(){ 
-        var data = JSON.parse("{{data|escapejs}}"); 
-        var ul = document.getElementById('list'); 
-        var li = document.createElement("dl");
-        for(var x in data){ 
-            var btn = document.createElement("BUTTON");
-            btn.className = "btn-group";
-            btn.onclick = "selection(this);";
-            btn.innerHTML = data[x];   
-            li.appendChild(btn);
-        } 
-        ul.appendChild(li);
-    } 
-</script>
