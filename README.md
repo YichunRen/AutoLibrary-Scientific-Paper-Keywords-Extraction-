@@ -2,6 +2,27 @@
 - DSC180B - Project (Winter 2021)
 - Note: This is an application based on [AutoPhrase](https://github.com/shangjingbo1226/AutoPhrase) by Jingbo Shang.
 
+## Requirements (Local)
+
+Linux or MacOS with python, pdfbox, Django, g++ and Java installed.
+
+Ubuntu:
+
+*  python `$ sudo apt install python3.8`
+*  pdf-box `$ sudo apt-get install python-pdfbox`
+*  Django `$ sudo apt-get install Django==3.1.5` 
+*  g++ 4.8 `$ sudo apt-get install g++-4.8`
+*  Java 8 `$ sudo apt-get install openjdk-8-jdk`
+*  curl `$ sudo apt-get install curl`
+
+MacOS:
+
+*  python `$ pip install python3.8`
+*  pdf-box `$ pip install python-pdfbox`
+*  Django `$ pip install Django==3.1.5`
+*  g++ 6 `$ brew install gcc6`
+*  Java 8 `$ brew update; brew tap caskroom/cask; brew install Caskroom/cask/java`
+
 ## Docker
 - The docker repository is jfan1998/dsc180a-docker.
 - Note: The docker uses dsmlp base container. Please login to a dsmlp jumpbox before entering the command below.
