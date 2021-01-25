@@ -1,36 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>AutoLibrary</title>
-
-        <link rel="preconnect" href="https://fonts.gstatic.com"> 
-        <link href="https://fonts.googleapis.com/css2?family=Carter+One&family=Roboto+Slab&display=swap" rel="stylesheet">
-
-        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/pure-min.css" integrity="sha384-oAOxQR6DkCoMliIh8yFnu25d7Eq/PHS21PClpwjOTeU2jRSq11vu66rf90/cZr47" crossorigin="anonymous">
-        
-        {% load static %}
-        <link rel="stylesheet" type="text/css" href="{% static 'autolibrary/style.css' %}" />
-        <script src="{% static 'autolibrary/function.js' %}"></script>
-    </head>
-
-    <body>
-        <header>
-            <h1>AutoLibrary</h1>
-            <a href="https://github.com/jfan1998/AutoLibrary" target="_blank">For more info, visit our GitHub repo!</a>
-        </header><hr>
-
-        <main>
-            <section class="flex-container">
-                <div class="flex-item">
-                    <h3>Use your own PDF document to search for articles.</h3>
-                    <form id="dropzone" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
-                        <label>Drag & drop a document here, or select a document to start a search.</label>
-                        <input type="file" id="input_pdf" name="input_pdf" accept=".pdf"><br>
-                        <button type="submit">Start</button>
-                    </form>
-                </div>
-            </section>
-        </main>
-    </body>
+<head>
+<title>AutoLibrary</title>
+{% load static %}
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="{% static 'autolibrary/css/main.css' %}" type="text/css" media="screen, projection" />
+</head>
+<body style="background-color:rgb(175, 161, 130);">
+<div id="outer-wrapper">
+  <div id="inner-wrapper">
+    <div id="content-wrapper">
+      <div id="content">
+        <ul id="nav">
+          <li><a href="#">AutoLibrary</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Code</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+        <div id="content-inner">
+          <div class="content-left"> <img src="{% static 'autolibrary/images/nyc-photo.jpg' %}" alt="NYC Photo" />
+            <p>Capstone Project<br />
+              <span>DSC180B A04 G03</span></p>
+          </div>
+          <div class="content-right">
+            <h2>Welcome to AutoLibrary!</h2>
+            <p>To address the difficulty of manually extracting keywords from papers and the disadvantages of other phrase mining methods, we decided to introduce AutoPhrase into this paper searching process. We build a website called AutoLibrary where users could use it as their personal digital library to save their documents and find similar papers for each input scientific paper. </p>
+            <p class="end-story-links"></p>
+          </div>
+          <div class="content-full">
+            <h2>Brief Introduction</h2>
+            <p class="intro">To achieve this goal, while the user inputs a paper and specifies a domain, we first use AutoPhrase to extract quality phrases from the input paper. AutoPhrase is a phrase mining method created by Jingbo Shang. AutoPhrase minimizes the required human effort of other phrase mining methods and improves the result by using two new techniques. The first technique is Robust Positive-Only Distant Training and the second one is POS-Guided Phrasal Segmentation. Since it is hard to ensure the significance of quality phrases generated from a single paper to both the paper and its domain, we will build a dataset that contains the quality phrases for different domains by running AutoPhrases on corpora of each domain. After comparing those keywords from AutoPhrase with our pre-obtained domain-specific phrases, we can filter out unimportant ones. Then by searching for keywords with the highest quality scores on Semantic Scholar, AutoLibrary scrap and display the search result on our website. AutoLibrary also allows users to customize their search, such as manually adding keywords and changing the selection of keywords. It might also store users’ searching history in their local machine so that they could quickly look back to papers that they read as well as their search results.</p>
+            <img src="{% static 'autolibrary/images/bldg-pic.jpg' %}" alt="" class="content-img" />
+          </div>
+        </div>
+      </div>
+      <div id="sidebar">
+        <div id="logo"> <img src="{% static 'autolibrary/images/logo.png' %}" alt="Nautica X" width="180px" height="110px"/> </div>
+        <h4>Documents</h4>
+        <ul class="side-nav">
+          <li><a href="#">Document1</a></li>
+          <li><a href="#">Document2</a></li>
+          <li><a href="#">Document3</a></li>
+        </ul>
+      </div>
+    </div>
+    <div id="footer">
+      <ul id="footer-nav">
+        <li><a href="#">AutoLibrary</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Code</a></li>
+        <li class="last"><a href="#">Contact Us</a></li>
+      </ul>
+      <p class="copyright">Copyright 2021 Yichun Ren & Jiayi Fan & Bingqi Zhou</p>
+    </div>
+  </div>
+</div>
+</body>
 </html>
