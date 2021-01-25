@@ -8,6 +8,8 @@
         <link href="https://fonts.googleapis.com/css2?family=Carter+One&family=Roboto+Slab&display=swap" rel="stylesheet">
 
         <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/pure-min.css" integrity="sha384-oAOxQR6DkCoMliIh8yFnu25d7Eq/PHS21PClpwjOTeU2jRSq11vu66rf90/cZr47" crossorigin="anonymous">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         
         {% load static %}
         <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
@@ -21,9 +23,11 @@
         </header><hr>
 
         <main>
-            <section>
-                <h3>Documents: </h3>
-                <ul id="list"></ul><br><br>
+            <section class="flex-container">
+                <div class="flex-item">
+                    <h3>Documents: </h3>
+                    <dl id="list"></dl><br><br>
+                </div>
             </section>
             <section class="flex-container">
                 <div class="flex-item">
@@ -41,15 +45,31 @@
 <script>
     function initiate(){ 
         var data = JSON.parse("{{data|escapejs}}"); 
-        var ul = document.getElementById('list'); 
-        var li = document.createElement("dl");
+        var dl = document.getElementById("list");
+        var dt = document.createElement("dt");
         for(var x in data){ 
             var btn = document.createElement("BUTTON");
             btn.className = "btn-group";
-            btn.onclick = "selection(this);";
-            btn.innerHTML = data[x];   
-            li.appendChild(btn);
+            btn.innerHTML = data[x];
+            dt.appendChild(btn);
         } 
-        ul.appendChild(li);
+        dl.appendChild(dt);
+        var buttons = document.getElementById('list').getElementsByTagName('button');
+        var max = buttons.length;
+        for(var i = 0; i < max; i++) {
+            buttons[i].addEventListener('click', selection, true);
+        }
     } 
+
+    function selection(e) {
+        var selected = {"file_name": e.target.innerHTML};
+        var URL = "{% url 'get_file' %}";
+        $.post(URL, selected, function(response){
+            if (response === 'success'){ 
+                alert('Yay!'); 
+            } else { 
+                alert('Error! :('); 
+            }
+        });
+    }
 </script>

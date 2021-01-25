@@ -1,7 +1,3 @@
-function selection(o) {
-  console.log(o.innerHTML);
-}
-
 function dropHandler(ev) {
   console.log('File(s) dropped');
 
@@ -31,3 +27,8 @@ function dragOverHandler(ev) {
   // Prevent default behavior (Prevent file from being opened)
   ev.preventDefault();
 }
+
+res.setHeader('Access-Control-Allow-Origin', '*');
+res.setHeader('Access-Control-Allow-Methods', '*');
+res.setHeader('Access-Control-Allow-Headers', 'api-key,content-type');
+res.setHeader('Access-Control-Allow-Credentials', true);
