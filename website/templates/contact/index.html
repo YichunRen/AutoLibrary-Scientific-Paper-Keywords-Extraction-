@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>AutoLibrary</title>
+{% load static %}
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="{% static 'autolibrary/css/main.css' %}" type="text/css" media="screen, projection" />
+</head>
+<body style="background-color:rgb(175, 161, 130);">
+<div id="outer-wrapper">
+  <div id="inner-wrapper">
+    <div id="content-wrapper">
+      <div id="content">
+        <ul id="nav">
+          <li><a href="http://127.0.0.1:8000/autolibrary">AutoLibrary</a></li>
+          <li><a href="http://127.0.0.1:8000/blog">Blog</a></li>
+          <li><a target="_blank" rel="noopener noreferrer" href="https://github.com/jfan1998/AutoLibrary">Code</a></li>
+          <li><a href="http://127.0.0.1:8000/contact">Contact Us</a></li>
+        </ul>
+        <div id="content-inner">
+          <div class="content-full">
+            <h2>This is the page for contact</h2>
+          </div>
+        </div>
+      </div>
+      <div id="sidebar">
+        <div id="logo"> <img src="{% static 'autolibrary/images/logo.png' %}" alt="Nautica X" width="180px" height="110px"/> </div>
+        <h4>Documents</h4>
+        <ul class="side-nav">
+          <li><a href="#">Document1</a></li>
+          <li><a href="#">Document2</a></li>
+          <li><a href="#">Document3</a></li>
+        </ul>
+      </div>
+    </div>
+    <div id="footer">
+      <ul id="footer-nav">
+        <li><a href="#">AutoLibrary</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Code</a></li>
+        <li class="last"><a href="#">Contact Us</a></li>
+      </ul>
+      <p class="copyright">Copyright 2021 Yichun Ren & Jiayi Fan & Bingqi Zhou</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>
