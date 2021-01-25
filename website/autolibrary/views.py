@@ -41,4 +41,4 @@ def get_file(request):
                 #rsh.write('''python run.py weight \n''')
             os.system('bash autolibrary/run.sh')
             return HttpResponse('success')
-    return HttpResponse('?!!!!!')
+    return HttpResponse('FAIL!!!!!')
