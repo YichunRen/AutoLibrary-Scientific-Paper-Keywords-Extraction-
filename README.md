@@ -9,7 +9,7 @@ Linux or MacOS with python, pdfbox, Django, g++ and Java installed.
 Ubuntu:
 
 *  python `$ sudo apt install python3.8`
-*  pdf-box `$ sudo apt-get intall python-pdfbox`
+*  pdf-box `$ sudo apt-get install python-pdfbox`
 *  Django `$ sudo apt-get install Django==3.1.5` 
 *  g++ 4.8 `$ sudo apt-get install g++-4.8`
 *  Java 8 `$ sudo apt-get install openjdk-8-jdk`
@@ -18,7 +18,7 @@ Ubuntu:
 MacOS:
 
 *  python `$ pip install python3.8`
-*  pdf-box `$ pip intall python-pdfbox`
+*  pdf-box `$ pip install python-pdfbox`
 *  Django `$ pip install Django==3.1.5`
 *  g++ 6 `$ brew install gcc6`
 *  Java 8 `$ brew update; brew tap caskroom/cask; brew install Caskroom/cask/java`
