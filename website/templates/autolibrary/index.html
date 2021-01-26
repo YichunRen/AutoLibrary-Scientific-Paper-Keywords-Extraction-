@@ -5,7 +5,7 @@
     {% load static %}
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" href="{% static 'autolibrary/css/main.css' %}" type="text/css" media="screen, projection" />
-    <script src="{% static 'autolibrary/function.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
   </head>
   <body style="background-color:rgb(175, 161, 130);" onload="initiate()">
     <div id="outer-wrapper">
@@ -65,12 +65,14 @@
       var ul = document.getElementById("doc_list");
       var li = document.createElement("li");
       for(var x in data){ 
-        var btn = document.createElement("BUTTON");
-        btn.className = "btn-group";
-        btn.innerHTML = data[x];
-        li.appendChild(btn);
-        ul.appendChild(li);
+        if (data[x] != '.DS_Store') {
+          var btn = document.createElement("BUTTON");
+          btn.className = "btn-group";
+          btn.innerHTML = data[x];
+          li.appendChild(btn);
+        }
       } 
+      ul.appendChild(li);
       var buttons = document.getElementById('doc_list').getElementsByTagName('button');
       var max = buttons.length;
       for(var i = 0; i < max; i++) {
@@ -90,6 +92,7 @@
         }
     });
   }
+
   function dropHandler(ev) {
     console.log('File(s) dropped');
 
