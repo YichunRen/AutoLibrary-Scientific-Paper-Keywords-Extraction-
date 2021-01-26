@@ -23,7 +23,6 @@ def convert_txt(indir, outdir, pdfname):
     command = 'mkdir -p ' + outdir
     os.system(command)
     
-    print("\n")
     print("  => Converting pdf to txt...")
     textname = pdfname.replace('.pdf', '_converted.txt')
     textname = textname.replace(' ', '_')

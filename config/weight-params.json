@@ -1,5 +1,5 @@
 {
-    "paper_ap_path": "AutoPhrase.txt",
-    "domain_ap_path": "AutoPhrase-cs.IR.txt",
-    "out_path": "weighted_AutoPhrase.csv"
+    "paper_ap_path": "data/out/AutoPhrase.txt",
+    "domain_ap_path": "AutoPhrase/models/domains/cs/cs.IR/AutoPhrase.txt",
+    "out_path": "data/out/weighted_AutoPhrase.csv"
 }

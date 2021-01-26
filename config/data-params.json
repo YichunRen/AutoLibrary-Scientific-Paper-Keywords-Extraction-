@@ -1,5 +1,1 @@
-{
-    "indir": "data/raw",
-    "outdir": "data/temp",
-    "pdfname": "[TKDE'18]Automated Phrase Mining from Massive Text Corpora.pdf"
-}
+{"indir": "data/raw", "outdir": "data/temp", "pdfname": "[SIGMOD15]Mining_Quality_Phrases_from_Massive_Text_Corpora.pdf"}

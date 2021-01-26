@@ -2,6 +2,27 @@
 - DSC180B - Project (Winter 2021)
 - Note: This is an application based on [AutoPhrase](https://github.com/shangjingbo1226/AutoPhrase) by Jingbo Shang.
 
+## Requirements (Local)
+
+Linux or MacOS with python, pdfbox, Django, g++ and Java installed.
+
+Ubuntu:
+
+*  python `$ sudo apt install python3.8`
+*  pdf-box `$ sudo apt-get install python-pdfbox`
+*  Django `$ sudo apt-get install Django==3.1.5` 
+*  g++ 4.8 `$ sudo apt-get install g++-4.8`
+*  Java 8 `$ sudo apt-get install openjdk-8-jdk`
+*  curl `$ sudo apt-get install curl`
+
+MacOS:
+
+*  python `$ pip install python3.8`
+*  pdf-box `$ pip install python-pdfbox`
+*  Django `$ pip install Django==3.1.5`
+*  g++ 6 `$ brew install gcc6`
+*  Java 8 `$ brew update; brew tap caskroom/cask; brew install Caskroom/cask/java`
+
 ## Docker
 - The docker repository is jfan1998/dsc180a-docker.
 - Note: The docker uses dsmlp base container. Please login to a dsmlp jumpbox before entering the command below.
@@ -26,11 +47,13 @@ python run.py autophrase
 ```
 python run.py weight
 ```
-### Target 4: Run EDA
-The writings in the output html file explain the statistics of DBLP.txt dataset and its AutoPhrase results. Only look the graphs/tables if you use another dataset.
+### Target 4: Activating the website
 ```
-python run.py eda
+python run.py website
 ```
+After running the command above, open a browser and go to `http://127.0.0.1:8000/autolibrary/` to use the website.
+
+## TBC-->
 ### Target 5: Run Report 
 - Note: 
   - This report is futher exploration on AutoPhrase results. Paper report link is stored in references.

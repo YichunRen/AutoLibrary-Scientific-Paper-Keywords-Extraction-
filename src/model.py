@@ -21,14 +21,13 @@ def autophrase(data_outdir, pdfname, outdir, filename):
     with open('src/run.sh', 'w') as rsh:
         rsh.write('''cd AutoPhrase \n''')
         rsh.write('''python run.py test \n''')
-    #os.system('bash src/run.sh')
+    os.system('bash src/run.sh')
     
     # make a directory if outdir does not exist
     command = 'mkdir -p ' + outdir
     os.system(command)
     
     # save output
-    print("\n")
     print("  => Saving results...")
     output_fp = os.path.join(outdir, filename)
     os.system('cp AutoPhrase/data/out/AutoPhrase_Result/AutoPhrase.txt ' + output_fp)
