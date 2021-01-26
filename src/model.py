@@ -13,9 +13,9 @@ def autophrase(data_outdir, pdfname, outdir, filename):
     os.system('mv AutoPhrase/test/testdata/test_raw.txt AutoPhrase/test/testdata/old_test.txt')
     command = 'mv AutoPhrase/test/testdata/' + textname + ' AutoPhrase/test/testdata/test_raw.txt'
     os.system(command)
-    
     print("\n")
     print(">>>>>>>>>>>>>>>>>>>>>>>> Running AutoPhrase... <<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+
     print("  => Running AutoPhrase on the input document...")
     # write bash script to call the target test
     with open('src/run.sh', 'w') as rsh:
