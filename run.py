@@ -8,6 +8,7 @@ sys.path.insert(0, 'src')
 from etl import convert_txt
 from model import autophrase
 from weight_phrases import change_weight
+from webscrape import webscrape
 from website import activate_website
 
 def main(targets):
@@ -24,6 +25,8 @@ def main(targets):
         autophrase(data_config['outdir'], data_config['pdfname'], model_config['outdir'], model_config['filename'])
     if 'weight' in targets:
         change_weight(**weight_config)
+    if 'webscrape' in targets:
+        webscrape()
     if 'website' in targets:
         activate_website(**website_config)
     
