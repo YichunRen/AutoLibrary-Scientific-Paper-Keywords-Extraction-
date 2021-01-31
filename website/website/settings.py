@@ -126,4 +126,3 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
     '/var/www/static/',
 ]
-SECRET_KEY = 'wfu9-o-wre7ss%kl-4^e0iv(vb=5#loylpow66cb#r5orl0qlu'
