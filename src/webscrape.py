@@ -1,15 +1,15 @@
-import os
 import requests
 import json
 import pandas as pd
 
-def webscrape():
+def webscrape(keywords_path, fos_path, out_path):
     print("\n")
     print(">>>>>>>>>>>>>>>>>>>>>>>> Running Web-sraping... <<<<<<<<<<<<<<<<<<<<<<<<<<<<")
 
     # Extract keywords and fields of study
-    fos = ['art']
-    data = pd.read_csv("weighted_AutoPhrase.csv", index_col = "Unnamed: 0")
+    fos = json.load(open(fos_path))['fos']
+    print("field of study: {}".format(fos))
+    data = pd.read_csv(keywords_path, index_col = "Unnamed: 0")
     keywords = data['phrase'].iloc[0]
     print("keywords: {}".format(keywords))
 
@@ -62,4 +62,6 @@ def webscrape():
         # if there are fields that doeesn't exist in current item
         except:
             pass
-    print(json.dumps(specifics))
+    # write the result to a json file
+    with open(out_path, 'w') as outfile:
+        json.dump(specifics, outfile)

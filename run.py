@@ -15,6 +15,7 @@ def main(targets):
     data_config = json.load(open('config/data-params.json'))
     model_config = json.load(open('config/model-params.json'))
     weight_config = json.load(open('config/weight-params.json'))
+    webscrape_config = json.load(open('config/webscrape-params.json'))
     website_config = json.load(open('config/website-params.json'))
 
     os.system('git submodule update --init')
@@ -26,10 +27,15 @@ def main(targets):
     if 'weight' in targets:
         change_weight(**weight_config)
     if 'webscrape' in targets:
-        webscrape()
+        webscrape(**webscrape_config)
     if 'website' in targets:
         activate_website(**website_config)
-    
+    if targets[0] == "test":
+        convert_txt(**data_config)
+        autophrase(data_config['outdir'], data_config['pdfname'], model_config['outdir'], model_config['filename'])
+        change_weight(**weight_config)
+        webscrape(**webscrape_config)
+        activate_website(**website_config)
     return
 
 if __name__ == '__main__':
