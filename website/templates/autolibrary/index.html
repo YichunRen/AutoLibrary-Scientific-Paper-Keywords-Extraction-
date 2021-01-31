@@ -31,18 +31,17 @@
                 <p class="end-story-links"></p>
               </div>
               <div class="content-full">
-                <h2>Brief Introduction</h2>
+                <h2 id="brief_intro">Brief Introduction</h2>
                 <p> </p>
                 <p class="intro">To achieve this goal, while the user inputs a paper and specifies a domain, we first use AutoPhrase to extract quality phrases from the input paper. AutoPhrase is a phrase mining method created by Jingbo Shang. AutoPhrase minimizes the required human effort of other phrase mining methods and improves the result by using two new techniques. The first technique is Robust Positive-Only Distant Training and the second one is POS-Guided Phrasal Segmentation. Since it is hard to ensure the significance of quality phrases generated from a single paper to both the paper and its domain, we will build a dataset that contains the quality phrases for different domains by running AutoPhrases on corpora of each domain. After comparing those keywords from AutoPhrase with our pre-obtained domain-specific phrases, we can filter out unimportant ones. Then by searching for keywords with the highest quality scores on Semantic Scholar, AutoLibrary scrap and display the search result on our website. AutoLibrary also allows users to customize their search, such as manually adding keywords and changing the selection of keywords. It might also store users’ searching history in their local machine so that they could quickly look back to papers that they read as well as their search results.</p>
                 <div><img src="{% static 'autolibrary/images/research.jpg' %}" alt="research photo" class="content-img" id="research"/></div>
-                
               </div>
             </div>
           </div>
           <div id="sidebar">
             <div id="logo"> <img src="{% static 'autolibrary/images/logo.png' %}" alt="Nautica X" width="180px" height="110px"/> </div>
             <h4>Documents</h4>
-            <ul class="side-nav" id="doc_list"></ul>
+            <ul id="doc_list" class="side-nav"></ul>
           </div>
         </div>
         <div id="footer">
@@ -87,6 +86,9 @@
     $.post(URL, selected, function(response){
         if (response === 'success'){ 
             alert('Start searching!'); 
+            // window.location.href = "http://127.0.0.1:8000/result";
+            //$('#brief_intro').replaceWith("<h2>Semantic Result</h2>");
+            //$('#brief_intro').before("<h2>The selected document is: " + e.target.innerHTML + " </h2>");
         } else { 
             alert('Error! :('); 
         }

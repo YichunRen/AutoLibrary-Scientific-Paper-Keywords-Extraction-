@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 def index(request):
     data = os.listdir('autolibrary/documents')
     data = dumps(data) 
-    return render(request, 'blog/index.html', {"data": data})
+    return render(request, 'result/index.html', {"data": data})
 
 # @csrf_exempt
 # def get_file(request):
@@ -37,8 +37,9 @@ def index(request):
 #                 rsh.write('''cp autolibrary/data-params.json  ../config \n''')
 #                 rsh.write('''cd .. \n''')
 #                 rsh.write('''python run.py data \n''')
-#                 #rsh.write('''python run.py autophrase \n''')
-#                 #rsh.write('''python run.py weight \n''')
+#                 rsh.write('''python run.py autophrase \n''')
+#                 rsh.write('''python run.py weight \n''')
+#                 rsh.write('''python run.py webscrape \n''')
 #             os.system('bash autolibrary/run.sh')
 #             return HttpResponse('success')
 #     return HttpResponse('FAIL!!!!!')
