@@ -1,6 +1,6 @@
 # AutoLibrary
-- DSC180B - Project (Winter 2021)
-- Note: This is an application based on [AutoPhrase](https://github.com/shangjingbo1226/AutoPhrase) by Jingbo Shang.
+- DSC180B A04 G03 - Capstone Project (Winter 2021)
+- Note: This is an application of [AutoPhrase](https://github.com/shangjingbo1226/AutoPhrase) by Jingbo Shang.
 
 ## Docker
 - The docker repository is jfan1998/dsc180a-docker.
@@ -13,24 +13,27 @@ launch-scipy-ml.sh -i jfan1998/dsc180a-docker:latest
 ```
 python run.py
 ```
-
 ### Target 1: Convert the input .pdf file into .txt
 ```
 python run.py data
 ```
-### Target 2: Run autophrase on the input file
+### Target 2: Run AutoPhrase on the input file
 ```
 python run.py autophrase
 ```
-### Target 3: Weight the quality scores of phrases according the corresponding quality score in the domain
+### Target 3: Apply weight to the quality scores of phrases according the corresponding quality score in its domain
 ```
 python run.py weight
 ```
-### Target 4: Activating the website
+### Target 4: Web Scraping
+```
+python run.py webscrape
+```
+### Target 5: Activating the website
 ```
 python run.py website
 ```
-After running the command above, open a browser and go to `http://127.0.0.1:8000/autolibrary/` to use the website.
+The local website is hosted on `http://127.0.0.1:8000/autolibrary/`
 
 ## TBC-->
 ### Target 5: Run Report 
