@@ -42,23 +42,25 @@ def get_file(request):
             return HttpResponse('success')
     return HttpResponse('FAIL!!!!!')
 
+domain = ''
+
+@csrf_exempt
 def get_domain(request):  
     if request.method == 'POST':
-        if "file_name" in request.POST:
+        print('hi')
+        if "domain" in request.POST:
+            global selected_pdf, domain
+            domain = request.POST['domain']
             # rewrite data-params.json
-            # get config indir and outdir ***
-            config = {
-                "indir": "data/raw",
-                "outdir": "data/temp",
-                "pdfname": pdfname
-            }
+            config = json.load(open('../config/data-params.json'))
+            config['pdfname'] = selected_pdf
             with open('autolibrary/data-params.json', 'w') as fp:
                 json.dump(config, fp)
             with open('autolibrary/run.sh', 'w') as rsh:
                 # move document to data/raw
                 rsh.write('''mkdir -p ../data/raw \n''')
                 rsh.write('''cp autolibrary/documents_copy/''')
-                rsh.write(pdfname)
+                rsh.write(selected_pdf)
                 rsh.write(''' ../data/raw \n''')
                 # move new data-params.json to config
                 rsh.write('''cp autolibrary/data-params.json  ../config \n''')

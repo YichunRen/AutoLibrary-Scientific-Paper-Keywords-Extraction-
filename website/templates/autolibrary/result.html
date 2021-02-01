@@ -25,6 +25,11 @@
                   <form class="pure-form pure-form-stacked">
                     <fieldset>
                       <legend>Customize Recommendations</legend>
+                      <div>
+                        <nav><ul id="domain_navi" class="menu_top"></ul></nav>
+                        <button type="submit" class="pure-button pure-button-primary" style="margin-top: 8px;" onclick="display_result();">Select Domain</button>
+                        <br><br>
+                      </div>
                       <div class="pure-g">
                         <div class="pure-u-1 pure-u-md-1-5">
                             <label>Keyword 1</label>
@@ -60,12 +65,6 @@
                         </div>
                       </div>
                       <button type="submit" class="pure-button pure-button-primary" style="margin-top: 10px;">Generate Results</button>
-                      <div>
-                        <br><br>
-                        <nav><ul id="domain_navi" class="menu_top"></ul></nav>
-                        <button type="submit" class="pure-button pure-button-primary" style="margin-top: 8px;" onclick="display_result();">Select Domain</button>
-                        <br><br>
-                      </div>
                     </fieldset>
                   </form>
               </div>
@@ -144,7 +143,7 @@
       var a = document.createElement('a');
       a.href = '#';
       a.innerHTML = domain;
-      a.addEventListener('click', select_domain, true);
+      a.addEventListener('click', display_domain, true);
       outer_li.appendChild(a);
       var ul = document.createElement('ul');
       for (var subdomain in domains[domain]) {
@@ -167,6 +166,19 @@
     var selected = e.target.innerHTML;
     var display = document.getElementById('domain');
     display.innerHTML = selected;
+  }
+
+  function display_result() {
+    var selected = {"domain": document.getElementById('domain').innerHTML};
+    console.log(selected);
+    var URL = "{% url 'get_domain' %}";
+    $.post(URL, selected, function(response){
+        if (response === 'success'){ 
+            alert('Getting domain result!'); 
+        } else { 
+            alert('Error! :('); 
+        }
+    });
   }
 
   // function selection(e) {
