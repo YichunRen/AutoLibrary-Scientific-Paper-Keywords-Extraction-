@@ -4,7 +4,7 @@
 - Note: This is an application of [AutoPhrase](https://github.com/shangjingbo1226/AutoPhrase) by Jingbo Shang.
 
 ## Docker
-- The docker repository is jfan1998/dsc180a-docker.
+- The docker repository is `jfan1998/dsc180a-docker`.
 - Note: The docker uses dsmlp base container. Please login to a dsmlp jumpbox before entering the command below.
 ```
 launch-scipy-ml.sh -i jfan1998/dsc180a-docker:latest
