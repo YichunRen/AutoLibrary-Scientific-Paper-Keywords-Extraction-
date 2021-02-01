@@ -20,8 +20,9 @@
             </ul>
             <div id="content-inner">
               <div id="selection" class="content-full">
-                <h2>Selected Document</h2>
                 <nav><ul id="domain_navi"></ul></nav>
+                <button>Select</button>
+                <h2>Selected Document</h2>
               </div>
             </div>
           </div>
@@ -88,6 +89,7 @@
     var navi = document.getElementById('domain_navi');
     var main_li = document.createElement('li');
     var a = document.createElement('a');
+    a.id = 'domain';
     a.href = '#';
     a.innerHTML = 'Select Domain';
     main_li.appendChild(a);
@@ -98,6 +100,7 @@
       var a = document.createElement('a');
       a.href = '#';
       a.innerHTML = domain;
+      a.addEventListener('click', select_domain, true);
       outer_li.appendChild(a);
       var ul = document.createElement('ul');
       for (var subdomain in domains[domain]) {
@@ -105,6 +108,7 @@
         var a = document.createElement('a');
         a.href = '#';
         a.innerHTML = domains[domain][subdomain];
+        a.addEventListener('click', select_domain, true);
         inner_li.appendChild(a);
         ul.appendChild(inner_li);
       }
@@ -115,6 +119,12 @@
     main_li.appendChild(main_ul);
     navi.appendChild(main_li);
   } 
+
+  function select_domain(e) {
+    var selected = e.target.innerHTML;
+    var display = document.getElementById('domain');
+    display.innerHTML = selected;
+  }
 
   // function selection(e) {
   //   var selected = {"file_name": e.target.innerHTML};
