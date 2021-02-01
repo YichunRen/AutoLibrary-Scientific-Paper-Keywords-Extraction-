@@ -85,10 +85,8 @@
     var URL = "{% url 'get_file' %}";
     $.post(URL, selected, function(response){
         if (response === 'success'){ 
-            alert('Start searching!'); 
-            // window.location.href = "http://127.0.0.1:8000/result";
-            //$('#brief_intro').replaceWith("<h2>Semantic Result</h2>");
-            //$('#brief_intro').before("<h2>The selected document is: " + e.target.innerHTML + " </h2>");
+            window.location.href = "http://127.0.0.1:8000/autolibrary/result";
+            // alert('Start searching!'); 
         } else { 
             alert('Error! :('); 
         }

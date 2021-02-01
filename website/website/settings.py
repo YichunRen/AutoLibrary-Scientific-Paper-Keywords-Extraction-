@@ -33,7 +33,6 @@ INSTALLED_APPS = [
     'autolibrary.apps.AutolibraryConfig',
     'blog.apps.BlogConfig',
     'contact.apps.ContactConfig',
-    'result.apps.ResultConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -51,6 +50,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 ROOT_URLCONF = 'website.urls'
 
