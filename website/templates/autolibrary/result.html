@@ -19,9 +19,10 @@
               <li><a href="http://127.0.0.1:8000/contact">Contact Us</a></li>
             </ul>
             <div id="content-inner">
-              <div class="content-full">
-                <h2>Semantic Result</h2>
-                <ul id="result_list" class="side-nav"></ul>
+              <div id="selection" class="content-full">
+                <nav><ul id="domain_navi"></ul></nav>
+                <button>Select</button>
+                <h2>Selected Document</h2>
               </div>
             </div>
           </div>
@@ -46,11 +47,12 @@
 </html>
 <script>
   function initiate(){ 
+    // sidebar
     var data = JSON.parse("{{data|escapejs}}"); 
     if (data.length > 0) {
       var ul = document.getElementById("doc_list");
       var li = document.createElement("li");
-      for(var x in data){ 
+      for (var x in data) { 
         if (data[x] != '.DS_Store') {
           var btn = document.createElement("BUTTON");
           btn.className = "btn-group";
@@ -65,7 +67,64 @@
       //     buttons[i].addEventListener('click', selection, true);
       // }
     }
+
+    // display pdf
+    var file_name = JSON.parse("{{selected_doc|escapejs}}"); 
+    var pdfname = JSON.parse("{{selected_pdf|escapejs}}"); 
+    var div = document.getElementById("selection");
+    
+    var h = document.createElement("h3");
+    h.innerHTML = file_name;
+    div.appendChild(h);
+
+    var embed = document.createElement('embed');
+    embed.src = "{% static 'autolibrary/documents/' %}" + pdfname;
+    embed.type = "application/pdf";
+    embed.width = "100%";
+    embed.height = "1000px";
+    div.appendChild(embed);
+
+    // select domain
+    var domains = JSON.parse("{{domains|escapejs}}");
+    var navi = document.getElementById('domain_navi');
+    var main_li = document.createElement('li');
+    var a = document.createElement('a');
+    a.id = 'domain';
+    a.href = '#';
+    a.innerHTML = 'Select Domain';
+    main_li.appendChild(a);
+    var main_ul = document.createElement('ul');
+
+    for (var domain in domains) {
+      var outer_li = document.createElement('li');
+      var a = document.createElement('a');
+      a.href = '#';
+      a.innerHTML = domain;
+      a.addEventListener('click', select_domain, true);
+      outer_li.appendChild(a);
+      var ul = document.createElement('ul');
+      for (var subdomain in domains[domain]) {
+        var inner_li = document.createElement('li');
+        var a = document.createElement('a');
+        a.href = '#';
+        a.innerHTML = domains[domain][subdomain];
+        a.addEventListener('click', select_domain, true);
+        inner_li.appendChild(a);
+        ul.appendChild(inner_li);
+      }
+      outer_li.appendChild(ul);
+      main_ul.appendChild(outer_li);
+    
+    }
+    main_li.appendChild(main_ul);
+    navi.appendChild(main_li);
   } 
+
+  function select_domain(e) {
+    var selected = e.target.innerHTML;
+    var display = document.getElementById('domain');
+    display.innerHTML = selected;
+  }
 
   // function selection(e) {
   //   var selected = {"file_name": e.target.innerHTML};

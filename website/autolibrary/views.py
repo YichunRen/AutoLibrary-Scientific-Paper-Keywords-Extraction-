@@ -10,6 +10,19 @@ def index(request):
     data = dumps(data) 
     return render(request, 'autolibrary/index.html', {"data": data})
 
+def askforchild(request):
+    data = os.listdir('autolibrary/documents')
+    data = dumps(data) 
+    global selected_doc, selected_pdf
+    file_name = dumps([selected_doc]) 
+    pdfname = dumps([selected_pdf])
+    domains = json.load(open('../src/domains_full.json'))
+    domains = dumps(domains) 
+    return render(request, 'autolibrary/result.html', {"data": data, "selected_doc": file_name, "selected_pdf": pdfname, "domains": domains})
+
+selected_doc = ''
+selected_pdf = ''
+
 @csrf_exempt
 def get_file(request):
     if request.method == 'POST':
@@ -19,7 +32,19 @@ def get_file(request):
             pdfname = file_name.replace("'", "")
             pdfname = pdfname.replace(" ", "_")
             os.system('bash autolibrary/rename.sh')
+            # save doc name and move to static
+            global selected_doc, selected_pdf
+            selected_doc = file_name
+            selected_pdf = pdfname
+            os.system('mkdir -p static/autolibrary/documents')
+            command = 'cp autolibrary/documents_copy/' + pdfname + ' static/autolibrary/documents'
+            os.system(command)
+            return HttpResponse('success')
+            
+            
+            
             # rewrite data-params.json
+            # get config indir and outdir ***
             config = {
                 "indir": "data/raw",
                 "outdir": "data/temp",
