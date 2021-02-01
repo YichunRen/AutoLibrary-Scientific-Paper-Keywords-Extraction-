@@ -19,7 +19,10 @@ def main(targets):
     website_config = json.load(open('config/website-params.json'))
 
     os.system('git submodule update --init')
-    
+    # Getting the target
+    # If no target is given, then run 'website'
+    if len(sys.argv) == 1:
+        activate_website(**website_config)
     if 'data' in targets:
         convert_txt(**data_config)
     if 'autophrase' in targets:
