@@ -21,6 +21,7 @@
             <div id="content-inner">
               <div id="selection" class="content-full">
                 <h2>Selected Document</h2>
+                <nav><ul id="domain_navi"></ul></nav>
               </div>
             </div>
           </div>
@@ -45,11 +46,12 @@
 </html>
 <script>
   function initiate(){ 
+    // sidebar
     var data = JSON.parse("{{data|escapejs}}"); 
     if (data.length > 0) {
       var ul = document.getElementById("doc_list");
       var li = document.createElement("li");
-      for(var x in data){ 
+      for (var x in data) { 
         if (data[x] != '.DS_Store') {
           var btn = document.createElement("BUTTON");
           btn.className = "btn-group";
@@ -65,6 +67,7 @@
       // }
     }
 
+    // display pdf
     var file_name = JSON.parse("{{selected_doc|escapejs}}"); 
     var pdfname = JSON.parse("{{selected_pdf|escapejs}}"); 
     var div = document.getElementById("selection");
@@ -79,6 +82,38 @@
     embed.width = "100%";
     embed.height = "1000px";
     div.appendChild(embed);
+
+    // select domain
+    var domains = JSON.parse("{{domains|escapejs}}");
+    var navi = document.getElementById('domain_navi');
+    var main_li = document.createElement('li');
+    var a = document.createElement('a');
+    a.href = '#';
+    a.innerHTML = 'Select Domain';
+    main_li.appendChild(a);
+    var main_ul = document.createElement('ul');
+
+    for (var domain in domains) {
+      var outer_li = document.createElement('li');
+      var a = document.createElement('a');
+      a.href = '#';
+      a.innerHTML = domain;
+      outer_li.appendChild(a);
+      var ul = document.createElement('ul');
+      for (var subdomain in domains[domain]) {
+        var inner_li = document.createElement('li');
+        var a = document.createElement('a');
+        a.href = '#';
+        a.innerHTML = domains[domain][subdomain];
+        inner_li.appendChild(a);
+        ul.appendChild(inner_li);
+      }
+      outer_li.appendChild(ul);
+      main_ul.appendChild(outer_li);
+    
+    }
+    main_li.appendChild(main_ul);
+    navi.appendChild(main_li);
   } 
 
   // function selection(e) {
