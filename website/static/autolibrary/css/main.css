@@ -315,72 +315,73 @@ p.copyright a:hover {
 .clearfix {display: block;}
 /* End hide from IE-mac */
 
-
-/* Drop Down Menu */
-#selection {
-	margin: 0 auto;
-}
-
-nav {
-	margin: 40px 0;
-	background-color: white;
-}
-
-nav ul {
-	padding: 0;
-  	margin: 0;
-	list-style: none;
-	position: relative;
-}
-	
-nav ul li {
-	display:inline-block;
+/* Dropdown Menu*/
+ul.menu_top {
+	float: left;
+	width: 70%;
+	margin: 8px 100px 0 0;
+	border-radius: 4px;
 	background-color: #f4f2ec;
+	/* rgb(163, 138, 85); */
+	list-style-type: none;
+	z-index: +1;
 }
-
-nav a {
-	display:block;
-	padding:0 10px;	
+ul.menu_top li {
+	float: left;
+	position: relative;
+	margin: 4px 2em 4px 4px;
+	padding: 0;
+}
+ul.menu_top li ul {
+	visibility: hidden;
+	position: absolute;
+	top: 100%;
+	left: 0px;
+	padding: 0.5em;
+	list-style-type: none;
+	white-space: nowrap;
+	background-color: #f4f2ec;
+	border: 1px solid white;
+	border-radius: 4px;
+	z-index: +1;
+}
+ul.menu_top li:hover > ul {
+	visibility: visible;
+	z-index: +2;
+}
+ul.menu_top li ul li {
+	padding: 0;
+	margin: 12px 4px;
+	float: none;
+	border: 0;
+	min-width: 3em;
+}
+ul.menu_top li ul li ul {
+	top: -19px;
+	left: 280px;
+}
+ul.menu_top a {
+	background-color: #f4f2ec;
 	color: white;
+	text-decoration: none;
+	padding: 4px;
 	font-size: 1em;
-	line-height: 40px;
+}
+ul.menu_top a:hover, ul.menu_top a.haschildren.childselected, ul.menu_top a.selected {
+	background-color: white;
+	color: blue;
 	text-decoration: none;
 }
-
-nav a:hover { 
-	background-color: rgb(163, 138, 85); 
+ul.menu_top li a.haschildren:after {
+	content: "\00A0\00A0\25BC";
 }
-
-/* Hide Dropdowns by Default */
-nav ul ul {
-	display: none;
-	position: absolute; 
-	top: 40px; /* the height of the main nav */
+a {
+	color: #0000aa;
+	background-color: inherit;
 }
-	
-/* Display Dropdowns on Hover */
-nav ul li:hover > ul {
-	display: inherit;
+body, ul, li {
+	margin:0;
+	padding:0;
 }
-	
-/* Fisrt Tier Dropdown */
-nav ul ul li {
-	width: 170px;
-	float: none;
-	display: list-item;
-	position: relative;
-}
-
-/* Second, Third and more Tiers	*/
-nav ul ul ul li {
-	position: relative;
-	top: -40px; 
-	left: 170px;
-}
-	
-/* Change this in order to change the Dropdown symbol */
-/* li > a:after { content:  ' +'; }
-li > a:only-child:after { content: ''; } */
 /* End of Drop Down Menu */
-
 /* @end */

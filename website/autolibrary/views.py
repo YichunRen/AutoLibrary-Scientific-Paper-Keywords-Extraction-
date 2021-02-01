@@ -40,9 +40,11 @@ def get_file(request):
             command = 'cp autolibrary/documents_copy/' + pdfname + ' static/autolibrary/documents'
             os.system(command)
             return HttpResponse('success')
-            
-            
-            
+    return HttpResponse('FAIL!!!!!')
+
+def get_domain(request):  
+    if request.method == 'POST':
+        if "file_name" in request.POST:
             # rewrite data-params.json
             # get config indir and outdir ***
             config = {
