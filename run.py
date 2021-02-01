@@ -44,5 +44,5 @@ def main(targets):
 if __name__ == '__main__':
     # run via:
     # python main.py data features model
-    targets = sys.argv[1:]
+    targets = sys.argv
     main(targets)
