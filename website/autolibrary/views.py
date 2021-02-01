@@ -14,9 +14,11 @@ def askforchild(request):
     data = os.listdir('autolibrary/documents')
     data = dumps(data) 
     global selected_doc, selected_pdf
-    selected1 = dumps([selected_doc]) 
-    selected2 = dumps([selected_pdf])
-    return render(request, 'autolibrary/result.html', {"data": data, "selected_doc": selected1, "selected_pdf": selected2})
+    file_name = dumps([selected_doc]) 
+    pdfname = dumps([selected_pdf])
+    domains = json.load(open('../src/domains_full.json'))
+    domains = dumps(domains) 
+    return render(request, 'autolibrary/result.html', {"data": data, "selected_doc": file_name, "selected_pdf": pdfname, "domains": domains})
 
 selected_doc = ''
 selected_pdf = ''
