@@ -1,5 +1,6 @@
 # AutoLibrary
-- DSC180B A04 G03 - Capstone Project (Winter 2021)
+- DSC180B - Capstone Project (Winter 2021)
+- Section A04 Group03: Yichun Ren, Jiayi Fan, Bingqi Zhou
 - Note: This is an application of [AutoPhrase](https://github.com/shangjingbo1226/AutoPhrase) by Jingbo Shang.
 
 ## Docker
@@ -9,10 +10,11 @@
 launch-scipy-ml.sh -i jfan1998/dsc180a-docker:latest
 ```
 
-## Default Run
+## Default Run: open AutoLibrary website
 ```
 python run.py
 ```
+- The home page of website: `http://127.0.0.1:8000/autolibrary/`
 ### Target 1: Convert the input .pdf file into .txt
 ```
 python run.py data
@@ -29,29 +31,16 @@ python run.py weight
 ```
 python run.py webscrape
 ```
-### Target 5: Activating the website
-```
-python run.py website
-```
-The local website is hosted on `http://127.0.0.1:8000/autolibrary/`
-
-## TBC-->
-### Target 5: Run Report 
-- Note: 
-  - This report is futher exploration on AutoPhrase results. Paper report link is stored in references.
-  - Report requires manual labeling high-quality phrases. The result CSV file for DBLP.txt is stored in references directory and the result CSV file for test_raw.txt is stored in test directory.
-- The writings in the output html file explain and investigate AutoPhrase results of DBLP.txt dataset. Only look the graphs/tables if you use another dataset.
-```
-python run.py report
-```
-### Target 6: Test All previous targets on test data
+### Target 5: Test All previous targets on test data
 Note: For the test run, raw test data is in test/testdata directory.
 ```
 python run.py test
 ```
-### Target 7: Run All the targets
+### Target 6: Activating the website
 ```
-python run.py all
+python run.py website
 ```
-
-## Responsbilities: 
+### Responsbilities: 
+- Yichun Ren: Dataset, Weight, Website 
+- Jiayi Fan: Data, Website, Django
+- Bingqi Zhou: Dataset, Webscrap, Test
