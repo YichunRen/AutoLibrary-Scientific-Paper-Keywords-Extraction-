@@ -25,46 +25,52 @@
                   <form class="pure-form pure-form-stacked">
                     <fieldset>
                       <legend>Customize Recommendations</legend>
-                      <div>
+                      <div class="pure-u-1 pure-u-md-1-3">
                         <nav><ul id="domain_navi" class="menu_top"></ul></nav>
-                        <button type="submit" class="pure-button pure-button-primary" style="margin-top: 8px;" onclick="display_result();">Select Domain</button>
-                        <br><br>
                       </div>
-                      <div class="pure-g">
-                        <div class="pure-u-1 pure-u-md-1-5">
-                            <label>Keyword 1</label>
-                            <label><input type="checkbox"/> phrase 1</label>
-                        </div>
-                        <div class="pure-u-1 pure-u-md-1-5">
-                          <label>Keyword 2</label>
-                          <label><input type="checkbox"/> phrase 2</label>
-                        </div>
-                        <div class="pure-u-1 pure-u-md-1-5">
-                          <label>Keyword 3</label>
-                          <label><input type="checkbox"/> phrase 3</label>
-                        </div>
-                        <div class="pure-u-1 pure-u-md-1-5">
-                          <label>Keyword 4</label>
-                          <label><input type="checkbox"/> phrase 4</label>
-                        </div>
-                        <div class="pure-u-1 pure-u-md-1-5">
-                          <label>Keyword 5</label>
-                          <label><input type="checkbox"/> phrase 5</label>
-                        </div>
-                        <div class="pure-u-1 pure-u-md-1-3">
-                            <label>Enter your own keywords</label>
-                            <input type="text" class="pure-u-23-24" />
-                        </div>
-                        <div class="pure-u-1 pure-u-md-1-3">
-                            <label>Other High-Quality Phrases</label>
-                            <select class="pure-input-1-2">
-                                <option>phrase 1</option>
-                                <option>Phrase 2</option>
-                                <option>Phrase 3</option>
-                            </select>
-                        </div>
+                      <div class="pure-u-1 pure-u-md-1-3">
+                        <button type="submit" class="pure-button pure-button-primary" style="margin-top: 8px;" onclick="display_result();">Find Keywords</button>
                       </div>
-                      <button type="submit" class="pure-button pure-button-primary" style="margin-top: 10px;">Generate Results</button>
+                      <br><br>
+                      <details>
+                        <summary>More Customization</summary>
+                        <div class="pure-g">
+                          <div class="pure-u-1 pure-u-md-1-5">
+                              <label>Keyword 1</label>
+                              <label><input type="checkbox"/> phrase 1</label>
+                          </div>
+                          <div class="pure-u-1 pure-u-md-1-5">
+                            <label>Keyword 2</label>
+                            <label><input type="checkbox"/> phrase 2</label>
+                          </div>
+                          <div class="pure-u-1 pure-u-md-1-5">
+                            <label>Keyword 3</label>
+                            <label><input type="checkbox"/> phrase 3</label>
+                          </div>
+                          <div class="pure-u-1 pure-u-md-1-5">
+                            <label>Keyword 4</label>
+                            <label><input type="checkbox"/> phrase 4</label>
+                          </div>
+                          <div class="pure-u-1 pure-u-md-1-5">
+                            <label>Keyword 5</label>
+                            <label><input type="checkbox"/> phrase 5</label>
+                          </div>
+                          <div class="pure-u-1 pure-u-md-1-3">
+                              <label>Enter your own keywords</label>
+                              <input type="text" class="pure-u-23-24" />
+                          </div>
+                          <div class="pure-u-1 pure-u-md-1-3">
+                              <label>Other High-Quality Phrases</label>
+                              <select class="pure-input-1-2">
+                                  <option>phrase 1</option>
+                                  <option>Phrase 2</option>
+                                  <option>Phrase 3</option>
+                              </select>
+                          </div>
+                        </div>
+                        <button type="submit" class="pure-button pure-button-primary" style="margin-top: 10px;">Generate Results</button>
+                      </details>
+                      
                     </fieldset>
                   </form>
               </div>
@@ -170,11 +176,12 @@
 
   function display_result() {
     var selected = {"domain": document.getElementById('domain').innerHTML};
-    console.log(selected);
     var URL = "{% url 'get_domain' %}";
     $.post(URL, selected, function(response){
         if (response === 'success'){ 
-            alert('Getting domain result!'); 
+            var hey = document.getElementById('domain');
+            hey.innerHTML = 'hey';
+            // alert('Getting domain result!'); 
         } else { 
             alert('Error! :('); 
         }

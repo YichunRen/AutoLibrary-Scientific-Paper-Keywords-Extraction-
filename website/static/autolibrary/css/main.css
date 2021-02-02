@@ -318,8 +318,9 @@ p.copyright a:hover {
 /* Dropdown Menu*/
 ul.menu_top {
 	float: left;
-	width: 70%;
-	margin: 8px 100px 0 0;
+	width: 130px;
+	padding-left: 25px;
+	margin: 8px 8px 0 0;
 	border-radius: 4px;
 	background-color: #f4f2ec;
 	/* rgb(163, 138, 85); */
@@ -374,7 +375,7 @@ ul.menu_top a:hover, ul.menu_top a.haschildren.childselected, ul.menu_top a.sele
 }
 ul.menu_top li a.haschildren:after {
 	content: "\00A0\00A0\25BC";
-}
+} 
 a {
 	color: #0000aa;
 	background-color: inherit;
