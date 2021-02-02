@@ -70,7 +70,6 @@ def get_file(request):
 @csrf_exempt
 def get_domain(request):  
     if request.method == 'POST':
-        print(request.POST)
         if "domain" in request.POST:
             # save selected domain to data/out
             global selected_pdf, selected_domain, selected_subdomain
