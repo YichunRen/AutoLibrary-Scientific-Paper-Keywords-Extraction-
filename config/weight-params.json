@@ -1,5 +1,6 @@
 {
     "paper_ap_path": "data/out/AutoPhrase.txt",
-    "domain_ap_path": "AutoPhrase/models/domains/cs/cs.IR/AutoPhrase.txt",
+    "selected_domain": "cs/cs.IR",
+    "domain_ap_path": "AutoPhrase/models/domains/",
     "out_path": "data/out/weighted_AutoPhrase.csv"
 }
