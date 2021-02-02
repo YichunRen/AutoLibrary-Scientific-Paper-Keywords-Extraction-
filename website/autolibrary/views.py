@@ -78,9 +78,9 @@ def get_domain(request):
                 # run all targets
                 rsh.write('''cd .. \n''')
                 rsh.write('''python run.py data \n''')
-                rsh.write('''python run.py autophrase \n''')
-                rsh.write('''python run.py weight \n''')
-                rsh.write('''python run.py webscrape \n''')
-            # os.system('bash autolibrary/run.sh')
+                # rsh.write('''python run.py autophrase \n''')
+                # rsh.write('''python run.py weight \n''')
+                # rsh.write('''python run.py webscrape \n''')
+            os.system('bash autolibrary/run.sh')
             return HttpResponse('success')
     return HttpResponse('FAIL!!!!!')
