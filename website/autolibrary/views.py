@@ -37,10 +37,10 @@ def customization(request):
     domains = json.load(open('../src/domains_full.json'))
     global selected_doc, selected_pdf, selected_domain, selected_subdomain, phrases
     content = {
-        "data": dumps(data) , 
-        "selected_doc": dumps([selected_doc]) , 
+        "data": dumps(data), 
+        "selected_doc": dumps([selected_doc]), 
         "selected_pdf": dumps([selected_pdf]), 
-        "domains": dumps(domains) ,
+        "domains": dumps(domains),
         "domain": dumps([selected_domain]),
         "subdomain": dumps([selected_subdomain]),
         "phrases": dumps(phrases)
@@ -70,6 +70,7 @@ def get_file(request):
 @csrf_exempt
 def get_domain(request):  
     if request.method == 'POST':
+        print(request.POST)
         if "domain" in request.POST:
             # save selected domain to data/out
             global selected_pdf, selected_domain, selected_subdomain
@@ -104,7 +105,7 @@ def get_domain(request):
                 rsh.write('''python run.py autophrase \n''')
                 rsh.write('''python run.py weight \n''')
                 rsh.write('''python run.py webscrape \n''')
-            #os.system('bash autolibrary/run.sh')
+            os.system('bash autolibrary/run.sh')
             global phrases
             result = open('../data/out/AutoPhrase.txt', 'r')
             lines = result.readlines()

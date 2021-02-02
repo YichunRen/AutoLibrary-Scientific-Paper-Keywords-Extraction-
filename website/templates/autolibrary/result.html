@@ -38,7 +38,10 @@
                         </select>
                       </div><br>
                       <button type="submit" class="pure-button pure-button-primary" style="margin-top: 8px;" onclick="display_result();">Find Keywords</button>
-                      <br><br>
+                      
+                      <br>
+                      <img id='loading' src="{% static 'autolibrary/images/loading.gif' %}" style="height: 100px;" class="giphy-embed" allowFullScreen>
+                      <br>
 
                       <details>
                         <summary>More Customization</summary>
@@ -165,14 +168,16 @@
   }
 
   function display_result() {
+    // var image = document.getElementById('loading');
+    // image.hidden = false;
     var selected = {"domain": document.getElementById('sel1').value, "subdomain": document.getElementById('sel2').value};
     var URL = "{% url 'get_domain' %}";
     $.post(URL, selected, function(response){
-        if (response === 'success'){ 
-          window.location = "http://127.0.0.1:8000/autolibrary/customization";
-        } else { 
-          alert('Error! :('); 
-        }
+      if (response === 'success'){ 
+        window.location = "http://127.0.0.1:8000/autolibrary/customization";
+      } else { 
+        alert('Error! :('); 
+      }
     });
   }
 

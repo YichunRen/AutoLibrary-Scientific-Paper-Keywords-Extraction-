@@ -205,7 +205,6 @@
 
   function display_result() {
     var selected = {"domain": document.getElementById('sel2').value};
-    console.log(document.getElementById('sel2').value);
     var URL = "{% url 'get_domain' %}";
     $.post(URL, selected, function(response){
         if (response === 'success'){ 
