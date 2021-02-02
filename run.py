@@ -19,7 +19,10 @@ def main(targets):
     website_config = json.load(open('config/website-params.json'))
 
     os.system('git submodule update --init')
-    
+    # Getting the target
+    # If no target is given, then run 'website'
+    if len(sys.argv) == 1:
+        activate_website(**website_config)
     if 'data' in targets:
         convert_txt(**data_config)
     if 'autophrase' in targets:
@@ -30,7 +33,7 @@ def main(targets):
         webscrape(**webscrape_config)
     if 'website' in targets:
         activate_website(**website_config)
-    if targets[0] == "test":
+    if 'test' in targets:
         convert_txt(**data_config)
         autophrase(data_config['outdir'], data_config['pdfname'], model_config['outdir'], model_config['filename'])
         change_weight(**weight_config)
@@ -41,5 +44,5 @@ def main(targets):
 if __name__ == '__main__':
     # run via:
     # python main.py data features model
-    targets = sys.argv[1:]
+    targets = sys.argv
     main(targets)
