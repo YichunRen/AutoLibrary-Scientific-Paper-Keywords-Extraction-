@@ -29,7 +29,7 @@ python run.py autophrase
 ```
 python run.py weight
 ```
-### Target 4: Web Scraping
+### Target 4: Web Scraping the search results on Semantic Scholar with keywords and domains
 ```
 python run.py webscrape
 ```
@@ -45,4 +45,4 @@ python run.py website
 ### Responsbilities: 
 - Yichun Ren: Dataset, Weight, Website 
 - Jiayi Fan: Data, Website, Django
-- Bingqi Zhou: Dataset, Webscrap, Test
+- Bingqi Zhou: Dataset, Webscrap
