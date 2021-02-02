@@ -45,4 +45,4 @@ python run.py website
 ### Responsbilities: 
 - Yichun Ren: Dataset, Weight, Website 
 - Jiayi Fan: Data, Website, Django
-- Bingqi Zhou: Dataset, Webscrap, Test
+- Bingqi Zhou: Dataset, Webscrap
