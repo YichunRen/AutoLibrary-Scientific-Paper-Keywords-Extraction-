@@ -165,12 +165,16 @@
   }
 
   function display_result() {
-    var selected = {"main": document.getElementById('sel1').value, "domain": document.getElementById('sel2').value};
+    var selected = {"domain": document.getElementById('sel2').value};
+    console.log(document.getElementById('sel2').value);
+    var URL = "{% url 'get_domain' %}";
     $.post(URL, selected, function(response){
         if (response === 'success'){ 
-          window.location = "http://127.0.0.1:8000/result";
+            var hey = document.getElementById('domain');
+            hey.innerHTML = 'hey';
+            // alert('Getting domain result!'); 
         } else { 
-          alert('Error! :('); 
+            alert('Error! :('); 
         }
     });
   }
@@ -180,8 +184,8 @@
   //   var URL = "{% url 'get_file' %}";
   //   $.post(URL, selected, function(response){
   //       if (response === 'success'){ 
-//           alert('Start searching!'); 
-//           window.location = "http://127.0.0.1:8000/result";
+  //           alert('Start searching!'); 
+  //           window.location = "http://127.0.0.1:8000/result";
   //       } else { 
   //           alert('Error! :('); 
   //       }

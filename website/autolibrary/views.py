@@ -5,23 +5,14 @@ import json
 from json import dumps 
 from django.views.decorators.csrf import csrf_exempt
 
+selected_doc = ''
+selected_pdf = ''
+domain = ''
+
 def index(request):
     data = os.listdir('autolibrary/documents')
     data = dumps(data) 
     return render(request, 'autolibrary/index.html', {"data": data})
-
-def askforchild(request):
-    data = os.listdir('autolibrary/documents')
-    data = dumps(data) 
-    global selected_doc, selected_pdf
-    file_name = dumps([selected_doc]) 
-    pdfname = dumps([selected_pdf])
-    domains = json.load(open('../src/domains_full.json'))
-    domains = dumps(domains) 
-    return render(request, 'autolibrary/result.html', {"data": data, "selected_doc": file_name, "selected_pdf": pdfname, "domains": domains})
-
-selected_doc = ''
-selected_pdf = ''
 
 @csrf_exempt
 def get_file(request):
@@ -42,7 +33,15 @@ def get_file(request):
             return HttpResponse('success')
     return HttpResponse('FAIL!!!!!')
 
-domain = ''
+def askforchild(request):
+    data = os.listdir('autolibrary/documents')
+    data = dumps(data) 
+    global selected_doc, selected_pdf
+    file_name = dumps([selected_doc]) 
+    pdfname = dumps([selected_pdf])
+    domains = json.load(open('../src/domains_full.json'))
+    domains = dumps(domains) 
+    return render(request, 'autolibrary/result.html', {"data": data, "selected_doc": file_name, "selected_pdf": pdfname, "domains": domains})
 
 @csrf_exempt
 def get_domain(request):  
@@ -78,9 +77,22 @@ def get_domain(request):
                 # run all targets
                 rsh.write('''cd .. \n''')
                 rsh.write('''python run.py data \n''')
-                # rsh.write('''python run.py autophrase \n''')
-                # rsh.write('''python run.py weight \n''')
-                # rsh.write('''python run.py webscrape \n''')
+                rsh.write('''python run.py autophrase \n''')
+                rsh.write('''python run.py weight \n''')
+                rsh.write('''python run.py webscrape \n''')
             os.system('bash autolibrary/run.sh')
             return HttpResponse('success')
     return HttpResponse('FAIL!!!!!')
+
+def customization(request):
+    data = os.listdir('autolibrary/documents')
+    data = dumps(data) 
+    
+    global selected_doc, selected_pdf
+    file_name = dumps([selected_doc]) 
+    pdfname = dumps([selected_pdf])
+    domains = json.load(open('../src/domains_full.json'))
+    domains = dumps(domains) 
+    
+    return render(request, 'autolibrary/result2.html', {"data": data, "selected_doc": file_name, "selected_pdf": pdfname, "domains": domains})
+
