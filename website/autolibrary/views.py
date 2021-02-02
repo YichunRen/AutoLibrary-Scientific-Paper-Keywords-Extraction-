@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 import os
 import json
+import time
+import subprocess
 from json import dumps 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -63,8 +65,8 @@ def get_file(request):
             os.system('mkdir -p static/autolibrary/documents')
             command = 'cp autolibrary/documents_copy/' + pdfname + ' static/autolibrary/documents'
             os.system(command)
-            return HttpResponse('success')
-    return HttpResponse('FAIL!!!!!')
+            return HttpResponse('get file')
+    return HttpResponse('fail to get file')
 
 
 @csrf_exempt
@@ -104,7 +106,10 @@ def get_domain(request):
                 rsh.write('''python run.py autophrase \n''')
                 rsh.write('''python run.py weight \n''')
                 rsh.write('''python run.py webscrape \n''')
-            os.system('bash autolibrary/run.sh')
+            #os.system('bash autolibrary/run.sh')
+            # process = subprocess.Popen(['bash', 'autolibrary/run.sh'])
+            # process.communicate()
+            # time.sleep(20)
             global phrases
             result = open('../data/out/AutoPhrase.txt', 'r')
             lines = result.readlines()
@@ -118,5 +123,5 @@ def get_domain(request):
                     else:
                         phrase += lst[1]
                     phrases.append(phrase)
-            return HttpResponse('success')
-    return HttpResponse('FAIL!!!!!')
+            return HttpResponse('get domain')
+    return HttpResponse('fail to get domain')

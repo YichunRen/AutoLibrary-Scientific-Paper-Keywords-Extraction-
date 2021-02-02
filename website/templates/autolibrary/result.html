@@ -36,11 +36,11 @@
                         <select id="sel2" class="pure-u-3-4">
                           <option value="" disabled selected>Select</option>
                         </select>
-                      </div><br>
-                      <button type="submit" class="pure-button pure-button-primary" style="margin-top: 8px; background-color: rgb(219, 155, 35);" onclick="display_result();">Find Keywords</button>
-        
+                      </div>
                       <br>
-                      <img src="{% static 'autolibrary/images/loading.gif' %}" style="height: 100px;" class="giphy-embed" allowFullScreen>
+                      <button class="pure-button pure-button-primary" style="margin-top: 8px; background-color: rgb(219, 155, 35);" onclick="display_image(); display_result();">Find Keywords</button>
+                      <br>
+                      <img id="loading" src="{% static 'autolibrary/images/loading.gif' %}" style="height: 100px;" class="giphy-embed" allowFullScreen hidden>
                       <br>
 
                       <details>
@@ -167,44 +167,53 @@
     }
   }
 
+  function display_image() {
+    var image = document.getElementById('loading');
+    image.hidden = false;
+  }
+
   function display_result() {
     var selected = {"domain": document.getElementById('sel1').value, "subdomain": document.getElementById('sel2').value};
     var URL = "{% url 'get_domain' %}";
-    $.post(URL, selected, function(response){
-        if (response === 'success'){ 
-          window.location = "http://127.0.0.1:8000/result";
-        } else { 
-          alert('Error! :('); 
-        }
+    $.when(ajaxCall1()).done(function(){
+      window.location = "http://127.0.0.1:8000/autolibrary/customization";
     });
+
+    function ajaxCall1() {
+        return  $.ajax({
+          type: "POST",
+          url: URL,
+          data: selected
+        });
+    } 
   }
 
-  $.getJSON("{% static 'autolibrary/web_scrap/scraped_AutoPhrase.json' %}", function(data){ 
-    $.each(data, function(idx, obj){ 
-        var items = [];
-        $.each(obj, function(key, value){
-            if (key=="link"){
-              items.push( "<li id='" + key + "'><a href='" + value + "'></a>" + key + ': ' + value + "</li>" );
-              console.log(value);
-            }
-            else if (key=="authors") {
-              var names = ""
-              for (author in value) {
-                names = names + value[author]['firstName'] + " " + value[author]['middleNames'] + " " + value[author]['lastName'] + ", "
-              }
-              items.push( "<li id='" + key + "'>" + key + ': ' + names.slice(0, -2) + "</li>" );
-            }
-            else {
-              items.push( "<li id='" + key + "'>" + key + ': ' + value + "</li>" );
-            }
-        });
-        items.push( "<br>" );
-        $( "<ul/>", {
-        "class": "my-new-list",
-        html: items.join( "" )
-      }).appendTo( "form" );
-    });
-  });
+  // $.getJSON("{% static 'autolibrary/web_scrap/scraped_AutoPhrase.json' %}", function(data){ 
+  //   $.each(data, function(idx, obj){ 
+  //       var items = [];
+  //       $.each(obj, function(key, value){
+  //           if (key=="link"){
+  //             items.push( "<li id='" + key + "'><a href='" + value + "'></a>" + key + ': ' + value + "</li>" );
+  //             console.log(value);
+  //           }
+  //           else if (key=="authors") {
+  //             var names = ""
+  //             for (author in value) {
+  //               names = names + value[author]['firstName'] + " " + value[author]['middleNames'] + " " + value[author]['lastName'] + ", "
+  //             }
+  //             items.push( "<li id='" + key + "'>" + key + ': ' + names.slice(0, -2) + "</li>" );
+  //           }
+  //           else {
+  //             items.push( "<li id='" + key + "'>" + key + ': ' + value + "</li>" );
+  //           }
+  //       });
+  //       items.push( "<br>" );
+  //       $( "<ul/>", {
+  //       "class": "my-new-list",
+  //       html: items.join( "" )
+  //     }).appendTo( "form" );
+  //   });
+  // });
 
   // function select_doc(e) {
   //   var selected = {"file_name": e.target.innerHTML};

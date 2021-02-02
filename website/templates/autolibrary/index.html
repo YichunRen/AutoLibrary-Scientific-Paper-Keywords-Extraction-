@@ -84,7 +84,7 @@
     var selected = {"file_name": e.target.innerHTML};
     var URL = "{% url 'get_file' %}";
     $.post(URL, selected, function(response){
-        if (response === 'success'){ 
+        if (response === 'get file'){ 
             window.location.href = "http://127.0.0.1:8000/autolibrary/result";
         } else { 
             alert('Error! :('); 
