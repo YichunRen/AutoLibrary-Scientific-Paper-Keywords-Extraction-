@@ -1,5 +1,6 @@
 import pandas as pd
 from operator import itemgetter
+import json
 
 def change_weight(paper_ap_path, selected_domain, domain_ap_path, out_path):
     print("\n")
@@ -7,8 +8,10 @@ def change_weight(paper_ap_path, selected_domain, domain_ap_path, out_path):
     print("  => Altering quality scores of phrases in the input document according to domain...")
     
     try:
-        with open('data/out/selected_domain.txt') as f:
-            selected_domain = f.readline()
+        with open('src/domain_abb.json') as f:
+            domains_name_dict = json.load(f)
+        with open('data/out/selected_domain.txt') as f2:
+            selected_domain = domains_name_dict[f2.readline()]
             domain_full_path = domain_ap_path + selected_domain + '/AutoPhrase.txt'
     except:
         domain_full_path = domain_ap_path + selected_domain + '/AutoPhrase.txt'
