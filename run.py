@@ -13,6 +13,7 @@ from website import activate_website
 
 def main(targets):
     data_config = json.load(open('config/data-params.json'))
+    test_config = json.load(open('config/test-params.json'))
     model_config = json.load(open('config/model-params.json'))
     weight_config = json.load(open('config/weight-params.json'))
     webscrape_config = json.load(open('config/webscrape-params.json'))
@@ -34,8 +35,8 @@ def main(targets):
     if 'website' in targets:
         activate_website(**website_config)
     if 'test' in targets:
-        convert_txt(**data_config)
-        autophrase(data_config['outdir'], data_config['pdfname'], model_config['outdir'], model_config['filename'])
+        convert_txt(**test_config)
+        autophrase(test_config['outdir'], test_config['pdfname'], model_config['outdir'], model_config['filename'])
         change_weight(**weight_config)
         webscrape(**webscrape_config)
         activate_website(**website_config)
