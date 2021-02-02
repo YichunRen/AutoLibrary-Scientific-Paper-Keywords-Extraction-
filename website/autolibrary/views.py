@@ -7,12 +7,51 @@ from django.views.decorators.csrf import csrf_exempt
 
 selected_doc = ''
 selected_pdf = ''
-domain = ''
+selected_domain = ''
+selected_subdomain = ''
+phrases = []
 
 def index(request):
     data = os.listdir('autolibrary/documents')
     data = dumps(data) 
     return render(request, 'autolibrary/index.html', {"data": data})
+
+def askforchild(request):
+    data = os.listdir('autolibrary/documents')
+    data = dumps(data) 
+    global selected_doc, selected_pdf
+    file_name = dumps([selected_doc]) 
+    pdfname = dumps([selected_pdf])
+    domains = json.load(open('../src/domains_full.json'))
+    domains = dumps(domains) 
+    content = {
+        "data": data, 
+        "selected_doc": file_name, 
+        "selected_pdf": pdfname, 
+        "domains": domains
+    }
+    return render(request, 'autolibrary/result.html', content)
+
+def customization(request):
+    data = os.listdir('autolibrary/documents')
+    data = dumps(data) 
+    global selected_doc, selected_pdf, selected_domain, selected_subdomain, phrases
+    file_name = dumps([selected_doc]) 
+    pdfname = dumps([selected_pdf])
+    domains = json.load(open('../src/domains_full.json'))
+    domains = dumps(domains) 
+    domain = dumps([selected_domain])
+    subdomain = dumps([selected_subdomain])
+    content = {
+        "data": data, 
+        "selected_doc": file_name, 
+        "selected_pdf": pdfname, 
+        "domains": domains,
+        "domain": domain,
+        "subdomain": subdomain,
+        "phrases": dumps(phrases)
+    }
+    return render(request, 'autolibrary/customization.html', content)
 
 @csrf_exempt
 def get_file(request):
@@ -33,27 +72,18 @@ def get_file(request):
             return HttpResponse('success')
     return HttpResponse('FAIL!!!!!')
 
-def askforchild(request):
-    data = os.listdir('autolibrary/documents')
-    data = dumps(data) 
-    global selected_doc, selected_pdf
-    file_name = dumps([selected_doc]) 
-    pdfname = dumps([selected_pdf])
-    domains = json.load(open('../src/domains_full.json'))
-    domains = dumps(domains) 
-    return render(request, 'autolibrary/result.html', {"data": data, "selected_doc": file_name, "selected_pdf": pdfname, "domains": domains})
 
 @csrf_exempt
 def get_domain(request):  
     if request.method == 'POST':
-        print('hi')
         if "domain" in request.POST:
             # save selected domain to data/out
-            global selected_pdf, domain
-            domain = request.POST['domain']
+            global selected_pdf, selected_domain, selected_subdomain
+            selected_domain = request.POST['domain']
+            selected_subdomain = request.POST['subdomain']
             os.system('mkdir -p ../data/out')
             with open('../data/out/selected_domain.txt', 'w') as fp:
-                fp.write(domain)
+                fp.write(selected_subdomain)
             # rewrite data-params.json
             reset = False
             config = json.load(open('../config/data-params.json'))
@@ -81,18 +111,18 @@ def get_domain(request):
                 rsh.write('''python run.py weight \n''')
                 rsh.write('''python run.py webscrape \n''')
             os.system('bash autolibrary/run.sh')
+            global phrases
+            result = open('../data/out/AutoPhrase.txt', 'r')
+            lines = result.readlines()
+            for line in lines:
+                lst = line.split()
+                if float(lst[0]) > 0.5:
+                    phrase = ''
+                    if len(lst) > 2:
+                        for p in lst[1:]:
+                            phrase += p + ' '
+                    else:
+                        phrase += lst[1]
+                    phrases.append(phrase)
             return HttpResponse('success')
     return HttpResponse('FAIL!!!!!')
-
-def customization(request):
-    data = os.listdir('autolibrary/documents')
-    data = dumps(data) 
-    
-    global selected_doc, selected_pdf
-    file_name = dumps([selected_doc]) 
-    pdfname = dumps([selected_pdf])
-    domains = json.load(open('../src/domains_full.json'))
-    domains = dumps(domains) 
-    
-    return render(request, 'autolibrary/result2.html', {"data": data, "selected_doc": file_name, "selected_pdf": pdfname, "domains": domains})
-
