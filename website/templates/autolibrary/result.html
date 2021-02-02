@@ -179,20 +179,32 @@
     });
   }
 
-  var json_lst = JSON.parse("{% static 'autolibrary/web_scrap/scraped_AutoPhrase.json' %}");
-  for (var json_object in json_lst){
-    $.getJSON( json_object, function( data ) {
-      var items = [];
-      $.each( data, function( key, val ) {
-        items.push( "<li id='" + key + "'>" + val + "</li>" );
-      });
-    
-      $( "<ul/>", {
+  $.getJSON("{% static 'autolibrary/web_scrap/scraped_AutoPhrase.json' %}", function(data){ 
+    $.each(data, function(idx, obj){ 
+        var items = [];
+        $.each(obj, function(key, value){
+            if (key=="link"){
+              items.push( "<li id='" + key + "'><a href='" + value + "'></a>" + key + ': ' + value + "</li>" );
+              console.log(value);
+            }
+            else if (key=="authors") {
+              var names = ""
+              for (author in value) {
+                names = names + value[author]['firstName'] + " " + value[author]['middleNames'] + " " + value[author]['lastName'] + ", "
+              }
+              items.push( "<li id='" + key + "'>" + key + ': ' + names.slice(0, -2) + "</li>" );
+            }
+            else {
+              items.push( "<li id='" + key + "'>" + key + ': ' + value + "</li>" );
+            }
+        });
+        items.push( "<br>" );
+        $( "<ul/>", {
         "class": "my-new-list",
         html: items.join( "" )
       }).appendTo( "form" );
     });
-  }
+  });
 
   // function select_doc(e) {
   //   var selected = {"file_name": e.target.innerHTML};
