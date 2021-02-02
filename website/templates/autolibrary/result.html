@@ -166,6 +166,7 @@
 
   function display_result() {
     var selected = {"main": document.getElementById('sel1').value, "domain": document.getElementById('sel2').value};
+    var URL = "{% url 'get_domain' %}";
     $.post(URL, selected, function(response){
         if (response === 'success'){ 
           window.location = "http://127.0.0.1:8000/result";
