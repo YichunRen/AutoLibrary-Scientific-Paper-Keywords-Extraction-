@@ -52,16 +52,30 @@ def webscrape(keywords_path, fos_path, out_path):
         # parse useful tags
         try:
             cur['link'] = item['primaryPaperLink']['url']
-            cur['title'] = item['title']['text']
-            cur['authors'] = item['structuredAuthors']
-            cur['abstract'] = item['paperAbstract']['text']
-            specifics.append(cur)
-            counter += 1
-            if len(specifics) == 1:
-                break
-        # if there are fields that doeesn't exist in current item
         except:
             pass
+        try:
+            cur['title'] = item['title']['text']
+        except:
+            pass
+        try:
+            cur['authors'] = item['structuredAuthors']
+        except:
+            pass
+        try:
+            cur['abstract'] = item['paperAbstract']['text']
+        except:
+            pass
+        try:
+            cur['date'] = item['pubDate']
+        except:
+            pass
+        # append current paper to the list of scraped papers
+        specifics.append(cur)
+        counter += 1
+        # if the number of scraped papers meet our needs
+        if len(specifics) == 5:
+            break
     # write the result to a json file
     with open(out_path, 'w') as outfile:
         json.dump(specifics, outfile)
