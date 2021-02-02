@@ -44,35 +44,33 @@
                         <summary>More Customization</summary>
                         <div class="pure-g">
                           <div class="pure-u-1 pure-u-md-1-5">
-                              <label>Keyword 1</label>
-                              <label><input type="checkbox"/> phrase 1</label>
+                            <label>Keyword 1</label>
+                            <label id='p1'><input type="checkbox" checked/> phrase 1</label>
                           </div>
                           <div class="pure-u-1 pure-u-md-1-5">
                             <label>Keyword 2</label>
-                            <label><input type="checkbox"/> phrase 2</label>
+                            <label id='p2'><input type="checkbox" checked/> phrase 2</label>
                           </div>
                           <div class="pure-u-1 pure-u-md-1-5">
                             <label>Keyword 3</label>
-                            <label><input type="checkbox"/> phrase 3</label>
+                            <label id='p3'><input type="checkbox" checked/> phrase 3</label>
                           </div>
                           <div class="pure-u-1 pure-u-md-1-5">
                             <label>Keyword 4</label>
-                            <label><input type="checkbox"/> phrase 4</label>
+                            <label id='p4'><input type="checkbox"/> phrase 4</label>
                           </div>
                           <div class="pure-u-1 pure-u-md-1-5">
                             <label>Keyword 5</label>
-                            <label><input type="checkbox"/> phrase 5</label>
+                            <label id='p5'><input type="checkbox"/> phrase 5</label>
                           </div>
                           <div class="pure-u-1 pure-u-md-1-3">
                               <label>Enter your own keywords</label>
-                              <input type="text" class="pure-u-23-24" />
+                              <input id='input_phrases' type="text" class="pure-u-23-24" />
                           </div>
                           <div class="pure-u-1 pure-u-md-1-3">
                               <label>Other High-Quality Phrases</label>
-                              <select class="pure-input-1-2">
-                                  <option>phrase 1</option>
-                                  <option>Phrase 2</option>
-                                  <option>Phrase 3</option>
+                              <select id='others' class="pure-input-1-2" onchange="select_phrase(this.value)">
+                                <option value="" disabled selected>Select</option>
                               </select>
                           </div>
                         </div>
@@ -125,6 +123,7 @@
       //     buttons[i].addEventListener('click', select_doc, true);
       // }
     }
+    
     // display pdf
     var file_name = JSON.parse("{{selected_doc|escapejs}}"); 
     var pdfname = JSON.parse("{{selected_pdf|escapejs}}"); 
@@ -144,11 +143,42 @@
     // select domain
     var domains = JSON.parse("{{domains|escapejs}}");
     var select1 = document.getElementById('sel1');
-    for (var domain in domains) {
-      var first = document.createElement('option');
-      first.value = domain;
-      first.innerHTML = domain;
-      select1.appendChild(first);
+    var select2 = document.getElementById('sel2');
+    for (var d in domains) {
+      var option = document.createElement('option');
+      option.value = d;
+      option.innerHTML = d;
+      select1.appendChild(option);
+    }
+
+    // display selected domain
+    var domain = JSON.parse("{{domain|escapejs}}"); 
+    var subdomain = JSON.parse("{{subdomain|escapejs}}"); 
+    select1.value = domain;
+    option.value = subdomain;
+    option.innerHTML = subdomain;
+    select2.appendChild(option);
+    select2.value = subdomain;
+
+    // display phrases
+    var phrases = JSON.parse("{{phrases|escapejs}}"); 
+    var count = 1
+    while(count <=5) {
+      var id = 'p' + count
+      var label = document.getElementById(id);
+      label.innerHTML = phrases[count -1];
+      count += 1
+    }
+    var select = document.getElementById('others');
+    for (var p in phrases) {
+      if (count > 1) {
+        count -= 1;
+      } else {
+        var option = document.createElement('option');
+        option.value = phrases[p];
+        option.innerHTML = phrases[p];
+        select.appendChild(option);
+      }
     }
   }  
 
@@ -164,15 +194,21 @@
     }
   }
 
+  function select_phrase(value) {
+    var text = document.getElementById("input_phrases");
+    if (text.value.length == 0) {
+      text.value = text.value + value;
+    } else {
+      text.value = text.value + ', ' + value;
+    }
+  }
+
   function display_result() {
     var selected = {"domain": document.getElementById('sel2').value};
-    console.log(document.getElementById('sel2').value);
     var URL = "{% url 'get_domain' %}";
     $.post(URL, selected, function(response){
         if (response === 'success'){ 
-            var hey = document.getElementById('domain');
-            hey.innerHTML = 'hey';
-            // alert('Getting domain result!'); 
+            alert('Customization!'); 
         } else { 
             alert('Error! :('); 
         }
