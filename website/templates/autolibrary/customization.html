@@ -65,11 +65,12 @@
                           </div>
                           <div class="pure-u-1 pure-u-md-1-3">
                               <label>Enter your own keywords</label>
-                              <input type="text" class="pure-u-23-24" />
+                              <input id='input_phrases' type="text" class="pure-u-23-24" />
                           </div>
                           <div class="pure-u-1 pure-u-md-1-3">
                               <label>Other High-Quality Phrases</label>
-                              <select id='others' class="pure-input-1-2">
+                              <select id='others' class="pure-input-1-2" onchange="select_phrase(this.value)">
+                                <option value="" disabled selected>Select</option>
                               </select>
                           </div>
                         </div>
@@ -190,6 +191,15 @@
         subdomain += "<option>" + domains[value][domain] + "</option>";
       }
       document.getElementById("sel2").innerHTML = subdomain;
+    }
+  }
+
+  function select_phrase(value) {
+    var text = document.getElementById("input_phrases");
+    if (text.value.length == 0) {
+      text.value = text.value + value;
+    } else {
+      text.value = text.value + ', ' + value;
     }
   }
 

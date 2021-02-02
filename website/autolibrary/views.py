@@ -34,21 +34,15 @@ def askforchild(request):
 
 def customization(request):
     data = os.listdir('autolibrary/documents')
-    data = dumps(data) 
-    global selected_doc, selected_pdf, selected_domain, selected_subdomain, phrases
-    file_name = dumps([selected_doc]) 
-    pdfname = dumps([selected_pdf])
     domains = json.load(open('../src/domains_full.json'))
-    domains = dumps(domains) 
-    domain = dumps([selected_domain])
-    subdomain = dumps([selected_subdomain])
+    global selected_doc, selected_pdf, selected_domain, selected_subdomain, phrases
     content = {
-        "data": data, 
-        "selected_doc": file_name, 
-        "selected_pdf": pdfname, 
-        "domains": domains,
-        "domain": domain,
-        "subdomain": subdomain,
+        "data": dumps(data) , 
+        "selected_doc": dumps([selected_doc]) , 
+        "selected_pdf": dumps([selected_pdf]), 
+        "domains": dumps(domains) ,
+        "domain": dumps([selected_domain]),
+        "subdomain": dumps([selected_subdomain]),
         "phrases": dumps(phrases)
     }
     return render(request, 'autolibrary/customization.html', content)
@@ -110,7 +104,7 @@ def get_domain(request):
                 rsh.write('''python run.py autophrase \n''')
                 rsh.write('''python run.py weight \n''')
                 rsh.write('''python run.py webscrape \n''')
-            os.system('bash autolibrary/run.sh')
+            #os.system('bash autolibrary/run.sh')
             global phrases
             result = open('../data/out/AutoPhrase.txt', 'r')
             lines = result.readlines()
