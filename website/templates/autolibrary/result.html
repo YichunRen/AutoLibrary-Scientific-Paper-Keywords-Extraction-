@@ -37,8 +37,11 @@
                           <option value="" disabled selected>Select</option>
                         </select>
                       </div><br>
-                      <button type="submit" class="pure-button pure-button-primary" style="margin-top: 8px;" onclick="display_result();">Find Keywords</button>
-                      <br><br>
+                      <button type="submit" class="pure-button pure-button-primary" style="margin-top: 8px; background-color: rgb(219, 155, 35);" onclick="display_result();">Find Keywords</button>
+        
+                      <br>
+                      <img src="{% static 'autolibrary/images/loading.gif' %}" style="height: 100px;" class="giphy-embed" allowFullScreen>
+                      <br>
 
                       <details>
                         <summary>More Customization</summary>
@@ -76,7 +79,7 @@
                               </select>
                           </div>
                         </div>
-                        <button type="submit" class="pure-button pure-button-primary" style="margin-top: 10px;">Generate Results</button>
+                        <button type="submit" class="pure-button pure-button-primary" style="margin-top: 10px;background-color: rgb(219, 155, 35);">Generate Results</button>
                       </details>
                       
                     </fieldset>
@@ -173,6 +176,21 @@
         } else { 
           alert('Error! :('); 
         }
+    });
+  }
+
+  var json_lst = JSON.parse("{% static 'autolibrary/web_scrap/scraped_AutoPhrase.json' %}");
+  for (var json_object in json_lst){
+    $.getJSON( json_object, function( data ) {
+      var items = [];
+      $.each( data, function( key, val ) {
+        items.push( "<li id='" + key + "'>" + val + "</li>" );
+      });
+    
+      $( "<ul/>", {
+        "class": "my-new-list",
+        html: items.join( "" )
+      }).appendTo( "form" );
     });
   }
 
