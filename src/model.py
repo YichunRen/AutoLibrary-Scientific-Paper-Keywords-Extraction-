@@ -20,7 +20,9 @@ def autophrase(data_outdir, pdfname, outdir, filename):
     # write bash script to call the target test
     with open('src/run.sh', 'w') as rsh:
         rsh.write('''cd AutoPhrase \n''')
+        rsh.write('''python run.py reset \n''')
         rsh.write('''python run.py test \n''')
+        rsh.write('''python run.py reset \n''')
     os.system('bash src/run.sh')
     
     # make a directory if outdir does not exist

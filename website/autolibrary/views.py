@@ -105,7 +105,7 @@ def get_domain(request):
                 rsh.write('''python run.py data \n''')
                 rsh.write('''python run.py autophrase \n''')
                 rsh.write('''python run.py weight \n''')
-                #rsh.write('''python run.py webscrape \n''')
+                rsh.write('''python run.py webscrape \n''')
             #os.system('bash autolibrary/run.sh')
             process = subprocess.Popen(['bash', 'autolibrary/run.sh'])
             process.wait()
