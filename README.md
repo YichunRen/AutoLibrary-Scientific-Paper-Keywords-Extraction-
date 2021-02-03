@@ -43,6 +43,6 @@ python run.py test
 python run.py website
 ```
 ### Responsbilities: 
-- Yichun Ren: Dataset, Weight, Website 
-- Jiayi Fan: Data, Website, Django
+- Yichun Ren: Dataset, Weight, Website Development
+- Jiayi Fan: Data, Website Development
 - Bingqi Zhou: Dataset, Webscrap
