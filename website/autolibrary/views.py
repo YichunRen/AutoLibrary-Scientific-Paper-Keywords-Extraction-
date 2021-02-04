@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 import os
 import json
-import time
+import pandas as pd
 import subprocess
 from json import dumps 
 from django.views.decorators.csrf import csrf_exempt
@@ -63,6 +63,7 @@ def get_file(request):
             selected_doc = file_name
             selected_pdf = pdfname
             os.system('mkdir -p static/autolibrary/documents')
+            os.system('mkdir -p static/autolibrary/web_scrap')
             command = 'cp autolibrary/documents_copy/' + pdfname + ' static/autolibrary/documents'
             os.system(command)
             return HttpResponse('get file')
@@ -80,6 +81,9 @@ def get_domain(request):
             os.system('mkdir -p ../data/out')
             with open('../data/out/selected_domain.txt', 'w') as fp:
                 fp.write(selected_subdomain)
+            # config = {'fos': [selected_domain]}
+            # with open('../data/out/fos.json', 'w') as fp:
+            #     json.dump(config, fp)
             # rewrite data-params.json
             reset = False
             config = json.load(open('../config/data-params.json'))
@@ -99,29 +103,20 @@ def get_domain(request):
                 # reset if switch documents
                 if reset:
                     rsh.write('''cd ../AutoPhrase \n''')
-                    rsh.write('''python run.py reset \n''')
+                    #rsh.write('''python run.py reset \n''')
                 # run all targets
                 rsh.write('''cd .. \n''')
                 rsh.write('''python run.py data \n''')
                 rsh.write('''python run.py autophrase \n''')
                 rsh.write('''python run.py weight \n''')
                 rsh.write('''python run.py webscrape \n''')
+                rsh.write('''cp data/out/scraped_AutoPhrase.json website/static/autolibrary/web_scrap/scraped_AutoPhrase.json''')
             #os.system('bash autolibrary/run.sh')
             process = subprocess.Popen(['bash', 'autolibrary/run.sh'])
             process.wait()
             # time.sleep(20)
             global phrases
-            result = open('../data/out/AutoPhrase.txt', 'r')
-            lines = result.readlines()
-            for line in lines:
-                lst = line.split()
-                if float(lst[0]) > 0.5:
-                    phrase = ''
-                    if len(lst) > 2:
-                        for p in lst[1:]:
-                            phrase += p + ' '
-                    else:
-                        phrase += lst[1]
-                    phrases.append(phrase)
+            data = pd.read_csv('../data/out/weighted_AutoPhrase.csv', index_col = "Unnamed: 0")
+            phrases = data[data['score'] > 0.5]['phrase'].to_list()
             return HttpResponse('success')
     return HttpResponse('failed')

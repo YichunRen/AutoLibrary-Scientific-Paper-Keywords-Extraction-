@@ -10,7 +10,7 @@ def webscrape(keywords_path, fos_path, out_path):
     fos = json.load(open(fos_path))['fos']
     print("field of study: {}".format(fos))
     data = pd.read_csv(keywords_path, index_col = "Unnamed: 0")
-    keywords = data['phrase'].iloc[0]
+    keywords = ' '.join(data['phrase'].iloc[:3])
     print("keywords: {}".format(keywords))
 
     # send request to the server
