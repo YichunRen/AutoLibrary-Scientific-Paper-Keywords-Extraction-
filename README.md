@@ -42,12 +42,16 @@ Note: For the test run, raw test data is in test/testdata directory.
 ```
 python run.py test
 ```
-- Note: To run the test target on DSMLP, need to do port-forwarding as follows:
-```kubectl get pods```
+Note: To run the test target on DSMLP, need to do port-forwarding as follows:
+```
+kubectl get pods
+```
 NAME          READY   STATUS    RESTARTS   AGE
 [ssh-name]-27897   1/1     Running   0          15s
 
-```kubectl port-forward [ssh-name]-27897 :8000```
+```
+kubectl port-forward [ssh-name]-27897 :8000
+```
 Forwarding from 127.0.0.1:44474 -> 8000
 Forwarding from [::1]:44474 -> 8000
 
