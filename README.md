@@ -33,15 +33,23 @@ python run.py weight
 ```
 python run.py webscrape
 ```
-### Target 5: Test All previous targets on test data
+### Target 5: Activating the website
+```
+python run.py website
+```
+### Target 6: Test All previous targets on test data
 Note: For the test run, raw test data is in test/testdata directory.
 ```
 python run.py test
 ```
-### Target 6: Activating the website
-```
-python run.py website
-```
+- Note: To run the test target on DSMLP, need to do port-forwarding as follows:
+[y3zou@dsmlp-login]:~:1032$ kubectl get pods
+NAME          READY   STATUS    RESTARTS   AGE
+y3zou-27897   1/1     Running   0          15s
+[y3zou@dsmlp-login]:~:1029$ kubectl port-forward y3zou-27897 :8000
+Forwarding from 127.0.0.1:44474 -> 8000
+Forwarding from [::1]:44474 -> 8000
+
 ### Responsbilities: 
 - Yichun Ren: Dataset, Weight, Website Development
 - Jiayi Fan: Data, Website Development
