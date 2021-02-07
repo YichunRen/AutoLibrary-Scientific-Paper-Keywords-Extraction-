@@ -13,11 +13,11 @@ from website import activate_website
 
 def main(targets):
     data_config = json.load(open('config/data-params.json'))
-    test_config = json.load(open('config/test-params.json'))
     model_config = json.load(open('config/model-params.json'))
     weight_config = json.load(open('config/weight-params.json'))
     webscrape_config = json.load(open('config/webscrape-params.json'))
     website_config = json.load(open('config/website-params.json'))
+    test_config = json.load(open('config/test-params.json'))
 
     os.system('git submodule update --init')
     # Getting the target
@@ -35,11 +35,10 @@ def main(targets):
     if 'website' in targets:
         activate_website(**website_config)
     if 'test' in targets:
-        convert_txt(**test_config)
-        autophrase(test_config['outdir'], test_config['pdfname'], model_config['outdir'], model_config['filename'])
+        convert_txt(test_config['indir'], data_config['outdir'], test_config['pdfname'],)
+        autophrase(data_config['outdir'], test_config['pdfname'], model_config['outdir'], model_config['filename'])
         change_weight(**weight_config)
-        webscrape(**webscrape_config)
-        activate_website(**website_config)
+        webscrape(webscrape_config['keywords_path'], test_config['fos_path'], webscrape_config['out_path'])
     return
 
 if __name__ == '__main__':

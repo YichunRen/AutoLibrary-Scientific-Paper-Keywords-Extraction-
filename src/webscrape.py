@@ -4,17 +4,17 @@ import pandas as pd
 
 def webscrape(keywords_path, fos_path, out_path):
     print("\n")
-    print(">>>>>>>>>>>>>>>>>>>>>>>> Running Web-sraping... <<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+    print(">>>>>>>>>>>>>>>>>>>>>>>> Running websraping... <<<<<<<<<<<<<<<<<<<<<<<<<<<<")
 
     # Extract keywords and fields of study
     fos = json.load(open(fos_path))['fos']
     print("field of study: {}".format(fos))
     data = pd.read_csv(keywords_path, index_col = "Unnamed: 0")
-    keywords = data['phrase'].iloc[0]
+    keywords = ' '.join(data['phrase'].iloc[:3])
     print("keywords: {}".format(keywords))
 
     # send request to the server
-    print(">>>>>> Sending requests <<<<<<")
+    print("  => Sending requests...")
     payload = {
         "queryString":keywords,
         "page":1,
@@ -41,6 +41,7 @@ def webscrape(keywords_path, fos_path, out_path):
     }
     r = requests.post("https://www.semanticscholar.org/api/1/search", json.dumps(payload), headers = headers)
 
+    print("  => Saving results...")
     # parse the results
     results = r.json()['results']
 
@@ -79,3 +80,6 @@ def webscrape(keywords_path, fos_path, out_path):
     # write the result to a json file
     with open(out_path, 'w') as outfile:
         json.dump(specifics, outfile)
+    
+    print(" => Done! Webscrape result is saved as '" + out_path + "'")
+    print("\n")

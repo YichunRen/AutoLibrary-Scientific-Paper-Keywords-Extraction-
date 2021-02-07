@@ -29,20 +29,46 @@ python run.py autophrase
 ```
 python run.py weight
 ```
-### Target 4: Web Scraping the search results on Semantic Scholar with keywords and domains
+### Target 4: Webscrape the search results on Semantic Scholar with keywords and domains
 ```
 python run.py webscrape
 ```
-### Target 5: Test All previous targets on test data
-Note: For the test run, raw test data is in test/testdata directory.
-```
-python run.py test
-```
-### Target 6: Activating the website
+### Target 5: Activating the website
 ```
 python run.py website
 ```
+### Target 6: Test all previous targets (except website) on test data
+Note: For the test run, raw test data and domain for search is in test/testdata directory.
+```
+python run.py test
+```
+
+#### Note: To test the website on DSMLP:
+1. Do port-forwarding.
+- Input the following command:
+```
+$ kubectl get pods
+
+NAME          READY   STATUS    RESTARTS   AGE
+
+<username>-<pod-id>   1/1     Running   0          15s
+```
+- Input the following command according to the message above:
+```
+$ kubectl port-forward <username>-<pod-id> :8000
+
+Forwarding from 127.0.0.1:<port-id> -> 8000
+
+Forwarding from [::1]:<port-id> -> 8000
+```
+- Do port-forwarding step using the port given above.
+
+2. Open the website by calling the website target:
+```
+python run.py website
+```
+
 ### Responsbilities: 
-- Yichun Ren: Dataset, Weight, Website 
-- Jiayi Fan: Data, Website, Django
+- Yichun Ren: Dataset, Weight, Website Development
+- Jiayi Fan: Data, Website Development
 - Bingqi Zhou: Dataset, Webscrap
