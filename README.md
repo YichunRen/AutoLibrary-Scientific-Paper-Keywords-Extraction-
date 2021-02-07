@@ -47,18 +47,16 @@ python run.py test
 1. Do port-forwarding.
 - Input the following command:
 ```
-kubectl get pods
-```
-```
+$ kubectl get pods
+
 NAME          READY   STATUS    RESTARTS   AGE
 
 <username>-<pod-id>   1/1     Running   0          15s
 ```
 - Input the following command according to the message above:
 ```
-kubectl port-forward <username>-<pod-id> :8000
-```
-```
+$ kubectl port-forward <username>-<pod-id> :8000
+
 Forwarding from 127.0.0.1:<port-id> -> 8000
 
 Forwarding from [::1]:<port-id> -> 8000
