@@ -49,17 +49,20 @@ python run.py test
 ```
 kubectl get pods
 ```
+```
 NAME          READY   STATUS    RESTARTS   AGE
 
 <username>-<pod-id>   1/1     Running   0          15s
-
+```
 - Input the following command according to the message above:
 ```
 kubectl port-forward <username>-<pod-id> :8000
 ```
+```
 Forwarding from 127.0.0.1:<port-id> -> 8000
 
 Forwarding from [::1]:<port-id> -> 8000
+```
 - Do port-forwarding step using the port given above.
 
 2. Open the website by calling the website target:
