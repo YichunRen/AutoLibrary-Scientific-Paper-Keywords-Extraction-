@@ -1,5 +1,5 @@
 {
   "keywords_path": "data/out/weighted_AutoPhrase.csv",
-  "fos_path": "src/fos.json",
+  "fos_path": "data/out/fos.json",
   "out_path": "data/out/scraped_AutoPhrase.json"
 }
