@@ -13,11 +13,11 @@ from website import activate_website
 
 def main(targets):
     data_config = json.load(open('config/data-params.json'))
-    test_config = json.load(open('config/test-params.json'))
     model_config = json.load(open('config/model-params.json'))
     weight_config = json.load(open('config/weight-params.json'))
     webscrape_config = json.load(open('config/webscrape-params.json'))
     website_config = json.load(open('config/website-params.json'))
+    test_config = json.load(open('config/test-params.json'))
 
     os.system('git submodule update --init')
     # Getting the target
