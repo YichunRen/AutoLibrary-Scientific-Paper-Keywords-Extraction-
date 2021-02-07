@@ -10,7 +10,6 @@ def autophrase(data_outdir, pdfname, outdir, filename):
     # copy txt file to AutoPhrase/test/testdata
     command = 'cp ' + output_fp + ' AutoPhrase/test/testdata'
     os.system(command)
-    os.system('mv AutoPhrase/test/testdata/test_raw.txt AutoPhrase/test/testdata/old_test.txt')
     command = 'mv AutoPhrase/test/testdata/' + textname + ' AutoPhrase/test/testdata/test_raw.txt'
     os.system(command)
     print("\n")
