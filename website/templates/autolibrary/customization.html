@@ -37,7 +37,7 @@
                           <option value="" disabled selected>Select</option>
                         </select>
                       </div><br>
-                      <button type="submit" class="pure-button pure-button-primary" style="margin-top: 8px;background-color: rgb(219, 155, 35);" onclick="display_result();">Find Keywords</button>
+                      <button type="submit" class="pure-button pure-button-primary" style="margin-top: 8px;background-color: rgb(219, 155, 35);" onclick="event.preventDefault(); display_result();">Find Keywords</button>
                       <br><br>
 
                       <details>
@@ -45,23 +45,23 @@
                         <div class="pure-g">
                           <div class="pure-u-1 pure-u-md-1-5">
                             <label>Keyword 1</label>
-                            <input type="checkbox" checked/><label id='p1'>phrase 1</label>
+                            <label id='p1'><input id='b1' type="checkbox" checked/> phrase 1</label>
                           </div>
                           <div class="pure-u-1 pure-u-md-1-5">
                             <label>Keyword 2</label>
-                            <input type="checkbox" checked/><label id='p2'>phrase 2</label>
+                            <label id='p2'><input id='b2' type="checkbox" checked/> phrase 2</label>
                           </div>
                           <div class="pure-u-1 pure-u-md-1-5">
                             <label>Keyword 3</label>
-                            <input type="checkbox" checked/><label id='p3'>phrase 3</label>
+                            <label id='p3'><input id='b3' type="checkbox" checked/> phrase 3</label>
                           </div>
                           <div class="pure-u-1 pure-u-md-1-5">
                             <label>Keyword 4</label>
-                            <input type="checkbox"/><label id='p4'>phrase 4</label>
+                            <label id='p4'><input id='b4' type="checkbox"/> phrase 4</label>
                           </div>
                           <div class="pure-u-1 pure-u-md-1-5">
                             <label>Keyword 5</label>
-                            <input type="checkbox"/><label id='p5'>phrase 5</label>
+                            <label id='p5'><input id='b5' type="checkbox"/> phrase 5</label>
                           </div>
                           <div class="pure-u-1 pure-u-md-1-3">
                               <label>Enter your own keywords</label>
@@ -74,7 +74,7 @@
                               </select>
                           </div>
                         </div>
-                        <button type="submit" class="pure-button pure-button-primary" style="margin-top: 10px;background-color: rgb(219, 155, 35);">Generate Results</button>
+                        <button type="submit" class="pure-button pure-button-primary" style="margin-top: 10px;background-color: rgb(219, 155, 35);" onclick="event.preventDefault(); display_result();">Generate Results</button>
                       </details>
                       
                     </fieldset>
@@ -117,11 +117,11 @@
         }
       } 
       ul.appendChild(li);
-      // var buttons = document.getElementById('doc_list').getElementsByTagName('button');
-      // var max = buttons.length;
-      // for(var i = 0; i < max; i++) {
-      //   buttons[i].addEventListener('click', select_doc, true);
-      // }
+      var buttons = document.getElementById('doc_list').getElementsByTagName('button');
+      var max = buttons.length;
+      for (var i = 0; i < max; i++) {
+        buttons[i].addEventListener('click', select_doc, true);
+      }
     }
     
     // display pdf
@@ -160,10 +160,10 @@
     select2.appendChild(option);
     select2.value = subdomain;
 
-    // display phrases
+    // display weighted phrases
     var phrases = JSON.parse("{{phrases|escapejs}}"); 
     var count = 1
-    while(count <=5) {
+    while (count <=5) {
       var id = 'p' + count
       var label = document.getElementById(id);
       label.innerHTML = phrases[count -1];
@@ -179,6 +179,30 @@
         option.innerHTML = phrases[p];
         select.appendChild(option);
       }
+    }
+
+    // display selected keywords
+    var keywords = JSON.parse("{{keywords|escapejs}}"); 
+    if (keywords[0] != '') {
+      keywords = keywords[0].split(', ');
+      for (var i = 1; i <= 5; i++) {
+        var phrase = document.getElementById('p' + i);
+        var box = document.getElementById('b' + i);
+        var keyword = phrase.innerHTML.split('>')[1];
+        if (keyword in keywords) {
+          box.checked = true;
+          var index = keywords.indexOf(keyword);
+          if (index > -1) {
+            keywords.splice(index, 1);
+          }
+        } else {
+          if (box.hasAttribute("checked")) {
+            box.removeAttribute("checked");
+          }
+        }
+      }
+      var input_phrases = document.getElementById('input_phrases');
+      input_phrases.innerHTML = keywords[0];
     }
   }  
 
@@ -199,20 +223,8 @@
     if (text.value.length == 0) {
       text.value = text.value + value;
     } else {
-      text.value = text.value + ', ' + value;
+      text.value = text.value + ' ' + value;
     }
-  }
-
-  function display_result() {
-    var selected = {"domain": document.getElementById('sel2').value};
-    var URL = "{% url 'get_domain' %}";
-    $.post(URL, selected, function(response){
-        if (response === 'success'){ 
-            alert('Customization!'); 
-        } else { 
-            alert('Error! :('); 
-        }
-    });
   }
 
   $.getJSON("{% static 'autolibrary/web_scrap/scraped_AutoPhrase.json' %}", function(data){ 
@@ -242,15 +254,64 @@
     });
   });
 
-  // function select_doc(e) {
-  //   var selected = {"file_name": e.target.innerHTML};
-  //   var URL = "{% url 'get_file' %}";
-  //   $.post(URL, selected, function(response){
-  //     if (response === 'success'){ 
-  //       window.location = "http://127.0.0.1:8000/autolibrary/result";
-  //     } else { 
-  //       alert('Error! :('); 
-  //     }
-  //   });
-  // }
+  function alter_result() {
+    var image = document.getElementById('loading');
+    image.hidden = false;
+
+    var checked_keywords = '';
+    for (var i = 1; i <= 5; i++) {
+      var phrase = document.getElementById('p' + i);
+      var box = document.getElementById('b' + i);
+      if (box.checked) {
+        var keyword = phrase.innerHTML.split('>')[1];
+      }
+      checked_keywords += ', ' + keyword;
+    }
+    var input_keywords = document.getElementById("input_phrases");
+    var all_keywords = checked_keywords + ', ' + input_keywords;
+
+    var selected = {
+      "domain": document.getElementById('sel1').value, 
+      "subdomain": document.getElementById('sel2').value, 
+      "keywords": all_keywords
+    }
+    var URL = "{% url 'get_customization' %}";
+    $.post(URL, selected, function(response){
+        if (response === 'get_customization'){ 
+          window.location = "http://127.0.0.1:8000/autolibrary/customization";
+        } else { 
+            alert('Error! :('); 
+        }
+    });
+  }
+
+  function display_result() {
+    var image = document.getElementById('loading');
+    image.hidden = false;
+
+    var selected = {
+      "domain": document.getElementById('sel1').value, 
+      "subdomain": document.getElementById('sel2').value
+    };
+    var URL = "{% url 'get_domain' %}";
+    $.post(URL, selected, function(response){
+        if (response === 'get domain'){ 
+          window.location = "http://127.0.0.1:8000/autolibrary/customization";
+        } else { 
+            alert('Error! :('); 
+        }
+    });
+  }
+
+  function select_doc(e) {
+    var selected = {"file_name": e.target.innerHTML};
+    var URL = "{% url 'get_file' %}";
+    $.post(URL, selected, function(response){
+      if (response === 'get file'){ 
+        window.location.href = "http://127.0.0.1:8000/autolibrary/result";
+      } else { 
+        alert('Error! :('); 
+      }
+    });
+  }
 </script>
