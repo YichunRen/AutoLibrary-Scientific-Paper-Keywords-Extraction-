@@ -11,7 +11,7 @@ def convert_txt(indir, outdir, pdfname):
     print("  => Inputing a document...")
     # remove single quotes from file name
     pdfname = pdfname.replace("'", "")
-    os.system('bash src/rename.sh')
+    #os.system('bash src/rename.sh')
     # extract text using PDFBox
     input_fp = os.path.join(indir, pdfname)
     temp_txt = input_fp.replace('.pdf', '.txt')

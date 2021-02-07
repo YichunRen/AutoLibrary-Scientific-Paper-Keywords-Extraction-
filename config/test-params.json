@@ -1,1 +1,1 @@
-{"indir": "test/testdata", "outdir": "data/temp", "pdfname": "test_raw.pdf"}
+{"indir": "test/testdata", "pdfname": "test_raw.pdf", "fos_path": "test/testdata/fos.json"}
