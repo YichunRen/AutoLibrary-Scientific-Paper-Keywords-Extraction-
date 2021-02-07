@@ -4,7 +4,7 @@ import pandas as pd
 
 def webscrape(keywords_path, fos_path, out_path):
     print("\n")
-    print(">>>>>>>>>>>>>>>>>>>>>>>> Running Web-sraping... <<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+    print(">>>>>>>>>>>>>>>>>>>>>>>> Running websraping... <<<<<<<<<<<<<<<<<<<<<<<<<<<<")
 
     # Extract keywords and fields of study
     fos = json.load(open(fos_path))['fos']
@@ -14,7 +14,7 @@ def webscrape(keywords_path, fos_path, out_path):
     print("keywords: {}".format(keywords))
 
     # send request to the server
-    print(">>>>>> Sending requests <<<<<<")
+    print("  => Sending requests...")
     payload = {
         "queryString":keywords,
         "page":1,
