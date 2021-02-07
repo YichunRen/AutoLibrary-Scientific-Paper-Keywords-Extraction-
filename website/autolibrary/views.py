@@ -20,7 +20,7 @@ def index(request):
     data = dumps(data) 
     return render(request, 'autolibrary/index.html', {"data": data})
 
-def askforchild(request):
+def result(request):
     data = os.listdir('autolibrary/documents')
     domains = json.load(open('../src/domains_full.json'))
     global selected_doc, selected_pdf
