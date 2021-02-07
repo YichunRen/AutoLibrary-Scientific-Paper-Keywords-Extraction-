@@ -239,25 +239,25 @@
 
   $.getJSON("{% static 'autolibrary/web_scrap/scraped_AutoPhrase.json' %}", function(data){ 
     $.each(data, function(idx, obj){ 
-        var items = [];
-        $.each(obj, function(key, value){
-            if (key=="link"){
-              items.push( "<li id='" + key + "'><a href='" + value + "'></a>" + key + ': ' + value + "</li>" );
-              console.log(value);
+      var items = [];
+      $.each(obj, function(key, value){
+          if (key=="link"){
+            items.push( "<li id='" + key + "'><a href='" + value + "'></a>" + key + ': ' + value + "</li>" );
+            console.log(value);
+          }
+          else if (key=="authors") {
+            var names = ""
+            for (author in value) {
+              names = names + value[author]['firstName'] + " " + value[author]['middleNames'] + " " + value[author]['lastName'] + ", "
             }
-            else if (key=="authors") {
-              var names = ""
-              for (author in value) {
-                names = names + value[author]['firstName'] + " " + value[author]['middleNames'] + " " + value[author]['lastName'] + ", "
-              }
-              items.push( "<li id='" + key + "'>" + key + ': ' + names.slice(0, -2) + "</li>" );
-            }
-            else {
-              items.push( "<li id='" + key + "'>" + key + ': ' + value + "</li>" );
-            }
-        });
-        items.push( "<br>" );
-        $( "<ul/>", {
+            items.push( "<li id='" + key + "'>" + key + ': ' + names.slice(0, -2) + "</li>" );
+          }
+          else {
+            items.push( "<li id='" + key + "'>" + key + ': ' + value + "</li>" );
+          }
+      });
+      items.push( "<br>" );
+      $( "<ul/>", {
         "class": "my-new-list",
         html: items.join( "" )
       }).appendTo( "form" );
@@ -305,11 +305,11 @@
     };
     var URL = "{% url 'get_domain' %}";
     $.post(URL, selected, function(response){
-        if (response === 'get domain'){ 
-          window.location = "http://127.0.0.1:8000/autolibrary/customization";
-        } else { 
-            alert('Error! :('); 
-        }
+      if (response === 'get domain'){ 
+        window.location = "http://127.0.0.1:8000/autolibrary/customization";
+      } else { 
+          alert('Error! :('); 
+      }
     });
   }
 

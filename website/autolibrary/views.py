@@ -84,17 +84,13 @@ def get_domain(request):
             os.system('mkdir -p ../data/out')
             with open('../data/out/selected_domain.txt', 'w') as fp:
                 fp.write(selected_subdomain)
+            # match selected domain with fos
             # config = {'fos': [selected_domain]}
             # with open('../data/out/fos.json', 'w') as fp:
             #     json.dump(config, fp)
             # rewrite data-params.json
-            # reset if select different documents
-            # reset = False
             config = json.load(open('../config/data-params.json'))
             config['pdfname'] = selected_pdf
-            # if config['pdfname'] != selected_pdf:
-            #     config['pdfname'] = selected_pdf
-            #     reset = True
             with open('autolibrary/data-params.json', 'w') as fp:
                 json.dump(config, fp)
             with open('autolibrary/run.sh', 'w') as rsh:
@@ -105,10 +101,6 @@ def get_domain(request):
                 rsh.write(''' ../data/raw \n''')
                 # move new data-params.json to config
                 rsh.write('''cp autolibrary/data-params.json  ../config \n''')
-                # reset if switch documents
-                # if reset:
-                #     rsh.write('''cd ../AutoPhrase \n''')
-                #     rsh.write('''python run.py reset \n''')
                 # run all targets
                 rsh.write('''cd .. \n''')
                 rsh.write('''python run.py data \n''')
@@ -116,10 +108,8 @@ def get_domain(request):
                 rsh.write('''python run.py weight \n''')
                 rsh.write('''python run.py webscrape \n''')
                 rsh.write('''cp data/out/scraped_AutoPhrase.json website/static/autolibrary/web_scrap/scraped_AutoPhrase.json''')
-            #os.system('bash autolibrary/run.sh')
             process = subprocess.Popen(['bash', 'autolibrary/run.sh'])
             process.wait()
-            # time.sleep(20)
             global phrases
             data = pd.read_csv('../data/out/weighted_AutoPhrase.csv', index_col = "Unnamed: 0")
             phrases = data[data['score'] > 0.5]['phrase'].to_list()
@@ -161,8 +151,8 @@ def get_customization(request):
                 rsh.write('''python run.py weight \n''')
                 rsh.write('''python run.py webscrape \n''')
                 rsh.write('''cp data/out/scraped_AutoPhrase.json website/static/autolibrary/web_scrap/scraped_AutoPhrase.json''')
-            #process = subprocess.Popen(['bash', 'autolibrary/run.sh'])
-            #process.wait()
+            process = subprocess.Popen(['bash', 'autolibrary/run.sh'])
+            process.wait()
             global phrases
             data = pd.read_csv('../data/out/weighted_AutoPhrase.csv', index_col = "Unnamed: 0")
             phrases = data[data['score'] > 0.5]['phrase'].to_list()
