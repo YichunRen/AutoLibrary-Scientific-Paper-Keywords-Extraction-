@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>AutoLibrary</title>
+    {% load static %}
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="{% static 'autolibrary/css/main.css' %}" type="text/css" media="screen, projection" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  </head>
+  <body style="background-color:rgb(175, 161, 130);" onload="initiate()">
+    <div id="outer-wrapper">
+      <div id="inner-wrapper">
+        <div id="content-wrapper">
+          <div id="content">
+            <ul id="nav">
+              <li><a href="http://127.0.0.1:8000/autolibrary">AutoLibrary</a></li>
+              <li><a href="http://127.0.0.1:8000/blog">Blog</a></li>
+              <li><a target="_blank" rel="noopener noreferrer" href="https://github.com/jfan1998/AutoLibrary">Code</a></li>
+              <li><a href="http://127.0.0.1:8000/contact">Contact Us</a></li>
+            </ul>
+            <div id="content-inner">
+              <div class="content-left"> <img src="{% static 'autolibrary/images/library.jpg' %}" alt="library Photo" height="100%" width="100%"/>
+                <p>Capstone Project<br />
+                  <span>DSC180B A04 G03</span></p>
+              </div>
+              <div class="content-right">
+                <h2>Welcome to AutoLibrary!</h2>
+                <p> </p>
+                <p class="intro">To address the difficulty of manually extracting keywords from papers and poor recommender system for related work of other websites, we built a website called AutoLibrary where users could use it as their personal digital library to save their documents and could find similar papers for each input scientific paper. </p>
+                <br></br>
+                <p class="end-story-links"></p>
+              </div>
+              <div class="content-full">
+                <h2>Brief Introduction</h2>
+                <p> </p>
+                <p class="intro">While the user inputs a paper and specifies a domain, we first use AutoPhrase to extract quality phrases from the input paper. AutoPhrase is a phrase mining method created by Jingbo Shang. It minimizes the required human effort of other phrase mining methods and improves the result by using two new techniques. The first technique is Robust Positive-Only Distant Training and the second one is POS-Guided Phrasal Segmentation. Since it is hard to ensure the significance of quality phrases generated from a single paper to both the paper and its domain, we build a dataset that contains the quality phrases of different domains by running AutoPhrases on corpora of each domain. After applying weight to the AutoPhrase results of a single document with our pre-obtained domain-specific phrases, we can rank the phrases again and filter out domain’s unimportant phrases. Then by searching for keywords with the highest quality scores on Semantic Scholar, AutoLibrary scrap and display the search result on its website. AutoLibrary also allows users to customize their search, such as manually adding keywords and changing the selection of keywords. It might also store users’ searching history in their local machine so that they could quickly look back to papers that they read as well as their search results.</p>
+                <div><img src="{% static 'autolibrary/images/research.jpg' %}" alt="research photo" class="content-img" id="research"/></div>
+              </div>
+            </div>
+          </div>
+          <div id="sidebar">
+            <div id="logo"> <img src="{% static 'autolibrary/images/logo.png' %}" alt="Nautica X" width="180px" height="110px"/> </div>
+            <h4>Documents</h4>
+            <ul id="doc_list" class="side-nav"></ul>
+          </div>
+        </div>
+        <div id="footer">
+          <ul id="footer-nav">
+            <li><a href="#">AutoLibrary</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Code</a></li>
+            <li class="last"><a href="#">Contact Us</a></li>
+          </ul>
+          <p class="copyright">Copyright 2021 Yichun Ren & Jiayi Fan & Bingqi Zhou</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+<script>
+  function initiate(){ 
+    var data = JSON.parse("{{data|escapejs}}"); 
+    if (data.length > 0) {
+      var ul = document.getElementById("doc_list");
+      var li = document.createElement("li");
+      for(var x in data){ 
+        if (data[x] != '.DS_Store') {
+          var btn = document.createElement("BUTTON");
+          btn.className = "btn-group";
+          btn.innerHTML = data[x];
+          li.appendChild(btn);
+        }
+      } 
+      ul.appendChild(li);
+      var buttons = document.getElementById('doc_list').getElementsByTagName('button');
+      var max = buttons.length;
+      for(var i = 0; i < max; i++) {
+          buttons[i].addEventListener('click', select_doc, true);
+      }
+    }
+  } 
+
+  function select_doc(e) {
+    var selected = {"file_name": e.target.innerHTML};
+    var URL = "{% url 'get_file' %}";
+    $.post(URL, selected, function(response){
+        if (response === 'get file'){ 
+            window.location.href = "http://127.0.0.1:8000/autolibrary/result";
+        } else { 
+            alert('Error! :('); 
+        }
+    });
+  }
+</script>
