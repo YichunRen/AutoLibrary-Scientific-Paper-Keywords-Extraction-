@@ -7,10 +7,12 @@ import subprocess
 from json import dumps 
 from django.views.decorators.csrf import csrf_exempt
 
+if_customized = "true"
 selected_doc = ''
 selected_pdf = ''
 selected_domain = ''
 selected_subdomain = ''
+selected_keywords = ''
 phrases = []
 
 def index(request):
@@ -20,39 +22,41 @@ def index(request):
 
 def askforchild(request):
     data = os.listdir('autolibrary/documents')
-    data = dumps(data) 
-    global selected_doc, selected_pdf
-    file_name = dumps([selected_doc]) 
-    pdfname = dumps([selected_pdf])
     domains = json.load(open('../src/domains_full.json'))
-    domains = dumps(domains) 
+    global selected_doc, selected_pdf
     content = {
-        "data": data, 
-        "selected_doc": file_name, 
-        "selected_pdf": pdfname, 
-        "domains": domains
+        "data": dumps(data), 
+        "selected_doc": dumps([selected_doc]), 
+        "selected_pdf": dumps([selected_pdf]), 
+        "domains": dumps(domains)
     }
     return render(request, 'autolibrary/result.html', content)
 
 def customization(request):
     data = os.listdir('autolibrary/documents')
     domains = json.load(open('../src/domains_full.json'))
-    global selected_doc, selected_pdf, selected_domain, selected_subdomain, phrases
+    global if_customized, selected_doc, selected_pdf, selected_domain, selected_subdomain, selected_keywords, phrases
     content = {
+        "customized": dumps([if_customized]),
         "data": dumps(data), 
         "selected_doc": dumps([selected_doc]), 
         "selected_pdf": dumps([selected_pdf]), 
         "domains": dumps(domains),
         "domain": dumps([selected_domain]),
         "subdomain": dumps([selected_subdomain]),
-        "phrases": dumps(phrases)
+        "phrases": dumps(phrases),
+        "keywords":dumps([selected_keywords]),
     }
+    if if_customized == "false":
+        if_customized = "true"
     return render(request, 'autolibrary/customization.html', content)
 
 @csrf_exempt
 def get_file(request):
     if request.method == 'POST':
         if "file_name" in request.POST:
+            global if_customized
+            if_customized = "false"
             # rename document
             file_name = request.POST['file_name']
             pdfname = file_name.replace("'", "")
@@ -68,7 +72,6 @@ def get_file(request):
             os.system(command)
             return HttpResponse('get file')
     return HttpResponse('fail to get file')
-
 
 @csrf_exempt
 def get_domain(request):  
@@ -88,6 +91,7 @@ def get_domain(request):
             # reset if select different documents
             # reset = False
             config = json.load(open('../config/data-params.json'))
+            config['pdfname'] = selected_pdf
             # if config['pdfname'] != selected_pdf:
             #     config['pdfname'] = selected_pdf
             #     reset = True
@@ -119,5 +123,48 @@ def get_domain(request):
             global phrases
             data = pd.read_csv('../data/out/weighted_AutoPhrase.csv', index_col = "Unnamed: 0")
             phrases = data[data['score'] > 0.5]['phrase'].to_list()
-            return HttpResponse('success')
-    return HttpResponse('failed')
+            return HttpResponse('get domain')
+    return HttpResponse('fail to get domain')
+
+@csrf_exempt
+def get_customization(request):  
+    if request.method == 'POST':
+        if "domain" in request.POST:
+            # save selected domain and keywords to data/out
+            global selected_pdf, selected_domain, selected_subdomain, selected_keywords
+            selected_domain = request.POST['domain']
+            selected_subdomain = request.POST['subdomain']
+            selected_keywords = request.POST['keywords']
+            os.system('mkdir -p ../data/out')
+            with open('../data/out/selected_domain.txt', 'w') as fp:
+                fp.write(selected_subdomain)
+            config = {'keywords': selected_keywords}
+            with open('../data/out/selected_keywords.json', 'w') as fp:
+                json.dump(config, fp)
+            # rewrite data-params.json
+            config = json.load(open('../config/data-params.json'))
+            config['pdfname'] = selected_pdf
+            with open('autolibrary/data-params.json', 'w') as fp:
+                json.dump(config, fp)
+            with open('autolibrary/run.sh', 'w') as rsh:
+                # move selected document to data/raw
+                rsh.write('''mkdir -p ../data/raw \n''')
+                rsh.write('''cp autolibrary/documents_copy/''')
+                rsh.write(selected_pdf)
+                rsh.write(''' ../data/raw \n''')
+                # move new data-params.json to config
+                rsh.write('''cp autolibrary/data-params.json  ../config \n''')
+                # run all targets
+                rsh.write('''cd .. \n''')
+                rsh.write('''python run.py data \n''')
+                rsh.write('''python run.py autophrase \n''')
+                rsh.write('''python run.py weight \n''')
+                rsh.write('''python run.py webscrape \n''')
+                rsh.write('''cp data/out/scraped_AutoPhrase.json website/static/autolibrary/web_scrap/scraped_AutoPhrase.json''')
+            #process = subprocess.Popen(['bash', 'autolibrary/run.sh'])
+            #process.wait()
+            global phrases
+            data = pd.read_csv('../data/out/weighted_AutoPhrase.csv', index_col = "Unnamed: 0")
+            phrases = data[data['score'] > 0.5]['phrase'].to_list()
+            return HttpResponse('get customization')
+    return HttpResponse('fail to get customization')

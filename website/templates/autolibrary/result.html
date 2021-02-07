@@ -38,7 +38,7 @@
                         </select>
                       </div>
                       <br>
-                      <button class="pure-button pure-button-primary" style="margin-top: 8px; background-color: rgb(219, 155, 35);" onclick="event.preventDefault(); display_image(); display_result();">Find Keywords</button>
+                      <button class="pure-button pure-button-primary" style="margin-top: 8px; background-color: rgb(219, 155, 35);" onclick="event.preventDefault(); display_result();">Find Keywords</button>
                       <br>
                       <img id="loading" src="{% static 'autolibrary/images/loading.gif' %}" style="height: 100px;" class="giphy-embed" allowFullScreen hidden>
                       <br>
@@ -48,23 +48,23 @@
                         <div class="pure-g">
                           <div class="pure-u-1 pure-u-md-1-5">
                               <label>Keyword 1</label>
-                              <label><input type="checkbox"/>phrase 1</label>
+                              <label id="hey"><input type="checkbox"/> phrase 1</label>
                           </div>
                           <div class="pure-u-1 pure-u-md-1-5">
                             <label>Keyword 2</label>
-                            <label><input type="checkbox"/>phrase 2</label>
+                            <label><input type="checkbox"/> phrase 2</label>
                           </div>
                           <div class="pure-u-1 pure-u-md-1-5">
                             <label>Keyword 3</label>
-                            <label><input type="checkbox"/>phrase 3</label>
+                            <label><input type="checkbox"/> phrase 3</label>
                           </div>
                           <div class="pure-u-1 pure-u-md-1-5">
                             <label>Keyword 4</label>
-                            <label><input type="checkbox"/>phrase 4</label>
+                            <label><input type="checkbox"/> phrase 4</label>
                           </div>
                           <div class="pure-u-1 pure-u-md-1-5">
                             <label>Keyword 5</label>
-                            <label><input type="checkbox"/>phrase 5</label>
+                            <label><input type="checkbox"/> phrase 5</label>
                           </div>
                           <div class="pure-u-1 pure-u-md-1-3">
                               <label>Enter your own keywords</label>
@@ -122,12 +122,13 @@
         }
       } 
       ul.appendChild(li);
-      // var buttons = document.getElementById('doc_list').getElementsByTagName('button');
-      // var max = buttons.length;
-      // for(var i = 0; i < max; i++) {
-      //   buttons[i].addEventListener('click', select_doc, true);
-      // }
+      var buttons = document.getElementById('doc_list').getElementsByTagName('button');
+      var max = buttons.length;
+      for(var i = 0; i < max; i++) {
+        buttons[i].addEventListener('click', select_doc, true);
+      }
     }
+
     // display pdf
     var file_name = JSON.parse("{{selected_doc|escapejs}}"); 
     var pdfname = JSON.parse("{{selected_pdf|escapejs}}"); 
@@ -152,7 +153,7 @@
       first.value = domain;
       first.innerHTML = domain;
       select1.appendChild(first);
-    }
+    }    
   }  
 
   function double_select(value) {
@@ -167,16 +168,17 @@
     }
   }
 
-  function display_image() {
+  function display_result() {
     var image = document.getElementById('loading');
     image.hidden = false;
-  }
 
-  function display_result() {
-    var selected = {"domain": document.getElementById('sel1').value, "subdomain": document.getElementById('sel2').value};
+    var selected = {
+      "domain": document.getElementById('sel1').value, 
+      "subdomain": document.getElementById('sel2').value
+    };
     var URL = "{% url 'get_domain' %}";
     $.post(URL, selected, function(response){
-        if (response === 'success'){ 
+        if (response === 'get domain'){ 
           window.location = "http://127.0.0.1:8000/autolibrary/customization";
         } else { 
             alert('Error! :('); 
@@ -184,15 +186,15 @@
     });
   }
 
-  // function select_doc(e) {
-  //   var selected = {"file_name": e.target.innerHTML};
-  //   var URL = "{% url 'get_file' %}";
-  //   $.post(URL, selected, function(response){
-  //     if (response === 'success'){ 
-  //       window.location = "http://127.0.0.1:8000/autolibrary/result";
-  //     } else { 
-  //       alert('Error! :('); 
-  //     }
-  //   });
-  // }
+  function select_doc(e) {
+    var selected = {"file_name": e.target.innerHTML};
+    var URL = "{% url 'get_file' %}";
+    $.post(URL, selected, function(response){
+      if (response === 'get file'){ 
+        window.location.href = "http://127.0.0.1:8000/autolibrary/result";
+      } else { 
+        alert('Error! :('); 
+      }
+    });
+  }
 </script>

@@ -2,7 +2,7 @@ import pandas as pd
 from operator import itemgetter
 import json
 
-def change_weight(paper_ap_path, selected_domain, domain_ap_path, out_path):
+def change_weight(paper_ap_path, selected_domain, domain_ap_path, out_path, keyword_path):
     print("\n")
     print(">>>>>>>>>>>>>>>>>>>>>>>> Weighting quality scores <<<<<<<<<<<<<<<<<<<<<<<<<<<<")
     print("  => Altering quality scores of phrases in the input document according to domain...")
@@ -30,7 +30,11 @@ def change_weight(paper_ap_path, selected_domain, domain_ap_path, out_path):
             
     print("  => Saving results...")
     sorted_weight = sorted(phrases_dict.items(), key=itemgetter(1), reverse=True)
-    pd.DataFrame(sorted_weight, columns= ['phrase', 'score']).to_csv(out_path)
+    result = pd.DataFrame(sorted_weight, columns= ['phrase', 'score'])
+    result.to_csv(out_path)
+    keywords = {'keywords': ', '.join(result['phrase'].iloc[:3])}
+    with open(keyword_path, 'w') as fp:
+        json.dump(keywords, fp)
     print(" => Done! Weighted result is saved as '" + out_path + "'")
     print("\n")
     return
