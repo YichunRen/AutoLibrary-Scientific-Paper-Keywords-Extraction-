@@ -85,11 +85,12 @@ def get_domain(request):
             # with open('../data/out/fos.json', 'w') as fp:
             #     json.dump(config, fp)
             # rewrite data-params.json
-            reset = False
+            # reset if select different documents
+            # reset = False
             config = json.load(open('../config/data-params.json'))
-            if config['pdfname'] != selected_pdf:
-                config['pdfname'] = selected_pdf
-                reset = True
+            # if config['pdfname'] != selected_pdf:
+            #     config['pdfname'] = selected_pdf
+            #     reset = True
             with open('autolibrary/data-params.json', 'w') as fp:
                 json.dump(config, fp)
             with open('autolibrary/run.sh', 'w') as rsh:
@@ -101,9 +102,9 @@ def get_domain(request):
                 # move new data-params.json to config
                 rsh.write('''cp autolibrary/data-params.json  ../config \n''')
                 # reset if switch documents
-                if reset:
-                    rsh.write('''cd ../AutoPhrase \n''')
-                    rsh.write('''python run.py reset \n''')
+                # if reset:
+                #     rsh.write('''cd ../AutoPhrase \n''')
+                #     rsh.write('''python run.py reset \n''')
                 # run all targets
                 rsh.write('''cd .. \n''')
                 rsh.write('''python run.py data \n''')
