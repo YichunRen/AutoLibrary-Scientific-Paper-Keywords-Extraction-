@@ -41,6 +41,7 @@ def webscrape(keywords_path, fos_path, out_path):
     }
     r = requests.post("https://www.semanticscholar.org/api/1/search", json.dumps(payload), headers = headers)
 
+    print("  => Saving results...")
     # parse the results
     results = r.json()['results']
 
@@ -79,3 +80,6 @@ def webscrape(keywords_path, fos_path, out_path):
     # write the result to a json file
     with open(out_path, 'w') as outfile:
         json.dump(specifics, outfile)
+    
+    print(" => Done! Webscrape result is saved as '" + out_path + "'")
+    print("\n")
