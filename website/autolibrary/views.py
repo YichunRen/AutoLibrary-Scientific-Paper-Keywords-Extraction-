@@ -103,7 +103,7 @@ def get_domain(request):
                 # reset if switch documents
                 if reset:
                     rsh.write('''cd ../AutoPhrase \n''')
-                    #rsh.write('''python run.py reset \n''')
+                    rsh.write('''python run.py reset \n''')
                 # run all targets
                 rsh.write('''cd .. \n''')
                 rsh.write('''python run.py data \n''')
