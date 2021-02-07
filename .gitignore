@@ -6,3 +6,4 @@ weighted_AutoPhrase.csv
 */.DS_Store
 *.orig
 *.pyc
+*.idea
