@@ -38,7 +38,7 @@ def main(targets):
         convert_txt(test_config['indir'], data_config['outdir'], test_config['pdfname'],)
         autophrase(data_config['outdir'], test_config['pdfname'], model_config['outdir'], model_config['filename'])
         change_weight(**weight_config)
-        webscrape(webscrape_config['keywords_path'], test_config['fos_path'], webscrape_config['out_path'])
+        webscrape(**webscrape_config)
     return
 
 if __name__ == '__main__':

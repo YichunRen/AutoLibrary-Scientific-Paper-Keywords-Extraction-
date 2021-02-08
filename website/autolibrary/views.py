@@ -84,10 +84,9 @@ def get_domain(request):
             os.system('mkdir -p ../data/out')
             with open('../data/out/selected_domain.txt', 'w') as fp:
                 fp.write(selected_subdomain)
-            # match selected domain with fos
-            # config = {'fos': [selected_domain]}
-            # with open('../data/out/fos.json', 'w') as fp:
-            #     json.dump(config, fp)
+            config = {'fos': [selected_domain]}
+            with open('../data/out/fos.json', 'w') as fp:
+                json.dump(config, fp)
             # rewrite data-params.json
             config = json.load(open('../config/data-params.json'))
             config['pdfname'] = selected_pdf
