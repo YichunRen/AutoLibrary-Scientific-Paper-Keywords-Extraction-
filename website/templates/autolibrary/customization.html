@@ -186,12 +186,13 @@
     if (display[0] == "true") {
       var keywords = JSON.parse("{{keywords|escapejs}}"); 
       if (keywords[0] != '') {
-        keywords = keywords[0].split(',');
+        keywords = keywords[0].split(', ');
         var idx = 0;
         for (var i = 1; i <= 5; i++) {
           var phrase = document.getElementById('p' + i);
           var box = document.getElementById('b' + i);
           var keyword = phrase.innerHTML.split('>')[1];
+          keyword = keyword.slice(1);
           if (keyword == keywords[idx]) {
             box.setAttribute("checked", "yes");
             idx += 1;
@@ -199,7 +200,7 @@
             if (box.hasAttribute("checked")) {
               box.removeAttribute("checked");
             }
-          }    
+          }
         }
         var input_phrases = document.getElementById('input_phrases');
         input_phrases.value = keywords[keywords.length - 1];
@@ -274,20 +275,20 @@
       var box = document.getElementById('b' + i);
       if (box.hasAttribute("checked")) {
         var keyword = phrase.innerHTML.split('>')[1];
-        checked_keywords += keyword + ',';
+        checked_keywords += keyword.slice(1) + ', ';
       }
     }
     var input_keywords = document.getElementById("input_phrases").value;
     var all_keywords = checked_keywords + input_keywords;
 
     var selected = {
-      "domain": document.getElementById('sel1').value, 
-      "subdomain": document.getElementById('sel2').value, 
+      // "domain": document.getElementById('sel1').value, 
+      // "subdomain": document.getElementById('sel2').value, 
       "keywords": all_keywords
     }
-    var URL = "{% url 'get_customization' %}";
+    var URL = "{% url 'get_keywords' %}";
     $.post(URL, selected, function(response){
-        if (response === 'get customization'){ 
+        if (response === 'get keywords'){ 
           window.location = "http://127.0.0.1:8000/autolibrary/customization";
         } else { 
             alert('Error! :('); 
