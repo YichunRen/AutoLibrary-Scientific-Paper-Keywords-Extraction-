@@ -7,3 +7,4 @@ weighted_AutoPhrase.csv
 *.orig
 *.pyc
 */.idea/*
+.idea
