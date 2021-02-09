@@ -21,9 +21,10 @@ def activate_website(key, address):
         if system_name == 'Darwin':
             rsh.write('''open "http://127.0.0.1:8000/autolibrary" && python manage.py runserver \n''')
         elif system_name == 'Windows':
-            rsh.write('''explorer "http://127.0.0.1:8000/autolibrary" && python manage.py runserver \n''')
+            rsh.write('''explorer "http://127.0.0.1:8000/autolibrary" && python manage.py startapp autolibrary \n''')
         else:
-            rsh.write('''python -m webbrowser "http://127.0.0.1:8000/autolibrary" && python manage.py runserver \n''')
+            print("ubuntu")
+            rsh.write('''python3 -m webbrowser "http://127.0.0.1:8000/autolibrary" && python3 manage.py runserver \n''')
 
     os.system('bash src/website.sh')
     return
