@@ -4,7 +4,7 @@ import pandas as pd
 
 # for field of study conversion usage
 semantic_fos = {
-    "[]": [],
+    "ALL": [],
     "Astrophysics": ["physics"],
     'Astrophysics of Galaxies': ["physics"],
     'Cosmology and Nongalactic Astrophysics': ["physics"],

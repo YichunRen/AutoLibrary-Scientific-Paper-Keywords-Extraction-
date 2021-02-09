@@ -7,7 +7,7 @@ app = flask.Flask(__name__)
 
 # for field of study conversion usage
 semantic_fos = {
-    "[]": [],
+    "ALL": [],
     "Astrophysics": ["physics"],
     'Astrophysics of Galaxies': ["physics"],
     'Cosmology and Nongalactic Astrophysics': ["physics"],

@@ -81,6 +81,10 @@ def get_domain(request):
             global selected_pdf, selected_domain, selected_subdomain
             selected_domain = request.POST['domain']
             selected_subdomain = request.POST['subdomain']
+            if selected_domain == '':
+                selected_domain = 'ALL'
+            if selected_subdomain == '':
+                selected_subdomain = 'ALL'
             os.system('mkdir -p ../data/out')
             with open('../data/out/selected_domain.txt', 'w') as fp:
                 fp.write(selected_subdomain)
@@ -103,7 +107,7 @@ def get_domain(request):
                 # run all targets
                 rsh.write('''cd .. \n''')
                 rsh.write('''python run.py data \n''')
-                #rsh.write('''python run.py autophrase \n''')
+                # rsh.write('''python run.py autophrase \n''')
                 rsh.write('''python run.py weight \n''')
                 rsh.write('''python run.py webscrape \n''')
                 rsh.write('''cp data/out/scraped_AutoPhrase.json website/static/autolibrary/web_scrap/scraped_AutoPhrase.json''')
