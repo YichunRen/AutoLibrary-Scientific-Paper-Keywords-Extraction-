@@ -236,17 +236,30 @@ def handle_search():
         # parse useful tags
         try:
             cur['link'] = item['primaryPaperLink']['url']
-            cur['title'] = item['title']['text']
-            cur['authors'] = item['structuredAuthors']
-            cur['abstract'] = item['paperAbstract']['text']
-            specifics.append(cur)
-            counter += 1
-            #print(counter)
-            if len(specifics) == 5:
-                break
-        # if there are fields that doeesn't exist in current item
         except:
             pass
+        try:
+            cur['title'] = item['title']['text']
+        except:
+            pass
+        try:
+            cur['authors'] = item['structuredAuthors']
+        except:
+            pass
+        try:
+            cur['abstract'] = item['paperAbstract']['text']
+        except:
+            pass
+        try:
+            cur['date'] = item['pubDate']
+        except:
+            pass
+        # append current paper to the list of scraped papers
+        specifics.append(cur)
+        counter += 1
+        # if the number of scraped papers meet our needs
+        if len(specifics) == 5:
+            break
     return jsonify(specifics)
 
 if __name__ == '__main__':
