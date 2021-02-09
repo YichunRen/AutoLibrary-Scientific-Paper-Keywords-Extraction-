@@ -1,6 +1,6 @@
 Ubuntu:
 
-*  python `$ sudo apt install python3.8`
+*  python `$ sudo apt install python`
 *  pdf-box `$ sudo apt-get install python-pdfbox`
 *  Django `$ sudo apt-get install Django==3.1.5` 
 *  g++ 4.8 `$ sudo apt-get install g++-4.8`
@@ -9,7 +9,7 @@ Ubuntu:
 
 MacOS:
 
-*  python `$ pip install python3.8`
+*  python `$ pip install python`
 *  pdf-box `$ pip install python-pdfbox`
 *  Django `$ pip install Django==3.1.5`
 *  g++ 6 `$ brew install gcc6`
