@@ -24,7 +24,7 @@ def activate_website(key, address):
             rsh.write('''explorer "http://127.0.0.1:8000/autolibrary" && python manage.py startapp autolibrary \n''')
         else:
             print("ubuntu")
-            rsh.write('''python -m webbrowser "http://127.0.0.1:8000/autolibrary" && python3 manage.py runserver \n''')
+            rsh.write('''python -m webbrowser "http://127.0.0.1:8000/autolibrary" && python manage.py runserver \n''')
 
     os.system('bash src/website.sh')
     return
