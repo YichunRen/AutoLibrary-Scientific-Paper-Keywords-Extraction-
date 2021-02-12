@@ -10,7 +10,7 @@ Ubuntu:
 MacOS:
 
 *  python `$ pip install python`
-*  pdf-box `$ pip install python-pdfbox`
+*  pdf-box `$ pip install python-pdfbox` #pdf-box requires python version < 3.8
 *  Django `$ pip install Django==3.1.5`
 *  g++ 6 `$ brew install gcc6`
 *  Java 8 `$ brew update; brew tap caskroom/cask; brew install Caskroom/cask/java`
