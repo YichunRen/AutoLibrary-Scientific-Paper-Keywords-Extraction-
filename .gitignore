@@ -5,6 +5,8 @@ weighted_AutoPhrase.csv
 .DS_Store
 */.DS_Store
 *.orig
-*.pyc
 */.idea/*
 .idea
+venv
+*.pyc
+db.sqlite3

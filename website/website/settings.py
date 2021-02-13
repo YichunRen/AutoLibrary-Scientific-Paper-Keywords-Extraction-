@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -127,4 +128,7 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
     '/var/www/static/',
 ]
+
+# Activate Django-Heroku.
+django_heroku.settings(locals())
 SECRET_KEY = 'wfu9-o-wre7ss%kl-4^e0iv(vb=5#loylpow66cb#r5orl0qlu'
