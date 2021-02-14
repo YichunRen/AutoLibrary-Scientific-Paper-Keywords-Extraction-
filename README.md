@@ -12,7 +12,8 @@
 launch-scipy-ml.sh -i jfan1998/dsc180a-docker:latest
 ```
 
-## Blog Website
+## Visual Presentation Checkpoint
+- The URL to our blog webpage:
 http://yichunren.pythonanywhere.com/blog/
 
 ## Default Run: open AutoLibrary website
