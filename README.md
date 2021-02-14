@@ -12,6 +12,9 @@
 launch-scipy-ml.sh -i jfan1998/dsc180a-docker:latest
 ```
 
+## Blog Website
+http://yichunren.pythonanywhere.com/blog/
+
 ## Default Run: open AutoLibrary website
 ```
 python run.py
@@ -41,31 +44,6 @@ python run.py website
 Note: For the test run, raw test data and domain for search is in test/testdata directory.
 ```
 python run.py test
-```
-
-#### Note: To test the website on DSMLP:
-1. Do port-forwarding.
-- Input the following command:
-```
-$ kubectl get pods
-
-NAME          READY   STATUS    RESTARTS   AGE
-
-<username>-<pod-id>   1/1     Running   0          15s
-```
-- Input the following command according to the message above:
-```
-$ kubectl port-forward <username>-<pod-id> :8000
-
-Forwarding from 127.0.0.1:<port-id> -> 8000
-
-Forwarding from [::1]:<port-id> -> 8000
-```
-- Do port-forwarding step using the port given above.
-
-2. Open the website by calling the website target:
-```
-python run.py website
 ```
 
 ### Responsbilities: 
