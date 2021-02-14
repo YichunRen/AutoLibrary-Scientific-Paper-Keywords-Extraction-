@@ -15,6 +15,7 @@ launch-scipy-ml.sh -i jfan1998/dsc180a-docker:latest
 ## Visual Presentation Checkpoint
 - The URL to our blog webpage:
 http://yichunren.pythonanywhere.com/blog/
+- All the pages are available online, but the recommender system still need further debugging to enable online running.
 
 ## Default Run: open AutoLibrary website
 ```
