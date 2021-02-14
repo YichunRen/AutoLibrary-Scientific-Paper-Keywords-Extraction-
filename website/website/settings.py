@@ -25,7 +25,7 @@ with open('website/secret_key.txt') as f:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['yichunren.pythonanywhere.com']
 
 
 # Application definition
@@ -73,8 +73,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'website.wsgi.application'
-ASGI_APPLICATION = 'website.asgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
