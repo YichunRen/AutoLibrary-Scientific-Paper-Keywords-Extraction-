@@ -16,6 +16,8 @@ launch-scipy-ml.sh -i jfan1998/dsc180a-docker:latest
 - The URL to our blog webpage:
 http://yichunren.pythonanywhere.com/blog/
 - All the pages are available online, but the recommender system still need further debugging to enable online running.
+- If you want to access the full web application, use port-forwarding on dsmlp:
+  - Instruction: https://docs.google.com/document/d/15ehCaVIKSXwgh2jvH3034l5uSPNLrZRgkczwl-xWNEU/edit?usp=sharing
 
 ## Default Run: open AutoLibrary website
 ```
