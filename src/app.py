@@ -168,7 +168,7 @@ semantic_fos = {
     'Economics': ["mathematics", "economics"],
     'General Finance': ["mathematics", "economics"],
     'Mathematical Finance': ["mathematics", "economics"],
-    'Portfolio Management': ["mathematics", "computer-science"],
+    'Portfolio Management': ["mathematics", "economics"],
     'Pricing of Securities': ["mathematics", "economics"],
     'Risk Management': ["mathematics", "economics"],
     'Statistical Finance': ["mathematics", "economics"],
