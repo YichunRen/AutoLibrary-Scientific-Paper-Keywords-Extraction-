@@ -104,13 +104,16 @@ def get_domain(request):
                 rsh.write(''' ../data/raw \n''')
                 # move new data-params.json to config
                 rsh.write('''cp autolibrary/data-params.json  ../config \n''')
+                # reset AutoPhrase
+                rsh.write('''cd ../AutoPhrase \n''')
+                rsh.write('''python run.py reset \n''')
                 # run all targets
                 rsh.write('''cd .. \n''')
                 rsh.write('''python run.py data \n''')
                 rsh.write('''python run.py autophrase \n''')
                 rsh.write('''python run.py weight \n''')
                 rsh.write('''python run.py webscrape \n''')
-                rsh.write('''cp data/out/scraped_AutoPhrase.json website/static/autolibrary/web_scrap/scraped_AutoPhrase.json''')
+                rsh.write('''cp data/out/scraped_AutoPhrase.json website/static/autolibrary/web_scrap/scraped_AutoPhrase.json \n''')
             process = subprocess.Popen(['bash', 'autolibrary/run.sh'])
             process.wait()
             # display phrases with a weighted quality score > 0.5
