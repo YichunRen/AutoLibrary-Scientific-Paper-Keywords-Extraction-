@@ -104,9 +104,6 @@ def get_domain(request):
                 rsh.write(''' ../data/raw \n''')
                 # move new data-params.json to config
                 rsh.write('''cp autolibrary/data-params.json  ../config \n''')
-                # reset AutoPhrase
-                rsh.write('''cd ../AutoPhrase \n''')
-                rsh.write('''python run.py reset \n''')
                 # run all targets
                 rsh.write('''cd .. \n''')
                 rsh.write('''python run.py data \n''')

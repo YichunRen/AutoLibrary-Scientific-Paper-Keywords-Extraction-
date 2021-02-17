@@ -160,8 +160,8 @@ semantic_fos = {
     'Subcellular Processes': ["biology", "chemistry"],
     'Tissues and Organs': ["biology"],
 
-    'Quantitative Finance': ["mathematics", "computer-science"],
-    'Computational Finance': ["mathematics", "computer-science"],
+    'Quantitative Finance': ["mathematics", "economics", "business"],
+    'Computational Finance': ["computer-science", "economics", "business"],
     'Economics': ["mathematics", "economics"],
     'General Finance': ["mathematics", "economics"],
     'Mathematical Finance': ["mathematics", "economics"],
