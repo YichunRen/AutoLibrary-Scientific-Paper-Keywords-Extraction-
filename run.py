@@ -11,7 +11,8 @@ from weight_phrases import change_weight
 from webscrape import webscrape
 from website import activate_website
 
-def main(targets):
+#def main(targets):
+def main():
     data_config = json.load(open('config/data-params.json'))
     model_config = json.load(open('config/model-params.json'))
     weight_config = json.load(open('config/weight-params.json'))
@@ -23,7 +24,10 @@ def main(targets):
     # Getting the target
     # If no target is given, then run 'website'
     if len(sys.argv) == 1:
-        activate_website(**website_config)
+        targets = 'website'
+    else:
+        targets = sys.argv[1]
+        
     if 'data' in targets:
         convert_txt(**data_config)
     if 'autophrase' in targets:
@@ -41,8 +45,9 @@ def main(targets):
         webscrape(**webscrape_config)
     return
 
-if __name__ == '__main__':
-    # run via:
-    # python main.py data features model
-    targets = sys.argv
-    main(targets)
+#if __name__ == '__main__':
+#    # run via:
+#    # python main.py data features model
+#    targets = sys.argv
+#    main(targets)
+main()

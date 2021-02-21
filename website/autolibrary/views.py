@@ -113,6 +113,7 @@ def get_domain(request):
                 rsh.write('''cp data/out/scraped_AutoPhrase.json website/static/autolibrary/web_scrap/scraped_AutoPhrase.json \n''')
             process = subprocess.Popen(['bash', 'autolibrary/run.sh'])
             process.wait()
+            #os.system('bash autolibrary.run.sh')
             # display phrases with a weighted quality score > 0.5
             global phrases
             data = pd.read_csv('../data/out/weighted_AutoPhrase.csv', index_col = "Unnamed: 0")
