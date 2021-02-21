@@ -81,7 +81,7 @@
                         </div>
                         <button type="submit" class="pure-button pure-button-primary" style="margin-top: 10px;background-color: rgb(219, 155, 35);">Generate Results</button>
                       </details>
-                      
+
                     </fieldset>
                   </form>
               </div>
@@ -107,20 +107,20 @@
   </body>
 </html>
 <script>
-  function initiate(){ 
+  function initiate(){
     // sidebar
-    var data = JSON.parse("{{data|escapejs}}"); 
+    var data = JSON.parse("{{data|escapejs}}");
     if (data.length > 0) {
       var ul = document.getElementById("doc_list");
       var li = document.createElement("li");
-      for (var x in data) { 
+      for (var x in data) {
         if (data[x] != '.DS_Store') {
           var btn = document.createElement("BUTTON");
           btn.className = "btn-group";
           btn.innerHTML = data[x];
           li.appendChild(btn);
         }
-      } 
+      }
       ul.appendChild(li);
       var buttons = document.getElementById('doc_list').getElementsByTagName('button');
       var max = buttons.length;
@@ -130,10 +130,10 @@
     }
 
     // display pdf
-    var file_name = JSON.parse("{{selected_doc|escapejs}}"); 
-    var pdfname = JSON.parse("{{selected_pdf|escapejs}}"); 
+    var file_name = JSON.parse("{{selected_doc|escapejs}}");
+    var pdfname = JSON.parse("{{selected_pdf|escapejs}}");
     var div = document.getElementById("selection");
-    
+
     var h = document.createElement("h3");
     h.innerHTML = file_name;
     div.appendChild(h);
@@ -153,8 +153,8 @@
       first.value = domain;
       first.innerHTML = domain;
       select1.appendChild(first);
-    }    
-  }  
+    }
+  }
 
   function double_select(value) {
     var domains = JSON.parse("{{domains|escapejs}}");
@@ -173,15 +173,15 @@
     image.hidden = false;
 
     var selected = {
-      "domain": document.getElementById('sel1').value, 
+      "domain": document.getElementById('sel1').value,
       "subdomain": document.getElementById('sel2').value
     };
     var URL = "{% url 'get_domain' %}";
     $.post(URL, selected, function(response){
-      if (response === 'get domain'){ 
-        window.location = "http://127.0.0.1:8000/autolibrary/customization";
-      } else { 
-          alert('Error! :('); 
+      if (response === 'get domain'){
+        window.location = "https://yichunren.pythonanywhere.com/autolibrary/customization";
+      } else {
+          alert('Error! :(');
       }
     });
   }
@@ -190,10 +190,10 @@
     var selected = {"file_name": e.target.innerHTML};
     var URL = "{% url 'get_file' %}";
     $.post(URL, selected, function(response){
-      if (response === 'get file'){ 
-        window.location.href = "http://127.0.0.1:8000/autolibrary/result";
-      } else { 
-        alert('Error! :('); 
+      if (response === 'get file'){
+        window.location.href = "https://yichunren.pythonanywhere.com/autolibrary/result";
+      } else {
+        alert('Error! :(');
       }
     });
   }
