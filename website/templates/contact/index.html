@@ -13,10 +13,10 @@
         <div id="content-wrapper">
           <div id="content">
             <ul id="nav">
-              <li><a href="http://127.0.0.1:8000/autolibrary">AutoLibrary</a></li>
+              <li><a href="https://yichunren.pythonanywhere.com/autolibrary">AutoLibrary</a></li>
               <li><a href="http://yichunren.pythonanywhere.com/blog">Blog</a></li>
               <li><a target="_blank" rel="noopener noreferrer" href="https://github.com/jfan1998/AutoLibrary">Code</a></li>
-              <li><a href="http://127.0.0.1:8000/contact">Contact Us</a></li>
+              <li><a href="https://yichunren.pythonanywhere.com/contact">Contact Us</a></li>
             </ul>
             <div id="content-inner">
               <div class="content-full">
@@ -44,19 +44,19 @@
   </body>
 </html>
 <script>
-  function initiate(){ 
-    var data = JSON.parse("{{data|escapejs}}"); 
+  function initiate(){
+    var data = JSON.parse("{{data|escapejs}}");
     if (data.length > 0) {
       var ul = document.getElementById("doc_list");
       var li = document.createElement("li");
-      for(var x in data){ 
+      for(var x in data){
         if (data[x] != '.DS_Store') {
           var btn = document.createElement("BUTTON");
           btn.className = "btn-group";
           btn.innerHTML = data[x];
           li.appendChild(btn);
         }
-      } 
+      }
       ul.appendChild(li);
       // var buttons = document.getElementById('doc_list').getElementsByTagName('button');
       // var max = buttons.length;
@@ -64,16 +64,16 @@
       //     buttons[i].addEventListener('click', selection, true);
       // }
     }
-  } 
+  }
 
   // function selection(e) {
   //   var selected = {"file_name": e.target.innerHTML};
   //   var URL = "{% url 'get_file' %}";
   //   $.post(URL, selected, function(response){
-  //       if (response === 'success'){ 
-  //           alert('Start searching!'); 
-  //       } else { 
-  //           alert('Error! :('); 
+  //       if (response === 'success'){
+  //           alert('Start searching!');
+  //       } else {
+  //           alert('Error! :(');
   //       }
   //   });
   // }

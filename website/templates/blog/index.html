@@ -13,10 +13,10 @@
         <div id="content-wrapper">
           <div id="content">
             <ul id="nav">
-              <li><a href="http://127.0.0.1:8000/autolibrary">AutoLibrary</a></li>
+              <li><a href="https://yichunren.pythonanywhere.com/autolibrary">AutoLibrary</a></li>
               <li><a href="http://yichunren.pythonanywhere.com/blog">Blog</a></li>
               <li><a target="_blank" rel="noopener noreferrer" href="https://github.com/jfan1998/AutoLibrary">Code</a></li>
-              <li><a href="http://127.0.0.1:8000/contact">Contact Us</a></li>
+              <li><a href="https://yichunren.pythonanywhere.com/contact">Contact Us</a></li>
             </ul>
             <div id="content-inner">
               <div class="content-full">
@@ -31,7 +31,7 @@
                   Text analysis, also known as text data mining, aims at deriving information from the text (e.g., papers and magazines) by structuring raw data into structured data and interpreting the result. Phrase mining is a fundamental task of text analysis that extracts high-quality phrases from a text corpus. Instead of traditional n-grams segmentation, phrase mining focuses on high-quality phrases that represent the input text expressly and thus improves the computational models of applications that require to find phrases with great interest and relevance in a specific domain, such as taxonomy construction and topic modeling. Without an efficient phrase mining method, while nearly all the current digital libraries have recommendations for each document, they fail to catch the specific topics of the paper to recommend similar works, thus not being able to recommend the most relevant papers.
                 </p>
                 <p class="intro" style="margin-bottom: 0%;">
-                  AutoLibrary solves the issue of finding accurate topics by using AutoPhrase, which has two innovative techniques: 
+                  AutoLibrary solves the issue of finding accurate topics by using AutoPhrase, which has two innovative techniques:
                 </p>
                 <ol style="margin-left: 10%; margin-top: 2%; margin-bottom: 0%;">
                   <li>Robust Positive-Only Distant Training: </li>
@@ -74,7 +74,7 @@
                       <p class="intro"><i>Robust Positive-Only Distant Training</i></p>
                     </li>
                     <p class="intro" style="margin-left: 8%; margin-top: -2%; margin-bottom: 0%;">
-                      This technique of AutoPhrase uses general knowledge bases to eliminate the need for domain experts to manually label candidate phrases with binary labels. After we establish a quality-phrase database we can match phrases from input papers with it, and keywords can be extracted automatically. 
+                      This technique of AutoPhrase uses general knowledge bases to eliminate the need for domain experts to manually label candidate phrases with binary labels. After we establish a quality-phrase database we can match phrases from input papers with it, and keywords can be extracted automatically.
                     </p>
                     <img src="{% static 'blog/robust.png' %}" alt="Illustration of a Base Classifier" height="100%" width="80%" style="display: block; margin-left: auto; margin-right: auto;">
                     <p class="intro" style="margin-left: 8%; margin-top: 2%;">
@@ -84,7 +84,7 @@
                       <p class="intro"><i>POS-Guided Phrasal Segmentation</i></p>
                     </li>
                     <p class="intro" style="margin-left: 8%; margin-top: -2%; margin-bottom: 0%;">
-                      This is another essential technique of AutoPhrase. There are two parts to this process. The first is to tag words with their POS (part-of-speech) and create a sequence of pairs out of the corpus, where a pair is &lt;w<sub>i</sub>, t<sub>i</sub>&gt; and each pair is represented by a W. Thus, the corpus becomes a word sequence = W<sub>1</sub>W<sub>2</sub>...W<sub>n</sub> where each word is POS-tagged. The second is the phrasal segmentation process which builds on the pairs. This process creates m segments out of the sequence, each segment separated using a boundary index sequence C = {c<sub>1</sub>, c<sub>2</sub>, …, c<sub>m+1</sub>}, where 1=c<sub>1</sub>&lt;c<sub>2</sub>&lt;...&lt;c<sub>m+1</sub>=n+1, and the ith segment ranges from W<sub>ci</sub>W<sub>ci+1</sub> to W<sub>ci+1-1</sub> [1]. 
+                      This is another essential technique of AutoPhrase. There are two parts to this process. The first is to tag words with their POS (part-of-speech) and create a sequence of pairs out of the corpus, where a pair is &lt;w<sub>i</sub>, t<sub>i</sub>&gt; and each pair is represented by a W. Thus, the corpus becomes a word sequence = W<sub>1</sub>W<sub>2</sub>...W<sub>n</sub> where each word is POS-tagged. The second is the phrasal segmentation process which builds on the pairs. This process creates m segments out of the sequence, each segment separated using a boundary index sequence C = {c<sub>1</sub>, c<sub>2</sub>, …, c<sub>m+1</sub>}, where 1=c<sub>1</sub>&lt;c<sub>2</sub>&lt;...&lt;c<sub>m+1</sub>=n+1, and the ith segment ranges from W<sub>ci</sub>W<sub>ci+1</sub> to W<sub>ci+1-1</sub> [1].
                     </p>
                     <p class="intro" style="margin-left: 8%; margin-top: 2%; margin-bottom: 0%;">
                       To achieve such a goal, AutoPhrase is trained on a set of phrase candidates, which form two pools: a positive pool and a negative pool. They contain high-quality phrases and low-quality phrases respectively with the latter one containing certain noise. Then T unpruned Decision Tree models are trained on samples of the pools. Finally, these trained models will be utilized to predict whether a phrase is of quality or not by “voting”. If a majority of the models think it’s a high-quality phrase, then we would put it into the positive category. Otherwise, it will be considered as a phrase with inferior quality.
@@ -113,7 +113,7 @@
                   </p>
                   <img src="{% static 'blog/webscrape.png' %}" alt="Workflow of the Application" height="70%" width="70%" style="display: block; margin-left: auto; margin-right: auto;" />
                   <p class="intro" style="margin-left: 5%; margin-top: 2%;">
-                    The data returned from Semantic Scholar is a json string, which consists of lots of metadata of papers. The backend extracted useful ones, such as dates, abstracts and titles, formulating them into another json string and returned to the frontend. 
+                    The data returned from Semantic Scholar is a json string, which consists of lots of metadata of papers. The backend extracted useful ones, such as dates, abstracts and titles, formulating them into another json string and returned to the frontend.
                   </p>
                 </ul>
               </div>
@@ -149,7 +149,7 @@
 </html>
 <script>
   $(function() {
-    var $sidebar   = $("#contents"), 
+    var $sidebar   = $("#contents"),
         $window    = $(window),
         offset     = $sidebar.offset(),
         topPadding = 50;
