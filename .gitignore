@@ -13,3 +13,4 @@ venv
 /myvenv
 AutoPhrase/*
 data
+*/scraped_AutoPhrase.json
