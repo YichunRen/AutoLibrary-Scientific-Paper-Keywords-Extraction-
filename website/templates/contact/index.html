@@ -5,6 +5,8 @@
     {% load static %}
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" href="{% static 'autolibrary/css/main.css' %}" type="text/css" media="screen, projection" />
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.5/build/pure-min.css" integrity="sha384-LTIDeidl25h2dPxrB2Ekgc9c7sEC3CWGM6HeFmuDNUjX76Ert4Z4IY714dhZHPLd" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.5/build/grids-responsive-min.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
   </head>
   <body style="background-color:rgb(175, 161, 130);" onload="initiate()">
@@ -20,7 +22,36 @@
             </ul>
             <div id="content-inner">
               <div class="content-full">
-                <h2>This is the page for contact</h2>
+                <legend style="font-size: large; margin-bottom: 5%; margin-top: 5%;">Send us messages if you have any issues or suggestions!</legend>
+                <br>
+                <table class="pure-table pure-table-horizontal" style="margin-bottom: 80%;">
+                  <thead>
+                      <tr>
+                          <th>Developer</th>
+                          <th>Email</th>
+                          <th>Fields</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td style="height: 50px;">Yichun Ren</td>
+                          <td>yir016@ucsd.edu</td>
+                          <td>AutoPhrase Results, Website Runnning Issues</td>
+                      </tr>
+                      <tr>
+                          <td style="height: 50px;">Jiayi Fan</td>
+                          <td>jif087@ucsd.edu</td>
+                          <td>Customization Form, Website Display Issues</td>
+                      </tr>
+                      <tr>
+                          <td style="height: 50px;">Bingqi Zhou</td>
+                          <td>biz024@ucsd.edu</td>
+                          <td>Domian Selection, Recommendations Return Issues</td>
+                      </tr>
+                  </tbody>
+                </table>
+
+
               </div>
             </div>
           </div>
@@ -32,10 +63,10 @@
         </div>
         <div id="footer">
           <ul id="footer-nav">
-            <li><a href="#">AutoLibrary</a></li>
+            <li><a href="http://yichunren.pythonanywhere.com/autolibrary">AutoLibrary</a></li>
             <li><a href="http://yichunren.pythonanywhere.com/blog">Blog</a></li>
             <li><a target="_blank" rel="noopener noreferrer" href="https://github.com/jfan1998/AutoLibrary">Code</a></li>
-            <li class="last"><a href="#">Contact Us</a></li>
+            <li class="last"><a href="http://yichunren.pythonanywhere.com/contact">Contact Us</a></li>
           </ul>
           <p class="copyright">Copyright 2021 Yichun Ren & Jiayi Fan & Bingqi Zhou</p>
         </div>
