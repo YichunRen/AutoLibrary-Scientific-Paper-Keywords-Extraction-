@@ -11,6 +11,7 @@ from weight_phrases import change_weight
 from webscrape import webscrape
 from website import activate_website
 
+
 def main(targets):
     data_config = json.load(open('config/data-params.json'))
     model_config = json.load(open('config/model-params.json'))
@@ -41,8 +42,8 @@ def main(targets):
         webscrape(**webscrape_config)
     return
 
-if __name__ == '__main__':
-    # run via:
-    # python main.py data features model
-    targets = sys.argv
-    main(targets)
+# if __name__ == '__main__':
+#     # run via:
+#     # python main.py data features model
+# targets = sys.argv
+main(sys.argv);

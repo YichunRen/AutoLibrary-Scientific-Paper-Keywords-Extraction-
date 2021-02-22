@@ -4,7 +4,7 @@ import os
 import json
 import pandas as pd
 import subprocess
-from json import dumps 
+from json import dumps
 from django.views.decorators.csrf import csrf_exempt
 
 if_customized = "true"
@@ -17,7 +17,7 @@ phrases = []
 
 def index(request):
     data = os.listdir('autolibrary/documents')
-    data = dumps(data) 
+    data = dumps(data)
     return render(request, 'autolibrary/index.html', {"data": data})
 
 def result(request):
@@ -25,9 +25,9 @@ def result(request):
     domains = json.load(open('../src/domains_full.json'))
     global selected_doc, selected_pdf
     content = {
-        "data": dumps(data), 
-        "selected_doc": dumps([selected_doc]), 
-        "selected_pdf": dumps([selected_pdf]), 
+        "data": dumps(data),
+        "selected_doc": dumps([selected_doc]),
+        "selected_pdf": dumps([selected_pdf]),
         "domains": dumps(domains)
     }
     return render(request, 'autolibrary/result.html', content)
@@ -38,9 +38,9 @@ def customization(request):
     global if_customized, selected_doc, selected_pdf, selected_domain, selected_subdomain, selected_keywords, phrases
     content = {
         "customized": dumps([if_customized]),
-        "data": dumps(data), 
-        "selected_doc": dumps([selected_doc]), 
-        "selected_pdf": dumps([selected_pdf]), 
+        "data": dumps(data),
+        "selected_doc": dumps([selected_doc]),
+        "selected_pdf": dumps([selected_pdf]),
         "domains": dumps(domains),
         "domain": dumps([selected_domain]),
         "subdomain": dumps([selected_subdomain]),
@@ -74,7 +74,7 @@ def get_file(request):
     return HttpResponse('fail to get file')
 
 @csrf_exempt
-def get_domain(request):  
+def get_domain(request):
     if request.method == 'POST':
         if "domain" in request.POST:
             # save selected domain to data/out
@@ -104,15 +104,17 @@ def get_domain(request):
                 rsh.write(''' ../data/raw \n''')
                 # move new data-params.json to config
                 rsh.write('''cp autolibrary/data-params.json  ../config \n''')
-                # run all targets
                 rsh.write('''cd .. \n''')
-                rsh.write('''python run.py data \n''')
-                rsh.write('''python run.py autophrase \n''')
-                rsh.write('''python run.py weight \n''')
-                rsh.write('''python run.py webscrape \n''')
-                rsh.write('''cp data/out/scraped_AutoPhrase.json website/static/autolibrary/web_scrap/scraped_AutoPhrase.json \n''')
-            process = subprocess.Popen(['bash', 'autolibrary/run.sh'])
-            process.wait()
+                rsh.write('''/home/yichunren/AutoLibrary/myvenv/bin/python /home/yichunren/AutoLibrary/run.py data \n''')
+                rsh.write('''/home/yichunren/AutoLibrary/myvenv/bin/python /home/yichunren/AutoLibrary/run.py autophrase \n''')
+                rsh.write('''/home/yichunren/AutoLibrary/myvenv/bin/python /home/yichunren/AutoLibrary/run.py weight \n''')
+                rsh.write('''/home/yichunren/AutoLibrary/myvenv/bin/python /home/yichunren/AutoLibrary/run.py webscrape \n''')
+                rsh.write('''mkdir test_run3 \n''')
+
+
+            process1 = subprocess.Popen(['bash', 'autolibrary/run.sh'])
+            process1.wait()
+
             # display phrases with a weighted quality score > 0.5
             global phrases
             data = pd.read_csv('../data/out/weighted_AutoPhrase.csv', index_col = "Unnamed: 0")
@@ -121,7 +123,7 @@ def get_domain(request):
     return HttpResponse('fail to get domain')
 
 @csrf_exempt
-def get_keywords(request):  
+def get_keywords(request):
     if request.method == 'POST':
         if "keywords" in request.POST:
             # save selected keywords to data/out
