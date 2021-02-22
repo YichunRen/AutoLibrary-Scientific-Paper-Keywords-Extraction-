@@ -69,7 +69,7 @@
                           </div>
                           <div class="pure-u-1 pure-u-md-1-3">
                               <label>Enter your own keywords</label>
-                              <input type="text" class="pure-u-23-24" />
+                              <input id='input_phrases' type="text" class="pure-u-23-24" />
                           </div>
                           <div class="pure-u-1 pure-u-md-1-3">
                               <label>Other High-Quality Phrases</label>
@@ -80,7 +80,7 @@
                               </select>
                           </div>
                         </div>
-                        <button type="submit" class="pure-button pure-button-primary" style="margin-top: 10px;background-color: rgb(219, 155, 35);">Generate Results</button>
+                        <button type="submit" class="pure-button pure-button-primary" style="margin-top: 10px;background-color: rgb(219, 155, 35);" onclick="event.preventDefault(); alter_result();">Generate Results</button>
                       </details>
                       
                     </fieldset>
@@ -167,6 +167,24 @@
       }
       document.getElementById("sel2").innerHTML = subdomain;
     }
+  }
+
+  function alter_result() {
+    var image = document.getElementById('loading');
+    image.hidden = false;
+
+    var input_keywords = document.getElementById("input_phrases").value;
+    var selected = {
+      "keywords": input_keywords
+    }
+    var URL = "{% url 'get_keywords' %}";
+    $.post(URL, selected, function(response){
+        if (response === 'get keywords'){ 
+          window.location = "http://127.0.0.1:8000/autolibrary/customization";
+        } else { 
+            alert('Error! :('); 
+        }
+    });
   }
 
   function display_result() {
