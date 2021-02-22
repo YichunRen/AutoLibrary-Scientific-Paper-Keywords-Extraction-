@@ -20,9 +20,7 @@ def autophrase(data_outdir, pdfname, outdir, filename):
 
     with open('src/run.sh', 'w') as rsh:
         rsh.write('''cd AutoPhrase \n''')
-        #rsh.write('''mkdir test_modelrun \n''')
-        #rsh.write('''/home/yichunren/AutoLibrary/myvenv/bin/python /home/yichunren/AutoLibrary/AutoPhrase/run.py reset \n''')
-        rsh.write('''mkdir test_starttest \n''')
+        rsh.write('''mkdir test_model \n''')
         rsh.write('''/home/yichunren/AutoLibrary/myvenv/bin/python /home/yichunren/AutoLibrary/AutoPhrase/run.py test \n''')
         rsh.write('''mkdir test_endtest \n''')
     os.system('bash src/run.sh')

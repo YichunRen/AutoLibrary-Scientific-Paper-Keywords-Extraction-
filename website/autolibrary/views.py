@@ -107,9 +107,12 @@ def get_domain(request):
                 rsh.write('''cd .. \n''')
                 rsh.write('''/home/yichunren/AutoLibrary/myvenv/bin/python /home/yichunren/AutoLibrary/run.py data \n''')
                 rsh.write('''/home/yichunren/AutoLibrary/myvenv/bin/python /home/yichunren/AutoLibrary/run.py autophrase \n''')
+                rsh.write('''mkdir test_weight \n''')
                 rsh.write('''/home/yichunren/AutoLibrary/myvenv/bin/python /home/yichunren/AutoLibrary/run.py weight \n''')
+                rsh.write('''mkdir test_webscrape \n''')
                 rsh.write('''/home/yichunren/AutoLibrary/myvenv/bin/python /home/yichunren/AutoLibrary/run.py webscrape \n''')
-                rsh.write('''mkdir test_run3 \n''')
+                rsh.write('''cp data/out/scraped_AutoPhrase.json website/static/autolibrary/web_scrap/scraped_AutoPhrase.json \n''')
+                rsh.write('''mkdir test_end \n''')
 
 
             process1 = subprocess.Popen(['bash', 'autolibrary/run.sh'])
