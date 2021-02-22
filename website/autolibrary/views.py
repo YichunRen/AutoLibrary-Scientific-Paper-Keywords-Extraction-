@@ -138,7 +138,7 @@ def get_keywords(request):
             with open('autolibrary/run.sh', 'w') as rsh:
                 # display new webscrape result
                 rsh.write('''cd .. \n''')
-                rsh.write('''python run.py webscrape \n''')
+                rsh.write('''/home/yichunren/AutoLibrary/myvenv/bin/python /home/yichunren/AutoLibrary/run.py webscrape \n''')
                 rsh.write('''cp data/out/scraped_AutoPhrase.json website/static/autolibrary/web_scrap/scraped_AutoPhrase.json''')
             process = subprocess.Popen(['bash', 'autolibrary/run.sh'])
             process.wait()
