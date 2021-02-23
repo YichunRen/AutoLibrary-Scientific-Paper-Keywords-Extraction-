@@ -106,29 +106,24 @@
     });
   }
 
+  function upload_file() {
+    var url = document.getElementById("url");
+  }
+
   function upload_url() {
     var url = document.getElementById("url");
     // window.location = '_blank' + url.value;
     window.open(url.value, '_blank');
-  }
-</script>
-<?php
-    if (($_FILES['file']['name']!="")){
-        // Where the file is going to be stored
-        $target_dir = "/autolibrary/documents/";
-        $file = $_FILES['file']['name'];
-        $path = pathinfo($file);
-        $filename = $path['filename'];
-        $ext = $path['extension'];
-        $temp_name = $_FILES['file']['tmp_name'];
-        $path_filename_ext = $target_dir.$filename.".".$ext;
 
-        // Check if file already exists
-        if (file_exists($path_filename_ext)) {
-            echo "Sorry, file already exists.";
-        }else{
-            move_uploaded_file($temp_name,$path_filename_ext);
-            echo "Congratulations! File Uploaded Successfully.";
-        }
-    }
-?>
+    var URL = "{% url 'get_file' %}";
+    $.post(URL, selected, function(response){
+      if (response === 'get file'){
+        window.location.href = "https://yichunren.pythonanywhere.com/autolibrary/result";
+      } else {
+        alert('Error! :(');
+      }
+    });
+  }
+
+
+</script>
