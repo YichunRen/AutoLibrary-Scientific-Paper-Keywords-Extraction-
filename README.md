@@ -35,14 +35,18 @@ python run.py weight
 ```
 python run.py webscrape
 ```
-### Target 5: Activating the website
-```
-python run.py website
-```
-### Target 6: Test all previous targets (except website) on test data
+### Target 5: Test all previous targets on test data
 Note: For the test run, raw test data and domain for search is in test/testdata directory.
 ```
 python run.py test
+```
+### Target 6: Activating the website
+```
+python run.py website
+```
+### Target 7: Generate Result Analysis
+```
+python run.py report
 ```
 
 ### Responsbilities: 
