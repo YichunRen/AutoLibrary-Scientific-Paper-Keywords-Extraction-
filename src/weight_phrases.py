@@ -8,7 +8,7 @@ def change_weight(paper_ap_path, selected_domain, domain_ap_path, out_path, keyw
     print("  => Altering quality scores of phrases in the input document according to domain...")
     
     try:
-        with open('src/domains_abb.json') as f:
+        with open('config/domains_abb.json') as f:
             domains_name_dict = json.load(f)
             with open('data/out/selected_domain.txt') as f2:
                 selected_domain = domains_name_dict[f2.readline()]

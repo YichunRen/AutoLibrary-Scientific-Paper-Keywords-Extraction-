@@ -22,7 +22,7 @@ def index(request):
 
 def result(request):
     data = os.listdir('autolibrary/documents')
-    domains = json.load(open('../src/domains_full.json'))
+    domains = json.load(open('../config/domains_full.json'))
     global selected_doc, selected_pdf
     content = {
         "data": dumps(data), 
@@ -34,7 +34,7 @@ def result(request):
 
 def customization(request):
     data = os.listdir('autolibrary/documents')
-    domains = json.load(open('../src/domains_full.json'))
+    domains = json.load(open('../config/domains_full.json'))
     global if_customized, selected_doc, selected_pdf, selected_domain, selected_subdomain, selected_keywords, phrases
     content = {
         "customized": dumps([if_customized]),
