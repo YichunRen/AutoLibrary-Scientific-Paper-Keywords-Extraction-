@@ -20,6 +20,7 @@ def main():
     webscrape_config = json.load(open('config/webscrape-params.json'))
     website_config = json.load(open('config/website-params.json'))
     report_config = json.load(open('config/report-params.json'))
+    experiment_config = json.load(open('config/experiment-params.json'))
     test_config = json.load(open('config/test-params.json'))
 
     os.system('git submodule update --init')
@@ -36,19 +37,30 @@ def main():
     if 'autophrase' in targets:
         autophrase(data_config['outdir'], data_config['pdfname'], model_config['outdir'], model_config['filename'])
     if 'weight' in targets:
-        change_weight(**weight_config)
+        try:
+            unique_key = '_' + sys.argv[2]
+            change_weight(unique_key, **weight_config)
+        except:
+            change_weight(unique_key='', **weight_config)
     if 'webscrape' in targets:
-        webscrape(**webscrape_config)
+        try:
+            unique_key = '_' +  sys.argv[2]
+            webscrape(unique_key, **webscrape_config)
+        except:
+            webscrape(unique_key='', **webscrape_config)
     if 'report' in targets:
         convert_report(**report_config)
     if 'website' in targets:
         activate_website(**website_config)
+    if 'experiment' in targets:
+        convert_report(**experiment_config)
     if 'test' in targets:
         convert_txt(test_config['indir'], data_config['outdir'], test_config['pdfname'],)
         autophrase(data_config['outdir'], test_config['pdfname'], model_config['outdir'], model_config['filename'])
         change_weight(**weight_config)
         webscrape(**webscrape_config)
         convert_report(**report_config)
+        convert_report(**experiment_config)
     return
 
 #if __name__ == '__main__':

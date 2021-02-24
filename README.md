@@ -1,4 +1,4 @@
-# AutoLibrary
+# [AutoLibrary](https://yichunren.pythonanywhere.com/autolibrary/)
 - DSC180B - Capstone Project (Winter 2021)
 - Section A04 Group03: Yichun Ren, Jiayi Fan, Bingqi Zhou
 - Personal Digital Library to save the documents and find similar papers via text analyzer.
@@ -11,12 +11,7 @@
 ```
 launch-scipy-ml.sh -i jfan1998/dsc180a-docker:latest
 ```
-
-## Visual Presentation Checkpoint
-- The URL to our blog webpage:
-http://yichunren.pythonanywhere.com/blog/
-- All the pages are available online, but the recommender system still need further debugging to enable online running.
-- If you want to access the full web application, use port-forwarding on dsmlp:
+Use port-forwarding on dsmlp to open the website:
   - Instruction: https://docs.google.com/document/d/15ehCaVIKSXwgh2jvH3034l5uSPNLrZRgkczwl-xWNEU/edit?usp=sharing
 
 ## Default Run: open AutoLibrary website
@@ -40,14 +35,18 @@ python run.py weight
 ```
 python run.py webscrape
 ```
-### Target 5: Activating the website
-```
-python run.py website
-```
-### Target 6: Test all previous targets (except website) on test data
+### Target 5: Test all previous targets on test data
 Note: For the test run, raw test data and domain for search is in test/testdata directory.
 ```
 python run.py test
+```
+### Target 6: Activating the website
+```
+python run.py website
+```
+### Target 7: Generate Result Analysis
+```
+python run.py report
 ```
 
 ### Responsbilities: 
