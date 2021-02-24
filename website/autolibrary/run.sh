@@ -1,12 +1,12 @@
 mkdir -p ../data/raw 
-cp autolibrary/documents_copy/[TKDE18]Automated_Phrase_Mining_from_Massive_Text_Corpora.pdf ../data/raw 
+cp autolibrary/documents_copy/1702.04457v1.pdf ../data/raw 
 cp autolibrary/data-params.json  ../config 
 cd .. 
 /home/yichunren/AutoLibrary/myvenv/bin/python /home/yichunren/AutoLibrary/run.py data 
 /home/yichunren/AutoLibrary/myvenv/bin/python /home/yichunren/AutoLibrary/run.py autophrase 
 mkdir test_weight 
-/home/yichunren/AutoLibrary/myvenv/bin/python /home/yichunren/AutoLibrary/run.py weight 
+/home/yichunren/AutoLibrary/myvenv/bin/python /home/yichunren/AutoLibrary/run.py weight uvb5n84mxjwwendeixakun115klkixkw 
 mkdir test_webscrape 
-/home/yichunren/AutoLibrary/myvenv/bin/python /home/yichunren/AutoLibrary/run.py webscrape 
+/home/yichunren/AutoLibrary/myvenv/bin/python /home/yichunren/AutoLibrary/run.py webscrape uvb5n84mxjwwendeixakun115klkixkw 
 cp data/out/scraped_AutoPhrase.json website/static/autolibrary/web_scrap/scraped_AutoPhrase.json 
 mkdir test_end 

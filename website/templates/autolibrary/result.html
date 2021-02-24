@@ -91,6 +91,11 @@
           <div id="sidebar">
             <div id="logo"> <img src="{% static 'autolibrary/images/logo.png' %}" alt="Nautica X" width="180px" height="110px"/> </div>
             <h4>Documents</h4>
+            <ul class="side-nav" style="padding: 10px;">
+                <label for="url">Enter an URL:</label>
+                <input type="url" name="url" id="url" placeholder="https://arxiv.org/pdf/1702.04457v1.pdf" pattern="https://.*" style="margin-top: 5px; margin-bottom: 5px;" size="23">
+                <button style="margin-left: 134px;" onclick="event.preventDefault(); upload_url();">Enter</button>
+            </ul>
             <ul id="doc_list" class="side-nav"></ul>
           </div>
         </div>
@@ -216,6 +221,19 @@
     var URL = "{% url 'get_file' %}";
     $.post(URL, selected, function(response){
       if (response === 'get file'){
+        window.location.href = "https://yichunren.pythonanywhere.com/autolibrary/result";
+      } else {
+        alert('Error! :(');
+      }
+    });
+  }
+
+  function upload_url() {
+    var url = document.getElementById("url");
+    var selected = {"url": url.value};
+    var URL = "{% url 'get_url' %}";
+    $.post(URL, selected, function(response){
+      if (response === 'get url'){
         window.location.href = "https://yichunren.pythonanywhere.com/autolibrary/result";
       } else {
         alert('Error! :(');
