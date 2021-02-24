@@ -42,44 +42,17 @@
           <div id="sidebar">
             <div id="logo"> <img src="{% static 'autolibrary/images/logo.png' %}" alt="Nautica X" width="180px" height="110px"/> </div>
             <h4>Documents</h4>
-
-
-
-            <!--uploading files-->
-            <!--<ul class="side-nav" style="padding: 8px;">-->
-            <!--    <li style="margin-bottom: 5px;">Upload a pdf document:</li>-->
-            <!--    <input type="file" id="file2" name="file2" accept="application/pdf">-->
-            <!--    <button style="margin-top: 5px; margin-left: 123px;" onclick="event.preventDefault(); upload_file();">Upload</button>-->
-            <!--</ul>-->
-            <!--<ul class="side-nav" style="padding: 8px;">-->
-            <!--    <form method='POST' enctype="multipart/form-data" onsubmit="event.preventDefault();">-->
-            <!--        {% csrf_token %}-->
-            <!--        <input type="file" id="file" name="file" accept="application/pdf">-->
-            <!--        <p><button type="submit">Publish</button></p>-->
-            <!--    </form>-->
-            <!--</ul>-->
-            <ul class="side-nav" style="padding: 8px;">
-                <form class="upload">
-                   <input type="file" name="uploadFile" accept=".pdf" />
-                   <br/><br/>
-                   <input type="submit" />
-                </form>
-            </ul>
-            <!--<ul class="side-nav" style="padding: 8px;">-->
-            <!--    <form class="upload2">-->
-            <!--       <input type="file" name="uploadFile" accept=".pdf" />-->
-            <!--       <br/><br/>-->
-            <!--       <input type="submit" />-->
-            <!--    </form>-->
-            <!--</ul>-->
-            <!--uploading files-->
-
-
-
             <ul class="side-nav" style="padding: 10px;">
                 <label for="url">Enter an URL:</label>
                 <input type="url" name="url" id="url" placeholder="https://arxiv.org/pdf/1702.04457v1.pdf" pattern="https://.*" style="margin-top: 5px; margin-bottom: 5px;" size="23">
                 <button style="margin-left: 134px;" onclick="event.preventDefault(); upload_url();">Enter</button>
+            </ul>
+            <ul class="side-nav" style="padding: 10px;">
+                <form class="upload" style="margin-top: -2px; margin-bottom: -2px;">
+                    <label for="uploadFile">Upload a local file:</label>
+                    <input type="file" name="uploadFile" id="uploadFile" accept=".pdf" style="margin-top: 5px; margin-bottom: 5px;">
+                    <input style="margin-left: 124px;" type="submit" value="Upload">
+                </form>
             </ul>
             <ul id="doc_list" class="side-nav"></ul>
           </div>
@@ -146,64 +119,26 @@
     });
   }
 
-
-
-  //------------uploading files------------
-  // button
-//   function upload_file() {
-//     var file = document.getElementById("file2");
-//     console.log(file.files[0]);
-//     var formData = new FormData(file[0]);
-//     var URL = "{% url 'upload_file' %}";
-//     $.post(URL, formData, function(response){
-//       if (response === 'upload file'){
-//         window.location.href = "https://yichunren.pythonanywhere.com/autolibrary/result";
-//       } else {
-//         alert('Error! :(');
-//       }
-//     });
-//   }
-
-    document.querySelector('.upload').addEventListener('submit', function(e) {
-        e.preventDefault();
-        var file = e.target.uploadFile.files[0];
-        var formData = new FormData();
-        formData.append('file', file);
-console.log("url->","{% url 'upload_file' %}")
-        $.ajax({
-            url: "{% url 'upload_file' %}",
-            type: 'POST',
-            processData: false,
-            contentType: false,
-            // contentType: "application/pdf; charset=utf-8",
-            data: formData,
-            success : function(result) {
-                console.log(result);
-                window.location.href = "https://yichunren.pythonanywhere.com/autolibrary/result";
-            },
-        });
-    })
-
-    // document.querySelector('.upload2').addEventListener('submit', function(e) {
-    //     e.preventDefault();
-    //     var file = e.target.uploadFile.files[0];
-    //     var formData = new FormData();
-    //     formData.append('file', file);
-
-    //     $.ajax({
-    //         url: "{% url 'upload_file' %}",
-    //         type: 'POST',
-    //         processData: false,
-    //         contentType: false,
-    //         // dataType: 'pdf',
-    //         // contentType: "application/pdf; charset=utf-8",
-    //         data: formData,
-    //         success : function(result) {
-    //             console.log(result);
-    //             window.location.href = "https://yichunren.pythonanywhere.com/autolibrary/result";
-    //         },
-    //     });
-    // })
+  document.querySelector('.upload').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var file = e.target.uploadFile.files[0];
+    var formData = new FormData();
+    formData.append('file', file);
+    $.ajax({
+      url: "{% url 'upload_file' %}",
+      type: 'POST',
+      processData: false,
+      contentType: false,
+      data: formData,
+      success : function(result) {
+        if (result == "upload file") {
+          window.location.href = "https://yichunren.pythonanywhere.com/autolibrary/result";
+        } else {
+          alert('Error! :(');
+        }
+      },
+    });
+  })
 </script>
 
 

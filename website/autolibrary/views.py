@@ -7,6 +7,7 @@ import subprocess
 from json import dumps
 from django.views.decorators.csrf import csrf_exempt
 import urllib.request as urllib2
+from werkzeug.utils import secure_filename
 
 # if_customized = "true"
 # selected_doc = ''
@@ -228,12 +229,6 @@ def get_url(request):
         return HttpResponse('get url')
     return HttpResponse('fail to get url')
 
-
-# ------------uploading files------------
-
-# button
-from werkzeug.utils import secure_filename
-
 @csrf_exempt
 def upload_file(request):
     if request.method == 'POST':
@@ -242,55 +237,29 @@ def upload_file(request):
             # file = request.POST['file']
             # filename = secure_filename(file.filename)
             filename = secure_filename(img.name)
-            # from pathlib import Path
-            # f1=os.path.dirname(os.path.realpath(__file__))
-            f1=os.path.dirname(os.path.realpath(__file__))
-            f2=os.path.dirname(f1)
+            f1 = os.path.dirname(os.path.realpath(__file__))
+            f2 = os.path.dirname(f1)
             # f=(os.path.join(f2,'static/autolibrary/documents'))
-            f=(os.path.join(f2,'autolibrary/documents'))
+            f = (os.path.join(f2,'autolibrary/documents'))
             with open(os.path.join(f, filename), 'wb') as f:
                 for content in img.chunks():
                     f.write(content)
-            # file.save(os.path.join('autolibrary/documents', filename))
-            global if_customized
-            if_customized = "false"
-            global selected_doc, selected_pdf
-            selected_doc = filename
-            selected_pdf = filename
+
+            # global if_customized
+            # if_customized = "false"
+            # global selected_doc, selected_pdf
+            # selected_doc = filename
+            # selected_pdf = filename
 
             shared_obj = request.session['myobj']
-            shared_obj["selected_pdf"] = selected_pdf
-            shared_obj["selected_doc"] = selected_doc
+            shared_obj["selected_pdf"] = filename
+            shared_obj["selected_doc"] = filename
+            shared_obj["if_customized"] = "false"
             request.session['myobj'] = shared_obj
 
             os.system('mkdir -p static/autolibrary/documents')
             os.system('mkdir -p static/autolibrary/web_scrap')
             command = 'cp autolibrary/documents_copy/' + filename + ' static/autolibrary/documents'
             os.system(command)
-        return HttpResponse('success')
+        return HttpResponse('upload file')
     return HttpResponse('fail to upload file')
-
-
-
-# form
-# from django.core.files.storage import FileSystemStorage
-
-# def upload(request):
-#     if request.method == 'POST':
-#         request_file = request.FILES['file'] if 'file' in request.FILES else None
-#         if request_file:
-#             fs = FileSystemStorage("/home/yichunren/AutoLibrary/website/autolibrary/documents")
-#             file = fs.save(request_file.name, request_file)
-#             fs.url(file)
-#             pdfname = request_file.name
-#             global if_customized
-#             if_customized = "false"
-#             global selected_doc, selected_pdf
-#             selected_doc = '1702.04457v1.pdf'
-#             selected_pdf = '1702.04457v1.pdf'
-#             os.system('mkdir -p static/autolibrary/documents')
-#             os.system('mkdir -p static/autolibrary/web_scrap')
-#             command = 'cp autolibrary/documents_copy/' + pdfname + ' static/autolibrary/documents'
-#             os.system(command)
-#             return result(request)
-#     return result(request)
