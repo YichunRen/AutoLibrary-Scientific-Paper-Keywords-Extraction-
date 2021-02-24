@@ -44,7 +44,7 @@ python run.py test
 ```
 python run.py website
 ```
-### Target 7: Generate Result Analysis
+### Target 7: Convert jupyter notebooks to html
 ```
 python run.py report
 ```
