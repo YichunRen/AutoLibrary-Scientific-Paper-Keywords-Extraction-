@@ -2,17 +2,17 @@ import pandas as pd
 from operator import itemgetter
 import json
 
-def change_weight(paper_ap_path, selected_domain, domain_ap_path, out_path, keyword_path):
+def change_weight(unique_key, paper_ap_path, selected_domain, domain_ap_path, out_path, keyword_path):
     print("\n")
     print(">>>>>>>>>>>>>>>>>>>>>>>> Weighting quality scores <<<<<<<<<<<<<<<<<<<<<<<<<<<<")
     print("  => Altering quality scores of phrases in the input document according to domain...")
-    
+
     try:
         with open('config/domains_abb.json') as f:
             domains_name_dict = json.load(f)
-            with open('data/out/selected_domain.txt') as f2:
+            add_key_path = 'data/out/selected_domain' + unique_key + '.txt'
+            with open(add_key_path) as f2:
                 selected_domain = domains_name_dict[f2.readline()]
-                
                 domain_full_path = domain_ap_path + selected_domain + '/AutoPhrase.txt'
                 print('Read domains phrases from '+ domain_full_path)
     except:

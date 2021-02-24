@@ -37,9 +37,17 @@ def main():
     if 'autophrase' in targets:
         autophrase(data_config['outdir'], data_config['pdfname'], model_config['outdir'], model_config['filename'])
     if 'weight' in targets:
-        change_weight(**weight_config)
+        try:
+            unique_key = '_' + sys.argv[2]
+            change_weight(unique_key, **weight_config)
+        except:
+            change_weight(unique_key='', **weight_config)
     if 'webscrape' in targets:
-        webscrape(**webscrape_config)
+        try:
+            unique_key = '_' +  sys.argv[2]
+            webscrape(unique_key, **webscrape_config)
+        except:
+            webscrape(unique_key='', **webscrape_config)
     if 'report' in targets:
         convert_report(**report_config)
     if 'website' in targets:

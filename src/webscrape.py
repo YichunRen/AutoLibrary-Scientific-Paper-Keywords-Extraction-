@@ -181,10 +181,11 @@ semantic_fos = {
 }
 
 
-def webscrape(keywords_path, fos_path, out_path):
+def webscrape(unique_key, keywords_path, fos_path, out_path):
     print("\n")
     print(">>>>>>>>>>>>>>>>>>>>>>>> Running websraping... <<<<<<<<<<<<<<<<<<<<<<<<<<<<")
 
+    fos_path = 'data/out/fos' + unique_key + '.json'
     try:
         # Extract keywords and fields of study
         given_fos = json.load(open(fos_path))['fos']

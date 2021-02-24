@@ -142,11 +142,13 @@ def get_domain(request):
             shared_obj['selected_subdomain'] = selected_subdomain
 
             os.system('mkdir -p ../data/out')
-            with open('../data/out/selected_domain.txt', 'w') as fp:
+            unique_key = request.session.session_key
+            with open('../data/out/selected_domain_' + unique_key + '.txt', 'w') as fp:
                 fp.write(selected_subdomain)
             config = {'fos': [selected_domain]}
-            with open('../data/out/fos.json', 'w') as fp:
+            with open('../data/out/fos_' + unique_key + '.json', 'w') as fp:
                 json.dump(config, fp)
+
             # rewrite data-params.json
             config = json.load(open('../config/data-params.json'))
             config['pdfname'] = selected_pdf
@@ -164,8 +166,8 @@ def get_domain(request):
                 rsh.write('''cd .. \n''')
                 rsh.write('''python run.py data \n''')
                 rsh.write('''python run.py autophrase \n''')
-                rsh.write('''python run.py weight \n''')
-                rsh.write('''python run.py webscrape \n''')
+                rsh.write('''python run.py weight ''' + unique_key +  '''\n''')
+                rsh.write('''python run.py webscrape ''' + unique_key +  '''\n''')
                 rsh.write('''cp data/out/scraped_AutoPhrase.json website/static/autolibrary/web_scrap/scraped_AutoPhrase.json \n''')
             process = subprocess.Popen(['bash', 'autolibrary/run.sh'])
             process.wait()
