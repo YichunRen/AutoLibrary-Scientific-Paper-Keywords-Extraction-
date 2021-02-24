@@ -1,5 +1,5 @@
 mkdir -p ../data/raw 
-cp autolibrary/documents_copy/1702.04457v1.pdf ../data/raw 
+cp autolibrary/documents_copy/AutoNER.pdf ../data/raw 
 cp autolibrary/data-params.json  ../config 
 cd .. 
 /home/yichunren/AutoLibrary/myvenv/bin/python /home/yichunren/AutoLibrary/run.py data 

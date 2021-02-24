@@ -169,7 +169,7 @@
         var file = e.target.uploadFile.files[0];
         var formData = new FormData();
         formData.append('file', file);
-
+console.log("url->","{% url 'upload_file' %}")
         $.ajax({
             url: "{% url 'upload_file' %}",
             type: 'POST',

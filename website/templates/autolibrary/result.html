@@ -144,6 +144,7 @@
     h.innerHTML = file_name;
     div.appendChild(h);
 
+    console.log('pdf-->',"{% static 'autolibrary/documents/' %}" + pdfname)
     var embed = document.createElement('embed');
     embed.src = "{% static 'autolibrary/documents/' %}" + pdfname;
     embed.type = "application/pdf";

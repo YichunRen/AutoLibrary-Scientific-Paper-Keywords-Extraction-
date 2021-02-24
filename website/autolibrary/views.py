@@ -237,15 +237,32 @@ from werkzeug.utils import secure_filename
 @csrf_exempt
 def upload_file(request):
     if request.method == 'POST':
-        if "file" in request.POST:
-            file = request.POST['file']
-            filename = secure_filename(file.filename)
-            file.save(os.path.join('autolibrary/documents', filename))
+        if request.method == "POST":
+            img = request.FILES.get("file", None)
+            # file = request.POST['file']
+            # filename = secure_filename(file.filename)
+            filename = secure_filename(img.name)
+            # from pathlib import Path
+            # f1=os.path.dirname(os.path.realpath(__file__))
+            f1=os.path.dirname(os.path.realpath(__file__))
+            f2=os.path.dirname(f1)
+            # f=(os.path.join(f2,'static/autolibrary/documents'))
+            f=(os.path.join(f2,'autolibrary/documents'))
+            with open(os.path.join(f, filename), 'wb') as f:
+                for content in img.chunks():
+                    f.write(content)
+            # file.save(os.path.join('autolibrary/documents', filename))
             global if_customized
             if_customized = "false"
             global selected_doc, selected_pdf
             selected_doc = filename
             selected_pdf = filename
+
+            shared_obj = request.session['myobj']
+            shared_obj["selected_pdf"] = selected_pdf
+            shared_obj["selected_doc"] = selected_doc
+            request.session['myobj'] = shared_obj
+
             os.system('mkdir -p static/autolibrary/documents')
             os.system('mkdir -p static/autolibrary/web_scrap')
             command = 'cp autolibrary/documents_copy/' + filename + ' static/autolibrary/documents'
