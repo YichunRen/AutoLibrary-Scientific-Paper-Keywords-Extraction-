@@ -22,7 +22,7 @@
             </ul>
             <div id="content-inner">
               <div id="selection" class="content-full">
-                  <form class="pure-form pure-form-stacked">
+                  <form id="customization-form" class="pure-form pure-form-stacked">
                     <fieldset>
                       <legend>Customize Recommendations</legend>
                       <div class="pure-u-3-4">
@@ -243,7 +243,8 @@
       var items = [];
       $.each(obj, function(key, value){
           if (key=="link"){
-            items.push( "<li id='" + key + "'><a href='" + value + "'></a>" + key + ': ' + value + "</li>" );
+            var new_key = key.charAt(0).toUpperCase() + key.slice(1);
+            items.push( "<li id='" + key + "'>" + new_key + ": <a href='" + value + "'>" + value + "</a></li>" );
             console.log(value);
           }
           else if (key=="authors") {
@@ -251,17 +252,19 @@
             for (author in value) {
               names = names + value[author]['firstName'] + " " + value[author]['middleNames'] + " " + value[author]['lastName'] + ", "
             }
-            items.push( "<li id='" + key + "'>" + key + ': ' + names.slice(0, -2) + "</li>" );
+            var new_key = key.charAt(0).toUpperCase() + key.slice(1);
+            items.push( "<li id='" + key + "'>" + new_key + ': ' + names.slice(0, -2) + "</li>" );
           }
           else {
-            items.push( "<li id='" + key + "'>" + key + ': ' + value + "</li>" );
+            var new_key = key.charAt(0).toUpperCase() + key.slice(1);
+            items.push( "<li id='" + key + "'>" + new_key + ': ' + value + "</li>" );
           }
       });
       items.push( "<br>" );
       $( "<ul/>", {
         "class": "my-new-list",
         html: items.join( "" )
-      }).appendTo( "form" );
+      }).appendTo( "#customization-form" );
     });
   });
 
