@@ -18,7 +18,11 @@ from werkzeug.utils import secure_filename
 # phrases = []
 
 def index(request):
-    data = os.listdir('autolibrary/documents')
+
+    unique_key = request.session.session_key
+    os.system('mkdir -p autolibrary/documents/' + unique_key )
+    os.system('cp autolibrary/documents/* ' + 'autolibrary/documents/' + unique_key)
+    data = os.listdir('autolibrary/documents/' + unique_key)
     data = dumps(data)
     shared_obj = request.session.get('myobj',{})
     shared_obj['selected_doc'] = ''
@@ -33,7 +37,8 @@ def index(request):
     return render(request, 'autolibrary/index.html', {"data": data})
 
 def result(request):
-    data = os.listdir('autolibrary/documents')
+    unique_key = request.session.session_key
+    data = os.listdir('autolibrary/documents/' + unique_key)
     domains = json.load(open('../src/domains_full.json'))
     #global selected_doc, selected_pdf
     #new
@@ -50,7 +55,8 @@ def result(request):
     return render(request, 'autolibrary/result.html', content)
 
 def customization(request):
-    data = os.listdir('autolibrary/documents')
+    unique_key = request.session.session_key
+    data = os.listdir('autolibrary/documents/' + unique_key)
     domains = json.load(open('../src/domains_full.json'))
 
     #global if_customized, selected_doc, selected_pdf, selected_domain, selected_subdomain, selected_keywords, phrases
@@ -85,6 +91,7 @@ def customization(request):
 
 @csrf_exempt
 def get_file(request):
+    unique_key = request.session.session_key
     if request.method == 'POST':
         shared_obj = request.session['myobj']
 
@@ -107,7 +114,9 @@ def get_file(request):
 
             os.system('mkdir -p static/autolibrary/documents')
             os.system('mkdir -p static/autolibrary/web_scrap')
-            command = 'cp autolibrary/documents_copy/' + pdfname + ' static/autolibrary/documents'
+            command = 'cp autolibrary/documents/' + unique_key + '/' + file_name + ' autolibrary/documents_copy/' + unique_key
+            os.system(command)
+            command = 'cp autolibrary/documents_copy/' + unique_key + '/' + file_name + ' static/autolibrary/documents'
             os.system(command)
 
             request.session['myobj'] = shared_obj
@@ -149,6 +158,32 @@ def get_domain(request):
             config['pdfname'] = selected_pdf
             with open('autolibrary/data-params.json', 'w') as fp:
                 json.dump(config, fp)
+
+
+
+
+
+            # add timestamp
+            import datetime
+            timestamp = request.session.get('timestamp')
+            timestamp = datetime.datetime.now(datetime.timezone.utc)
+            print(timestamp)
+            request.session['timestamp'] = timestamp
+            current = request.session.session_key
+            # find all sessions
+            from django.contrib.sessions.models import Session
+            from django.utils import timezone
+            from django.contrib.sessions.backends.db import SessionStore
+            sessions = Session.objects.filter(expire_date__gte=timezone.now())
+            sessions_in_queue = []
+            for session in sessions:
+                if session.session_key != current and session['in_queue'] == "true":
+                    sessions_in_queue.append(session['timestamp'])
+            sessions_in_queue.sort()
+
+
+
+
             with open('autolibrary/run.sh', 'w') as rsh:
                 # move selected document to data/raw
                 rsh.write('''mkdir -p ../data/raw \n''')
@@ -208,29 +243,47 @@ def get_keywords(request):
 
 @csrf_exempt
 def get_url(request):
+    unique_key = request.session.session_key
+    shared_obj = request.session['myobj']
     if request.method == 'POST':
         if "url" in request.POST:
             download_url = request.POST['url']
             pdfname = download_url.split('/')[-1]
             response = urllib2.urlopen(download_url)
-            fp = "autolibrary/documents/" + pdfname
+
+            os.system('mkdir -p autolibrary/documents/' + unique_key )
+            os.system('mkdir -p autolibrary/documents_copy/' + unique_key )
+
+            fp = "autolibrary/documents/" + unique_key + '/' + pdfname
             file = open(fp, 'wb')
             file.write(response.read())
             file.close()
-            global if_customized
+            #global if_customized
             if_customized = "false"
-            global selected_doc, selected_pdf
+            shared_obj['if_customized'] = if_customized
+            #global selected_doc, selected_pdf
             selected_doc = pdfname
             selected_pdf = pdfname
+            shared_obj['selected_doc'] = selected_doc
+            shared_obj['selected_pdf'] = selected_pdf
+
             os.system('mkdir -p static/autolibrary/documents')
             os.system('mkdir -p static/autolibrary/web_scrap')
-            command = 'cp autolibrary/documents_copy/' + pdfname + ' static/autolibrary/documents'
+            command = 'cp autolibrary/documents/' + unique_key + '/' + pdfname + ' autolibrary/documents_copy/' + unique_key
             os.system(command)
+            command = 'cp autolibrary/documents_copy/' + unique_key + '/' + pdfname + ' static/autolibrary/documents'
+            os.system(command)
+
+        request.session['myobj'] = shared_obj
         return HttpResponse('get url')
+    request.session['myobj'] = shared_obj
     return HttpResponse('fail to get url')
 
 @csrf_exempt
 def upload_file(request):
+    unique_key = request.session.session_key
+    os.system('mkdir -p autolibrary/documents/' + unique_key )
+    os.system('mkdir -p autolibrary/documents_copy/' + unique_key )
     if request.method == 'POST':
         if request.method == "POST":
             img = request.FILES.get("file", None)
@@ -240,7 +293,8 @@ def upload_file(request):
             f1 = os.path.dirname(os.path.realpath(__file__))
             f2 = os.path.dirname(f1)
             # f=(os.path.join(f2,'static/autolibrary/documents'))
-            f = (os.path.join(f2,'autolibrary/documents'))
+            file_path = 'autolibrary/documents/' + unique_key
+            f = (os.path.join(f2,file_path))
             with open(os.path.join(f, filename), 'wb') as f:
                 for content in img.chunks():
                     f.write(content)
@@ -259,7 +313,12 @@ def upload_file(request):
 
             os.system('mkdir -p static/autolibrary/documents')
             os.system('mkdir -p static/autolibrary/web_scrap')
-            command = 'cp autolibrary/documents_copy/' + filename + ' static/autolibrary/documents'
+            command = 'cp autolibrary/documents/' + unique_key + '/' + filename + ' autolibrary/documents_copy/' + unique_key
             os.system(command)
+            command = 'cp autolibrary/documents_copy/' + unique_key + '/' + filename + ' static/autolibrary/documents'
+            os.system(command)
+
+
+
         return HttpResponse('upload file')
     return HttpResponse('fail to upload file')

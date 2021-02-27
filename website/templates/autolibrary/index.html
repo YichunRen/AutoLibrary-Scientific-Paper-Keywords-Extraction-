@@ -45,13 +45,13 @@
             <ul class="side-nav" style="padding: 10px;">
                 <label for="url">Enter an URL:</label>
                 <input type="url" name="url" id="url" placeholder="https://arxiv.org/pdf/1702.04457v1.pdf" pattern="https://.*" style="margin-top: 5px; margin-bottom: 5px;" size="23">
-                <button style="margin-left: 124px; padding: 3px 5px;" onclick="event.preventDefault(); upload_url();">Enter</button>
+                <button style="padding: 3px 5px;" onclick="event.preventDefault(); upload_url();">Enter</button>
             </ul>
             <ul class="side-nav" style="padding: 10px;">
                 <form class="upload" style="margin-top: -2px; margin-bottom: -2px;">
-                    <label for="uploadFile">Upload a local file:</label>
+                    <label for="uploadFile">Upload a PDF file:</label>
                     <input type="file" name="uploadFile" id="uploadFile" accept=".pdf" style="margin-top: 5px; margin-bottom: 5px;">
-                    <input style="margin-left: 114px; padding: 3px 5px;" type="submit" value="Upload">
+                    <input style="padding: 3px 5px;" type="submit" value="Upload">
                 </form>
             </ul>
             <ul id="doc_list" class="side-nav"></ul>
