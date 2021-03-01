@@ -47,28 +47,18 @@ def graph_precision_recall(*args):
     '''
     For notebooks/Experiment: precision recall curve
     '''
-    autophrase_cs_labels, autophrase_cs_df, jstor_cs_labels, jstor_cs_phrases, webtools_cs_labels, webtools_cs_phrases, monkeylearn_cs_labels, monkeylearn_cs_phrases, domain = args
+    autophrase_cs_labels, autophrase_cs_df, webtools_cs_labels, webtools_cs_phrases, domain = args
     plt.figure(figsize=(10, 8))
     # autophrase
     precision, recall, thresholds = precision_recall_curve(
             y_true=autophrase_cs_labels,
             probas_pred=autophrase_cs_df.score)
-    plt.plot(recall, precision, scalex=False, scaley=False, label = "AutoPhrase")
-    # jstor
-    precision, recall, thresholds = precision_recall_curve(
-            y_true=jstor_cs_labels,
-            probas_pred=list(jstor_cs_phrases.values()))
-    plt.plot(recall, precision, scalex=False, scaley=False, label = "Jstor")
+    plt.plot(recall, precision, scalex=False, scaley=False, label = "AutoLibrary")
     # webtools
     precision, recall, thresholds = precision_recall_curve(
             y_true=webtools_cs_labels,
             probas_pred=list(webtools_cs_phrases.values()))
     plt.plot(recall, precision, scalex=False, scaley=False, label = "Webtools")
-    # monkeylearn
-    precision, recall, thresholds = precision_recall_curve(
-            y_true=monkeylearn_cs_labels,
-            probas_pred=list(monkeylearn_cs_phrases.values()))
-    plt.plot(recall, precision, scalex=False, scaley=False, label = "monkeylearn")
     plt.title('Precision-Recall Curve: {}'.format(domain), fontsize=25)
     plt.xlabel('Recall')
     plt.ylabel('Precision')
