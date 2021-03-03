@@ -199,6 +199,8 @@ def get_domain(request):
             # global phrases
             data = pd.read_csv('../data/out/weighted_AutoPhrase.csv', index_col = "Unnamed: 0")
             phrases = data[data['score'] > 0.5]['phrase'].to_list()
+            if len(phrases) < 5:
+                phrases = data['phrase'][:5].to_list()
             shared_obj['phrases'] = phrases 
 
             shared_obj['in_queue'] = "false"
