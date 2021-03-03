@@ -1,4 +1,5 @@
 # [AutoLibrary](https://yichunren.pythonanywhere.com/autolibrary/)
+- Website: https://yichunren.pythonanywhere.com/autolibrary/
 - DSC180B - Capstone Project (Winter 2021)
 - Section A04 Group03: Yichun Ren, Jiayi Fan, Bingqi Zhou
 - Personal Digital Library to save the documents and find similar papers via text analyzer.
@@ -14,6 +15,7 @@ launch-scipy-ml.sh -i jfan1998/dsc180a-docker:latest
 Use port-forwarding on dsmlp to open the website:
   - Instruction: https://docs.google.com/document/d/15ehCaVIKSXwgh2jvH3034l5uSPNLrZRgkczwl-xWNEU/edit?usp=sharing
 
+**For Local Run**
 ## Default Run: open AutoLibrary website
 ```
 python run.py
