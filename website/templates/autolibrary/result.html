@@ -207,6 +207,9 @@
     h.innerHTML = 'The 1st run takes about 5 minutes!';
     div.appendChild(br);
     div.appendChild(h);
+    var p = document.createElement('p');
+    p.innerHTML = 'It may take longer if multiple people are running it at the same time...';
+    div.appendChild(p);
     var image = document.getElementById('loading');
     image.hidden = false;
 
