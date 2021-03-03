@@ -45,6 +45,7 @@ div#content-wrapper {
 	margin-left: auto;
 	margin-right: auto;
 	text-align: left;
+	overflow: hidden;
 }
 
 div#logo {
@@ -62,6 +63,7 @@ div#sidebar {
 	float: left;
 	width: 210px;
 	display: inline;
+	overflow: hidden;
 }
 div#content {
 	float: right;
