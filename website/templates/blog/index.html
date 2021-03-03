@@ -21,83 +21,64 @@
             <div id="content-inner">
               <div class="content-full">
                 <h1 style="text-align: center;">AutoLibrary</h1><br><hr><br>
-                <h2 id='Abstract'>Abstract</h2><br>
-                <p class="intro">
-                  When encountering scientific papers, it is challenging for readers themselves to identify keywords in summary of papers to search for similar papers. This dilemma is most common if readers are not familiar with the domains of papers that they are reading. The existing digital libraries utilize phrase mining methods such as taxonomy construction and topic modeling, but they often fail to catch the specific topics of the paper. AutoLibrary is designed to address this difficulty, where users can input a scientific paper and get the most related papers as results. AutoPhrase, a domain-independent phrase mining method developed by Jingbo Shang et al. (2018) that can automatically extract quality phrases from the input paper, is integrated into the process of paper searching. When users choose the fields of study to search papers from, pre-trained models from these fields of study will be applied to extract keywords from the input paper. Then the result phrases with the highest quality scores will be used for search on Semantic Scholar, a search engine for academic publications, and search results will be displayed on this website. AutoLibrary is beneficial as it eases the pain point of extracting keywords from papers of unfamiliar domains and provides a customized user experience for scholar paper searching.
-                </p>
-                <hr><br>
                 <h2 id='Introduction'>Introduction</h2><br>
                 <p class="intro">
-                  Text analysis, also known as text data mining, aims at deriving information from the text (e.g., papers and magazines) by structuring raw data into structured data and interpreting the result. Phrase mining is a fundamental task of text analysis that extracts high-quality phrases from a text corpus. Instead of traditional n-grams segmentation, phrase mining focuses on high-quality phrases that represent the input text expressly and thus improves the computational models of applications that require to find phrases with great interest and relevance in a specific domain, such as taxonomy construction and topic modeling. Without an efficient phrase mining method, while nearly all the current digital libraries have recommendations for each document, they fail to catch the specific topics of the paper to recommend similar works, thus not being able to recommend the most relevant papers.
+                  When encountering scientific papers, it is challenging for readers themselves to find other related works. First of all, it is hard to identify keywords that summarize the papers to search for similar papers. This dilemma is most common if readers are not familiar with the domains of papers that they are reading. Meanwhile, traditional recommendation models based on user profile and collection data are not applicable for recommending similar works. Some existing digital libraries’ recommender systems utilize phrase mining methods such as taxonomy construction and topic modeling, but such methods fail to catch the specific topics of the paper. AutoLibrary is designed to address these difficulties, where users can input a scientific paper and get the most related papers.
                 </p>
-                <p class="intro" style="margin-bottom: 0%;">
-                  AutoLibrary solves the issue of finding accurate topics by using AutoPhrase, which has two innovative techniques: 
-                </p>
-                <ol style="margin-left: 10%; margin-top: 2%; margin-bottom: 0%;">
-                  <li>Robust Positive-Only Distant Training: </li>
-                  <ul style="margin-left: 10%;">
-                    <li>generate phrase mining models without human expert labeling quality phrases</li>
-                  </ul>
-                  <li>POS-Guided Phrasal Segmentation: </li>
-                  <ul style="margin-left: 10%;">
-                    <li>segment sentences into phrases according to their POS(part-of-speech) while taking the completeness of phrases into account</li>
-                  </ul>
-                  <p class="intro" style="margin-left: -2%;"><i>See more details in the METHODOLOGY part.</i></p>
-                </ol><br>
-                <p class="intro" style="margin-top: -3%;">
-                  AutoLibrary extracts the most representative topics from the input paper by incorporating AutoPhrase results of input paper and of specific domains. Then it will use these topics to search on Semantic Scholar and present recommendation results on the website. Note that users can customize their searching by selecting domains, subdomains and keywords.
+                <img src="{% static 'blog/workflow.png' %}" alt="Workflow" height="100%" width="80%" style="display: block; margin-left: auto; margin-right: auto;">
+                <br>
+                <p class="intro">
+                  AutoLibrary solves the dilemma via a text analyzer method called AutoPhrase. AutoPhrase is a domain-independent phrase mining method developed by Jingbo Shang et al. (2018) that can automatically extract quality phrases from the input paper. After users upload the paper and select the fields of study of the paper, AutoLibrary utilizes AutoPhrase and our pre-trained domain datasets to return high-quality domain-specific keywords that could represent the paper. While AutoLibrary uses the top three keywords to search on Semantic Scholar for similar works at first, users could also customize the selection of the high-quality phrases or enter their own keywords to explore other related works. Based on the experiments and result analysis, AutoLibrary outperforms other similar text analyzer applications efficiently and effectively across different scientific fields. AutoLibrary is beneficial as it eases the pain point of manually extracting accurate, specific keywords from papers and provides a customized user experience for finding related papers of various domains and subdomains.
                 </p>
                 <hr><br>
-                <h2 id='Related Works'>Related Works</h2><br>
-                <p class="intro">
-                  The realization of digital libraries was driven by the need for more comprehensive and better organized digital libraries for academic papers. And its success was largely due to the unprecedented development of the Internet and computers. One of the current most widely used digital libraries is Google Scholar, which is considered as hosting the largest scholar paper database in the world.
-                </p>
-                <p class="intro">
-                  Like the recommender systems in other digital products, the recommendation models of current digital libraries use Library collection data, user profile, web server log file, etc. to recommend similar work, such as calculating user-to-user similarity and item-to-item similarity. However, one major issue is that other recommender systems aim at providing user products they like, while the recommender system of digital libraries should provide related works for researchers to further study the specific domain. Such a recommendation model also does not employ the text information within each document.
-                </p>
-                <hr><br>
-                <h2 id='Dataset'>Dataset</h2><br>
-                <p class="intro">
-                  Since it is hard to ensure the significance of quality phrases generated from a single input paper to both the paper and its domain, we build a dataset that contains the quality phrases of different domains. To do this, we utilize the arXiv dataset available on Kaggle, which contains information about more than 1.7 million scholarly articles across STEM. We split the dataset into domains and subdomains, and extract corresponding quality phrases by running AutoPhrases on the corpora of each. After the user inputs a document and selects a domain, we use quality scores of the pre-obtained quality phrases for the specific domain to apply weights to the AutoPhrase results of the input document. In this way we can rank the phrases again and filter out unimportant phrases to the domain. Then the remaining phrases with the highest quality scores will be used for search on Semantic Scholar.
-                </p>
-                <hr><br>
+
                 <h2 id='Methodology'>Methodology</h2><br>
                 <p class="intro">
-                  In this section we will introduce the techniques used in AutoPhrase, and in AutoLibrary.
+                  In this section we will introduce the techniques used in AutoLibrary.
                 </p>
                 <ul>
                   <li style="margin-left: 2%;">
                     <p class="intro">AutoPhrase</p>
                   </li>
+                  <img src="{% static 'blog/autophrase.png' %}" alt="AutoPhrase" height="100%" width="80%" style="display: block; margin-left: auto; margin-right: auto;">
+                  <br>
                   <ol>
                     <li style="margin-left: 5%; margin-top: -2%; margin-bottom: 0%;">
                       <p class="intro"><i>Robust Positive-Only Distant Training</i></p>
                     </li>
                     <p class="intro" style="margin-left: 8%; margin-top: -2%; margin-bottom: 0%;">
-                      This technique of AutoPhrase uses general knowledge bases to eliminate the need for domain experts to manually label candidate phrases with binary labels. After we establish a quality-phrase database we can match phrases from input papers with it, and keywords can be extracted automatically. 
+                      This technique uses general knowledge bases like Wikipedia to eliminate the need for domain experts to manually label candidate phrases with binary labels. 
                     </p>
-                    <img src="{% static 'blog/robust.png' %}" alt="Illustration of a Base Classifier" height="100%" width="80%" style="display: block; margin-left: auto; margin-right: auto;">
                     <p class="intro" style="margin-left: 8%; margin-top: 2%;">
-                      To achieve such a goal, AutoPhrase is trained on a set of phrase candidates, which form two pools: a positive pool and a negative pool. They contain high-quality phrases and low-quality phrases respectively with the latter one containing certain noise. Then T unpruned Decision Tree models are trained on samples of the pools. Finally, these trained models will be utilized to predict whether a phrase is of quality or not by “voting”. If a majority of the models think it’s a high-quality phrase, then we would put it into the positive category. Otherwise, it will be considered as a phrase with inferior quality.
+                      Candidate phrases from the corpus that match the high quality phrases from the general knowledge base are routed to the positive pool. The inferior phrases leftover are routed to the negative pool. Because not all high quality phrases may be in the general knowledge base, some phrases could have been incorrectly routed to the negative pool. To reduce such a noise in the negative pool, we randomly sample K labels from each of the pools as a size-2K subset. It is a perturbed training set as there could be 𝜹 wrongly labeled phrases in the sampled negative pool that should have been positive. Then we train with an unpruned decision tree because of its low training error. As long as a positive and negative phrase have different features, accuracy will always be 100%. From these decision trees, we define a phrase’s quality score as such: out of all the trees, what fraction of them predicted this phrase to be a quality phrase.
                     </p>
                     <li style="margin-left: 5%; margin-top: -2%; margin-bottom: 0%;">
                       <p class="intro"><i>POS-Guided Phrasal Segmentation</i></p>
                     </li>
                     <p class="intro" style="margin-left: 8%; margin-top: -2%; margin-bottom: 0%;">
-                      This is another essential technique of AutoPhrase. There are two parts to this process. The first is to tag words with their POS (part-of-speech) and create a sequence of pairs out of the corpus, where a pair is &lt;w<sub>i</sub>, t<sub>i</sub>&gt; and each pair is represented by a W. Thus, the corpus becomes a word sequence = W<sub>1</sub>W<sub>2</sub>...W<sub>n</sub> where each word is POS-tagged. The second is the phrasal segmentation process which builds on the pairs. This process creates m segments out of the sequence, each segment separated using a boundary index sequence C = {c<sub>1</sub>, c<sub>2</sub>, …, c<sub>m+1</sub>}, where 1=c<sub>1</sub>&lt;c<sub>2</sub>&lt;...&lt;c<sub>m+1</sub>=n+1, and the ith segment ranges from W<sub>ci</sub>W<sub>ci+1</sub> to W<sub>ci+1-1</sub> [1]. 
-                    </p>
-                    <p class="intro" style="margin-left: 8%; margin-top: 2%; margin-bottom: 0%;">
-                      To achieve such a goal, AutoPhrase is trained on a set of phrase candidates, which form two pools: a positive pool and a negative pool. They contain high-quality phrases and low-quality phrases respectively with the latter one containing certain noise. Then T unpruned Decision Tree models are trained on samples of the pools. Finally, these trained models will be utilized to predict whether a phrase is of quality or not by “voting”. If a majority of the models think it’s a high-quality phrase, then we would put it into the positive category. Otherwise, it will be considered as a phrase with inferior quality.
+                      Unlike previous work that punish the same-length phrase candidates in the same way, POS-guided phrasal segmentation measures the completeness of the phrases while considering the corpora’s context by taking advantage of sentence structure since there are inherent divisions in sentences by POS where many phrases reside.
                     </p>
                     <p class="intro" style="margin-left: 8%; margin-top: 2%;">
-                      The POS-guided phrasal segmentation algorithm [1] loops through n word sequences. For each word sequence we look at a word w and the words following it. The number of words we look at are predetermined by a threshold. Within a word sequence, we find the highest quality phrase that starts with w and save its boundary index. The output is the boundary index sequence most optimal according to the algorithm.
+                      There are two parts to this process. The first is to tag words with their POS (part-of-speech) and create a sequence of pairs out of the corpus, where a pair is <word, POS tag>. The second is the phrasal segmentation process which builds on the pairs. This process creates m segments out of the sequence, each segment separated using a boundary index sequence. For each segment, we generate the boundary end index using the start index and given sequence. We use a multinomial distribution to create the word sequence, and compute the quality of a sequence as a segment. Then we maximize the joint log likelihood for a word sequence and boundary index sequence using the POS-Guided Phrasal Segmentation algorithm to return the ideal segmentation.
                     </p>
                   </ol>
+
+                  <li style="margin-left: 2%;">
+                    <p class="intro">Dataset</p>
+                  </li>
+                  <img src="{% static 'blog/dataset.png' %}" alt="Dataset" height="70%" width="70%" style="display: block; margin-left: auto; margin-right: auto;" />
+                  <p class="intro" style="margin-left: 5%; margin-top: 2%;">
+                    Since it is hard to ensure the significance of quality phrases generated from a single input paper to both the paper and its domain, we build a dataset that contains the quality phrases of different domains. To do this, we utilize the arXiv dataset available on Kaggle, which contains information about more than 1.7 million scholarly articles across STEM. We split the dataset into domains and subdomains, and extract corresponding quality phrases by running AutoPhrases on the corpora of each. After the user inputs a document and selects a domain, we use quality scores of the pre-obtained quality phrases for the specific domain to apply weights to the AutoPhrase results of the input document. In this way we can rank the phrases again and filter out unimportant phrases to the domain. Then the remaining phrases with the highest quality scores will be used for search on Semantic Scholar.
+                  </p>
+
                   <li style="margin-left: 2%;">
                     <p class="intro">Weighted Quality Score</p>
                   </li>
                   <p class="intro" style="margin-left: 5%; margin-top: 2%; margin-bottom: 0%;">
-                    We apply AutoPhrase by introducing the weighted quality score. It is produced by quality scores from domain quality phrases and document-specific quality phrases. Its formula goes like this:
+                    Because AutoPhrase is built for extracting high-quality phrases from large text corpora, its quality evaluations of phrases in a single document might be unreliable. At the same time, the assessment based on POS makes the entity names always have high quality scores, although some entities have low frequencies and are not domain-specific.
+                  </p>
+                  <p class="intro" style="margin-left: 5%; margin-top: 2%; margin-bottom: 0%;">
+                    To handle the biased quality evaluation, we apply weights to the quality scores of the phrases based on the phrases’ corresponding quality scores in their domains according to the pre-trained domain datasets. Since the quality score is already standardized, ranging from 0 to 1, the most efficient way to apply weight is simply multiplying the quality scores: 
                   </p>
                   <p style="text-align: center; margin-top: 2%; margin-bottom: 2%;">
                     Quality<sub>weighted</sub> (x) = Quality<sub>document i</sub> (x) ∗ Quality<sub>domain j</sub> (x)
@@ -105,17 +86,90 @@
                   <p class="intro" style="margin-left: 5%; margin-top: 0%;">
                     The weighted quality score not only could reassess the significance of the phrase according to both the input document and the domain, but also could filter the entities that are created by the document itself and would not contribute to finding other similar works.
                   </p>
+
                   <li style="margin-left: 2%;">
                     <p class="intro">Web Scraping</p>
                   </li>
                   <p class="intro" style="margin-left: 5%; margin-top: 2%; margin-bottom: 0%;">
                     To take advantage of the well-built recommender system in existing digital libraries, AutoPhrase has its own backend built with Flask. It is responsible for accepting keywords and fields of studies from the frontend and using them to search for scholarly articles by using the Semantic Scholar API.
                   </p>
+                  <br>
                   <img src="{% static 'blog/webscrape.png' %}" alt="Workflow of the Application" height="70%" width="70%" style="display: block; margin-left: auto; margin-right: auto;" />
                   <p class="intro" style="margin-left: 5%; margin-top: 2%;">
                     The data returned from Semantic Scholar is a json string, which consists of lots of metadata of papers. The backend extracted useful ones, such as dates, abstracts and titles, formulating them into another json string and returned to the frontend. 
                   </p>
                 </ul>
+
+                <h2 id='Evaluation'>Evaluation</h2><br>
+                <ul>
+                  <li style="margin-left: 2%;">
+                    <p class="intro">Experiments</p>
+                  </li>
+                  <p class="intro" style="margin-left: 5%; margin-top: 2%;">
+                  </p>
+                  
+                  <li style="margin-left: 2%;">
+                    <p class="intro">Result Analysis</p>
+                  </li>
+                  <ol>
+                    <li style="margin-left: 5%; margin-top: -2%; margin-bottom: 0%;">
+                      <p class="intro"><i>Whether the model is able to differentiate similar papers published by the same author, while at the same time discovering their shared topics.</i></p>
+                    </li>
+                    <p class="intro" style="margin-left: 8%; margin-top: -2%; margin-bottom: 0%;">
+                      We select 5 papers published by Professor Shang.
+                    </p>
+                    <img src="{% static 'blog/5papers.png' %}" alt="5 Papers Published by Professor Shang" height="60%" width="60%" style="display: block; margin-left: auto; margin-right: auto;" />
+                    <br><br>
+                    <img src="{% static 'blog/result_analysis1.png' %}" alt="Top 10 Quality Phrases from 5 Papers" height="80%" width="80%" style="display: block; margin-left: auto; margin-right: auto;" />
+                    <br>
+                    <p class="intro" style="margin-left: 8%; margin-top: 2%;">
+                      After getting AutoPhrase results and applying weights, the result table shows that there are some phrases, such as "natural language," "pos tagging," "lstm crf," and "text corpora," shared across these 5 papers. At the same time, each of these papers has its own unique phrases, such as "cross validation" for CrossWeigh, "knowledge base" for AutoPhrase, "sequence labeling" for LM-LSTM-CRF, "distant supervision" for AutoNER, and "bipartite graph" for SetExpan. It proves that our model is able to differentiate similar papers published by the same author, while at the same time discovering their shared topics.
+                    </p>
+                    <li style="margin-left: 5%; margin-top: -2%; margin-bottom: 0%;">
+                      <p class="intro"><i>Whether the model is able to give precise results compared to manual labeling.</i></p>
+                    </li>
+                    <p class="intro" style="margin-left: 8%; margin-top: -2%; margin-bottom: 0%;">
+                      We annotate the weighted results by manual checking and labeling whether the phrases can actually represent the paper. 
+                    </p>
+                    <img src="{% static 'blog/curve.png' %}" alt="Precision-Recall Curve" height="70%" width="70%" style="display: block; margin-left: auto; margin-right: auto;" />
+                    <img src="{% static 'blog/result_analysis2.png' %}" alt="Accuracy Compared to Manuel Labeling" height="80%" width="80%" style="display: block; margin-left: auto; margin-right: auto;" />
+                    <p class="intro" style="margin-left: 8%; margin-top: 2%;">
+                      Both the precision-recall curve and the accuracy compared to manual labeling show that our model is able to give precise results compared to manual labeling. 
+                    </p>
+                  </ol>
+                </ul>
+                <hr><br>
+
+                <h2 id='Advantages'>Advantages</h2><br>
+                <img src="{% static 'blog/advantage.png' %}" alt="Advantages" height="70%" width="70%" style="display: block; margin-left: auto; margin-right: auto;" />
+                <p class="intro">
+                  There are several advantages of AutoLibrary:
+                </p>
+                <ul>
+                  <ol>
+                    <li style="margin-left: 5%; margin-top: -2%; margin-bottom: 0%;">
+                      <p class="intro">
+                        Accurate: AutoLibrary is able to give precise results compared to manual labeling.
+                      </p>
+                    </li>
+                    <li style="margin-left: 5%; margin-top: -2%; margin-bottom: 0%;">
+                      <p class="intro">
+                        Specific: AutoLibrary is able to differentiate similar papers published by the same author while at the same time discovering their shared topics.
+                      </p>
+                    </li>
+                    <li style="margin-left: 5%; margin-top: -2%; margin-bottom: 0%;">
+                      <p class="intro">
+                        Domain Independent: AutoLibrary utilizes AutoPhrase which is a domain-independent phrase mining method developed by Jingbo Shang et al. (2018) that can automatically extract quality phrases from the input paper.
+                      </p>
+                    </li>
+                    <li style="margin-left: 5%; margin-top: -2%;">
+                      <p class="intro">
+                        Customizable: After inputting a paper, the user can select a field of study to start the first search on Semantic Scholar using the top three keywords. After that, users can customize the selection of the high-quality phrases or enter their own keywords to explore other related works.
+                      </p>
+                    </li>
+                  </ol>
+                </ul>     
+                <br>
               </div>
             </div>
           </div>
@@ -125,11 +179,10 @@
             <div id="contents">
               <h4>Contents</h4>
               <ul id="content_list" class="side-nav">
-                <li><a href="#Abstract">Abstract</a></li>
                 <li><a href="#Introduction">Introduction</a></li>
-                <li><a href="#Related Works">Related Works</a></li>
-                <li><a href="#Dataset">Dataset</a></li>
                 <li><a href="#Methodology">Methodology</a></li>
+                <li><a href="#Evaluation">Evaluation</a></li>
+                <li><a href="#Advantages">Advantages</a></li>
               </ul>
             </div>
           </div>
