@@ -149,29 +149,6 @@ def get_domain(request):
             config = {'fos': [selected_domain]}
             with open('../data/out/fos_' + unique_key + '.json', 'w') as fp:
                 json.dump(config, fp)
-
-            # set in_queue and timestamp
-            shared_obj['in_queue'] = "true"
-            d = datetime.datetime.now(datetime.timezone.utc)
-            unix = time.mktime(d.timetuple())
-            shared_obj['timestamp'] = unix
-            # calculate wait time
-            sessions = Session.objects.filter(expire_date__gte=timezone.now())
-            sessions_in_queue = []
-            for session in sessions:
-                s = session.get_decoded()
-                if session.session_key != unique_key:
-                    if 'in_queue' in s.keys() and s['in_queue'] == "true":
-                        sessions_in_queue.append(s['timestamp'])
-            sessions_in_queue.sort()
-            wait_time = 0
-            for timestamp in sessions_in_queue:
-                if timestamp <= unix:
-                    wait_time += 60
-                else: 
-                    break
-            time.sleep(wait_time)
-
             # rewrite data-params.json
             config = json.load(open('../config/data-params.json'))
             config['pdfname'] = selected_pdf
