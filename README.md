@@ -15,7 +15,7 @@ launch-scipy-ml.sh -i jfan1998/dsc180a-docker:latest
 Use port-forwarding on dsmlp to open the website:
   - Instruction: https://docs.google.com/document/d/15ehCaVIKSXwgh2jvH3034l5uSPNLrZRgkczwl-xWNEU/edit?usp=sharing
 
-**For Local Run**
+### For Local Run
 ## Default Run: open AutoLibrary website
 ```
 python run.py
