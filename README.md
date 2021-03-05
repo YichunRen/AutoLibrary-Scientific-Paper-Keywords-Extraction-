@@ -1,5 +1,4 @@
-# [AutoLibrary](https://yichunren.pythonanywhere.com/autolibrary/)
-## A Personal Digital Library to save the documents and find similar papers via text analyzer
+# [AutoLibrary](https://yichunren.pythonanywhere.com/autolibrary/) - A Personal Digital Library to Find Related Works via Text Analyzer
 - Website: https://yichunren.pythonanywhere.com/autolibrary/
 - DSC180B - Capstone Project (Winter 2021)
 - Section A04 Group03: Yichun Ren, Jiayi Fan, Bingqi Zhou
