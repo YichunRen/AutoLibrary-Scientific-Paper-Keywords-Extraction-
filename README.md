@@ -50,6 +50,8 @@ python run.py website
 ```
 python run.py report
 ```
+#### Note for local run:
+Since AutoLibary does not have access right to your local documents, if you would like to try other papers, please put the papers in ```~/AutoLibrary/website/autolibrary/documents``` and refresh the website.
 
 ### Responsbilities: 
 - Yichun Ren: Dataset, Weight, Website Development
