@@ -144,10 +144,12 @@ def get_domain(request):
 
             os.system('mkdir -p ../data/out')
             unique_key = request.session.session_key
-            with open('../data/out/selected_domain_' + unique_key + '.txt', 'w') as fp:
+            # with open('../data/out/selected_domain_' + unique_key + '.txt', 'w') as fp:
+            with open('../data/out/selected_domain.txt', 'w') as fp:
                 fp.write(selected_subdomain)
             config = {'fos': [selected_domain]}
-            with open('../data/out/fos_' + unique_key + '.json', 'w') as fp:
+            # with open('../data/out/fos_' + unique_key + '.json', 'w') as fp:
+            with open('../data/out/fos.json', 'w') as fp:
                 json.dump(config, fp)
             # rewrite data-params.json
             config = json.load(open('../config/data-params.json'))

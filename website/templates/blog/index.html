@@ -106,7 +106,41 @@
                     <p class="intro">Experiments</p>
                   </li>
                   <p class="intro" style="margin-left: 5%; margin-top: 2%;">
+                    We compared and contrasted it with similar web applications, including Jstor, Webtools and MonkeyLearn text analyzers.
                   </p>
+                  <ol>
+                    <p class="intro" style="margin-left: 5%; margin-top: -2%;">
+                      Comparison between AutoLibrary and Webtools
+                    </p>
+                    <img src="{% static 'blog/experiment1.png' %}" alt="AutoLibrary vs. Webtools" height="80%" width="80%" style="display: block; margin-left: auto; margin-right: auto;" />
+                    <img src="{% static 'blog/experiment1.png' %}" alt="AutoLibrary vs. Webtools" height="80%" width="80%" style="display: block; margin-left: auto; margin-right: auto;" />
+                    <br>
+                    <p class="intro" style="margin-left: 5%; margin-top: 2%; margin-bottom: 0%;">
+                      We can see that the area under the precision-recall curve of AutoLibrary is bigger than that of Webtools in all eight domains. This means that AutoLibrary performs better than the Webtools analyzer across different domains. It makes sense intuitively since the latter one is very simple. Its results often contain non-quality phrases, such as “of the”, “can be”, and etc. Moreover, in the domain of Quantitative Finance, where there were lots of mathematical equations, the Webtools analyzer failed to filter out symbols like “t<sub>s</sub>”.
+                    </p>
+                    <p class="intro" style="margin-left: 5%; margin-top: 2%;">
+                      When comparing AutoPhrase and the Jstor analyzer, we used a histogram plot to compare their percentages of quality phrases in their extracted phrases.
+                    </p>
+                    <img src="{% static 'blog/extracted40.png' %}" alt="AutoLibrary vs. Jstor" height="80%" width="80%" style="display: block; margin-left: auto; margin-right: auto;" />
+                    <br>
+                    <p class="intro" style="margin-left: 5%; margin-top: 2%; margin-bottom: 0%;">
+                      We can see that in all domains, AutoLibrary performs better than the Jstor analyzer. The main con of Jstor is that its recommendation is based on a fixed set of predefined topics. Therefore, it cannot make customized recommendations for specific papers. For example, when analyzing a statistics paper, it recommended “debt collection”, which doesn’t even exist in the original text. In contrast, AutoLibrary first extracts phrases from the input paper, which improves the contingency between the quality phrases and the original paper. 
+                    </p>
+                    <p class="intro" style="margin-left: 5%; margin-top: 2%; margin-bottom: 0%;">
+                      Another big shortcoming of Jstor is that the topics it recommends are sometimes too general. Although they make sense in English, they don't qualify as quality phrases. For example, when analyzing the Computer Science paper, one of the phrases extracted is “computer programming.” It doesn’t really help users since it’s too general for them to search for related papers.
+                    </p>
+                    <p class="intro" style="margin-left: 5%; margin-top: 2%; margin-bottom: 0%;">
+                      Last but not least, Jstor doesn’t offer quality scores to recommended phrases, which means that users don’t know which phrases can best represent their input papers. AutoLibrary, on the other hand, ranks the top 5 phrases in order, so that users can have a better overview of the papers.
+                    </p>
+                    <p class="intro" style="margin-left: 5%; margin-top: 2%;">
+                      Next we experimented with MonkeyLearn. Note that we only compared the top ten phrases from both AutoLibrary and MonkeyLearn, since the latter one only provides 10 keywords and phrases. The result comparison can be seen in the figure below. 
+                    </p>
+                    <img src="{% static 'blog/extracted10.png' %}" alt="AutoLibrary vs. MonkeyLearn" height="80%" width="80%" style="display: block; margin-left: auto; margin-right: auto;" />
+                    <br>
+                    <p class="intro" style="margin-left: 5%; margin-top: 2%;">
+                      From the figure, we can see that AutoPhrase outperformed MonkeyLearn in all domains. One big disadvantage of MonkeyLearn we found is that it probably relies heavily on the frequency of phrases. Although it can extract some really meaningful phrases amongst its top 5 phrases, it also recommends some phrases that make no sense. For example, when analyzing the Mathematics paper, it extracted "a1 a2 a1", "a2 a1 a2" and "a1 a2 a0" amongst the top 10 phrases. We believe that AutoLibrary defeats MonkeyLearn by weighting phrases against domain knowledge pools, which eliminates the reckless ones.
+                    </p>
+                  </ol>
                   
                   <li style="margin-left: 2%;">
                     <p class="intro">Result Analysis</p>
@@ -149,7 +183,7 @@
                   <ol>
                     <li style="margin-left: 5%; margin-top: -2%; margin-bottom: 0%;">
                       <p class="intro">
-                        Accurate: AutoLibrary is able to give precise results compared to manual labeling.
+                        Accurate: AutoLibrary is able to give precise results compared to other text analyzers as well as manual labeling.
                       </p>
                     </li>
                     <li style="margin-left: 5%; margin-top: -2%; margin-bottom: 0%;">
