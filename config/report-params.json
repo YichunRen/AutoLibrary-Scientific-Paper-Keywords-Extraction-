@@ -1,4 +1,6 @@
 {
-    "report_in_path": "notebooks/Result-Analysis.ipynb",
-    "report_out_path": "data/report/Result-Analysis.html"
+    "experiment_in_path": "notebooks/Experiment.ipynb",
+    "experiment_out_path": "data/report/Experiment.html",
+    "analysis_in_path": "notebooks/Result-Analysis.ipynb",
+    "analysis_out_path": "data/report/Result-Analysis.html"
 }

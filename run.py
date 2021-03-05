@@ -20,7 +20,6 @@ def main():
     webscrape_config = json.load(open('config/webscrape-params.json'))
     website_config = json.load(open('config/website-params.json'))
     report_config = json.load(open('config/report-params.json'))
-    experiment_config = json.load(open('config/experiment-params.json'))
     test_config = json.load(open('config/test-params.json'))
 
     os.system('git submodule update --init')
@@ -49,11 +48,10 @@ def main():
         except:
             webscrape(unique_key='', **webscrape_config)
     if 'report' in targets:
-        convert_report(**report_config)
+        convert_report(report_config['experiment_in_path'], report_config['experiment_out_path'])
+        convert_report(report_config['analysis_in_path'], report_config['analysis_out_path'])
     if 'website' in targets:
         activate_website(**website_config)
-    if 'experiment' in targets:
-        convert_report(**experiment_config)
     if 'test' in targets:
         convert_txt(test_config['indir'], data_config['outdir'], test_config['pdfname'],)
         autophrase(data_config['outdir'], test_config['pdfname'], model_config['outdir'], model_config['filename'])
