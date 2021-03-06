@@ -57,8 +57,8 @@ def main():
         autophrase(data_config['outdir'], test_config['pdfname'], model_config['outdir'], model_config['filename'])
         change_weight(**weight_config)
         webscrape(**webscrape_config)
-        convert_report(**report_config)
-        convert_report(**experiment_config)
+        convert_report(report_config['experiment_in_path'], report_config['experiment_out_path'])
+        convert_report(report_config['analysis_in_path'], report_config['analysis_out_path'])
     return
 
 #if __name__ == '__main__':
