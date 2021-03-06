@@ -6,6 +6,7 @@ Ubuntu:
 *  g++ 4.8 `$ sudo apt-get install g++-4.8`
 *  Java 8 `$ sudo apt-get install openjdk-8-jdk`
 *  curl `$ sudo apt-get install curl`
+*  seaborn `sudo apt-get install -y python3-seaborn`
 
 MacOS:
 
@@ -14,3 +15,4 @@ MacOS:
 *  Django `$ pip install Django==3.1.5`
 *  g++ 6 `$ brew install gcc6`
 *  Java 8 `$ brew update; brew tap caskroom/cask; brew install Caskroom/cask/java`
+*  seaborn `$ pip install -U seaborn`
