@@ -7,7 +7,6 @@
 ## Docker
 - The docker repository is `jfan1998/dsc180a-docker`.
 - Note: The docker uses dsmlp base container. Please login to a dsmlp jumpbox before entering the command below.
-- For local run, please refer to `requirements.txt` to check if all the packages and libraries needed are installed.
 ```
 launch-scipy-ml.sh -i jfan1998/dsc180a-docker:latest
 ```
@@ -18,7 +17,8 @@ Use port-forwarding on dsmlp to open the website:
 - Our published website enables users to upload papers via URLs/Local Machine
 - If you are curious about our code for published website, you can switch the branch to website.
 
-### For Local Run
+# For Local Run
+- For local run, please refer to `requirements.txt` to check if all the packages and libraries needed are installed.
 ## Default Run: open AutoLibrary website
 ```
 python run.py
