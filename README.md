@@ -18,7 +18,7 @@ Use port-forwarding on dsmlp to open the website:
 - If you are curious about our code for published website, you can switch the branch to website.
 
 # For Local Run
-- For local run, please refer to `requirements.txt` to check if all the packages and libraries needed are installed.
+- Please refer to `requirements.txt` to check if all the packages and libraries needed are installed.
 ## Default Run: open AutoLibrary website
 ```
 python run.py
