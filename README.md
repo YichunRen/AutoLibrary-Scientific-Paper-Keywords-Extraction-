@@ -14,9 +14,9 @@ launch-scipy-ml.sh -i jfan1998/dsc180a-docker:latest
 Use port-forwarding on dsmlp to open the website:
   - Instruction: https://docs.google.com/document/d/15ehCaVIKSXwgh2jvH3034l5uSPNLrZRgkczwl-xWNEU/edit?usp=sharing
 
-## Website:
+## Website
 - Our published website enables users to upload papers via URLs/Local Machine
-- If you are curious about the difference of our code for published website, you can switch the branch to website.
+- If you are curious about our code for published website, you can switch the branch to website.
 
 ### For Local Run
 ## Default Run: open AutoLibrary website
