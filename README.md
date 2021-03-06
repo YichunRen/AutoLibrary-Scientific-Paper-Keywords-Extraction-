@@ -17,9 +17,9 @@ Use port-forwarding on dsmlp to open the website:
 - Our published website enables users to upload papers via URLs/Local Machine
 - If you are curious about our code for published website, you can switch the branch to website.
 
-# For Local Run
+## Local Run
 - Please refer to `requirements.txt` to check if all the packages and libraries needed are installed.
-## Default Run: open AutoLibrary website
+### Default Run: open AutoLibrary website
 ```
 python run.py
 ```
