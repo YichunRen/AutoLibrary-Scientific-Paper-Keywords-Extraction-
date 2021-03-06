@@ -185,7 +185,8 @@ def webscrape(unique_key, keywords_path, fos_path, out_path):
     print("\n")
     print(">>>>>>>>>>>>>>>>>>>>>>>> Running websraping... <<<<<<<<<<<<<<<<<<<<<<<<<<<<")
 
-    fos_path = 'data/out/fos' + unique_key + '.json'
+    # fos_path = fos_path[:-4] + unique_key + fos_path[-4:]
+    fos_path = 'data/out' + unique_key + '/fos.json'
     try:
         # Extract keywords and fields of study
         given_fos = json.load(open(fos_path))['fos']
@@ -196,6 +197,7 @@ def webscrape(unique_key, keywords_path, fos_path, out_path):
     except:
         fos = ['computer-science']
     print("field of study: {}".format(fos))
+    keywords_path = 'data/out' + unique_key + '/selected_keywords.json'
     keywords = json.load(open(keywords_path))['keywords']
     print("keywords: {}".format(keywords))
 
@@ -264,6 +266,8 @@ def webscrape(unique_key, keywords_path, fos_path, out_path):
         if len(specifics) == 5:
             break
     # write the result to a json file
+    # out_path = 'data/out/scraped_AutoPhrase' + unique_key + '.json'
+    out_path = 'data/out' + unique_key + '/scraped_AutoPhrase.json'
     with open(out_path, 'w') as outfile:
         json.dump(specifics, outfile)
 

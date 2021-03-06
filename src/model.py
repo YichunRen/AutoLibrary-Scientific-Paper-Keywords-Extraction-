@@ -1,6 +1,6 @@
 import os
 
-def autophrase(data_outdir, pdfname, outdir, filename):
+def autophrase(unique_key, data_outdir, pdfname, outdir, filename):
     # remove single quotes from file name
     textname = pdfname.replace("'", "")
     textname = textname.replace('.pdf', '_converted.txt')
@@ -8,9 +8,9 @@ def autophrase(data_outdir, pdfname, outdir, filename):
     output_fp = os.path.join(data_outdir, textname)
 
     # copy txt file to AutoPhrase/test/testdata
-    command = 'cp ' + output_fp + ' AutoPhrase/test/testdata'
+    command = 'cp ' + output_fp + ' AutoPhrase'+ unique_key +'/test/testdata'
     os.system(command)
-    command = 'mv AutoPhrase/test/testdata/' + textname + ' AutoPhrase/test/testdata/test_raw.txt'
+    command = 'mv AutoPhrase'+ unique_key +'/test/testdata/' + textname + ' AutoPhrase'+ unique_key +'/test/testdata/test_raw.txt'
     os.system(command)
     print("\n")
     print(">>>>>>>>>>>>>>>>>>>>>>>> Running AutoPhrase... <<<<<<<<<<<<<<<<<<<<<<<<<<<<")
@@ -19,20 +19,24 @@ def autophrase(data_outdir, pdfname, outdir, filename):
     # write bash script to call the target test
 
     with open('src/run.sh', 'w') as rsh:
-        rsh.write('''cd AutoPhrase \n''')
+        rsh.write('''cd AutoPhrase'''+ unique_key +''' \n''')
         rsh.write('''mkdir test_model \n''')
-        rsh.write('''/home/yichunren/AutoLibrary/myvenv/bin/python /home/yichunren/AutoLibrary/AutoPhrase/run.py test \n''')
+        rsh.write('''/home/yichunren/AutoLibrary/myvenv/bin/python /home/yichunren/AutoLibrary/AutoPhrase'''+ unique_key +'''/run.py test \n''')
         rsh.write('''mkdir test_endtest \n''')
     os.system('bash src/run.sh')
 
     # make a directory if outdir does not exist
+    outdir += unique_key
     command = 'mkdir -p ' + outdir
     os.system(command)
 
     # save output
     print("  => Saving results...")
+    # filename = 'AutoPhrase' + unique_key + '.txt'
+    filename = 'AutoPhrase.txt'
     output_fp = os.path.join(outdir, filename)
-    os.system('cp AutoPhrase/data/out/AutoPhrase_Result/AutoPhrase.txt ' + output_fp)
+    command = 'cp AutoPhrase'+ unique_key +'/data/out/AutoPhrase_Result/AutoPhrase.txt ' + output_fp
+    os.system(command)
     print(" => Done! AutoPhrase output is saved as '" + output_fp + "'")
     print("\n")
     return

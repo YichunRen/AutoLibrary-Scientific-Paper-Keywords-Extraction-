@@ -26,9 +26,24 @@ def main(targets):
     if len(sys.argv) == 1:
         activate_website(**website_config)
     if 'data' in targets:
-        convert_txt(**data_config)
+        try:
+            unique_key = '_' + sys.argv[2]
+            file_path = 'config/data-params' + unique_key + '.json'
+            data_config = json.load(open(file_path))
+            convert_txt(**data_config)
+        except:
+            print('failed loading')
+            convert_txt(**data_config)
     if 'autophrase' in targets:
-        autophrase(data_config['outdir'], data_config['pdfname'], model_config['outdir'], model_config['filename'])
+        try:
+            unique_key = '_' + sys.argv[2]
+            file_path = 'config/data-params' + unique_key + '.json'
+            data_config = json.load(open(file_path))
+            autophrase(unique_key, data_config['outdir'], data_config['pdfname'], model_config['outdir'], model_config['filename'])
+        except:
+            unique_key = ''
+            autophrase(unique_key, data_config['outdir'], data_config['pdfname'], model_config['outdir'], model_config['filename'])
+
     if 'weight' in targets:
         try:
             unique_key = '_' + sys.argv[2]

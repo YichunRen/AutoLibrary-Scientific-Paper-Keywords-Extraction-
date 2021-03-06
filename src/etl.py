@@ -5,7 +5,7 @@ def convert_txt(indir, outdir, pdfname):
     print("\n")
     print(">>>>>>>>>>>>>>>>>>>>>>>> Installing PDFBox... <<<<<<<<<<<<<<<<<<<<<<<<<<<<")
     os.system('pip install python-pdfbox')
-    
+
     print("\n")
     print(">>>>>>>>>>>>>>>>>>>>>>>> Converting File... <<<<<<<<<<<<<<<<<<<<<<<<<<<<")
     print("  => Inputing a document...")
@@ -18,11 +18,11 @@ def convert_txt(indir, outdir, pdfname):
     temp_txt = temp_txt.replace(' ', '_')
     p = pdfbox.PDFBox()
     p.extract_text(input_fp, temp_txt)
-    
+
     # make a directory if outdir does not exist
     command = 'mkdir -p ' + outdir
     os.system(command)
-    
+
     print("  => Converting pdf to txt...")
     textname = pdfname.replace('.pdf', '_converted.txt')
     textname = textname.replace(' ', '_')
@@ -37,7 +37,7 @@ def convert_txt(indir, outdir, pdfname):
             else:
                 output_txt.write(line[:-1] + ' ')
     output_txt.close()
-    
+
     # save output
     command = 'rm ' + temp_txt
     os.system(command)

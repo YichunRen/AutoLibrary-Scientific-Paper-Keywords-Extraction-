@@ -45,6 +45,7 @@ div#content-wrapper {
 	margin-left: auto;
 	margin-right: auto;
 	text-align: left;
+	overflow: hidden;
 }
 
 div#logo {
@@ -62,6 +63,7 @@ div#sidebar {
 	float: left;
 	width: 210px;
 	display: inline;
+	overflow: hidden;
 }
 div#content {
 	float: right;
@@ -178,7 +180,7 @@ ul.side-nav li a:hover {
 	color: #cac6ba;
 }
 .btn-group {
-	display: block; 
+	display: block;
 	border: none;
 	border-bottom: 1px solid #e9e7e7;
 	margin: 0;
@@ -186,7 +188,7 @@ ul.side-nav li a:hover {
 	background: url(../images/side-nav-bullet.gif) no-repeat 5px 50%;
 	color: #978f7c;
 	text-decoration: none;
-	cursor: pointer; 
+	cursor: pointer;
 	width: 100%;
 	text-align: left;
 }
@@ -267,7 +269,7 @@ p.copyright {
 /* @end */
 
 /* @group Lists */
-	
+
 /* @end */
 
 /* @group Links - link visited hover active */
@@ -301,10 +303,10 @@ p.copyright a:hover {
 	clear: both;
 }
 .clearfix:after {
-    content: "."; 
-    display: block; 
-    height: 0; 
-    clear: both; 
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
     visibility: hidden;
 }
 
@@ -375,7 +377,7 @@ ul.menu_top a:hover, ul.menu_top a.haschildren.childselected, ul.menu_top a.sele
 }
 ul.menu_top li a.haschildren:after {
 	content: "\00A0\00A0\25BC";
-} 
+}
 a {
 	color: #0000aa;
 	background-color: inherit;

@@ -319,10 +319,18 @@
       "domain": document.getElementById('sel1').value,
       "subdomain": document.getElementById('sel2').value
     };
-    var URL = "{% url 'get_domain' %}";
+    var URL = "{% url 'get_domain1' %}";
     $.post(URL, selected, function(response){
       if (response === 'get domain'){
-        window.location = "https://yichunren.pythonanywhere.com/autolibrary/customization";
+        var URL = "{% url 'get_domain2' %}";
+        $.post(URL, selected, function(response){
+            if (response === 'get domain'){
+                window.location = "https://yichunren.pythonanywhere.com/autolibrary/customization";
+            }
+            else {
+                alert('Error! :(');
+            }
+        });
       } else {
           alert('Error! :(');
       }
@@ -353,4 +361,25 @@
       }
     });
   }
+
+  document.querySelector('.upload').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var file = e.target.uploadFile.files[0];
+    var formData = new FormData();
+    formData.append('file', file);
+    $.ajax({
+      url: "{% url 'upload_file' %}",
+      type: 'POST',
+      processData: false,
+      contentType: false,
+      data: formData,
+      success : function(result) {
+        if (result == "upload file") {
+          window.location.href = "https://yichunren.pythonanywhere.com/autolibrary/result";
+        } else {
+          alert('Error! :(');
+        }
+      },
+    });
+  })
 </script>

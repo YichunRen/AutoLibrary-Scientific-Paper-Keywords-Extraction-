@@ -32,9 +32,17 @@
                 <p class="end-story-links"></p>
               </div>
               <div class="content-full">
-                <h2>Brief Introduction</h2>
+                <h2>How to Use:</h2>
                 <p> </p>
-                <p class="intro">While the user inputs a paper and specifies a domain, we first use AutoPhrase to extract quality phrases from the input paper. AutoPhrase is a phrase mining method created by Jingbo Shang. It minimizes the required human effort of other phrase mining methods and improves the result by using two new techniques. The first technique is Robust Positive-Only Distant Training and the second one is POS-Guided Phrasal Segmentation. Since it is hard to ensure the significance of quality phrases generated from a single paper to both the paper and its domain, we build a dataset that contains the quality phrases of different domains by running AutoPhrases on corpora of each domain. After applying weight to the AutoPhrase results of a single document with our pre-obtained domain-specific phrases, we can rank the phrases again and filter out domain’s unimportant phrases. Then by searching for keywords with the highest quality scores on Semantic Scholar, AutoLibrary scrap and display the search result on its website. AutoLibrary also allows users to customize their search, such as manually adding keywords and changing the selection of keywords. It might also store users’ searching history in their local machine so that they could quickly look back to papers that they read as well as their search results.</p>
+                <p class="intro">1. <b>Uploads</b> papers (URLs/Local Upload). The uploaded documents of each user will not be visible to other users.</p>
+                <p class="intro">2. Select the <b>paper</b> you want to find similar works or keywords.</p>
+                <p class="intro">3. Select the <b>domain</b> of the selected paper. Right now, we only support STEM domains.</p>
+                <p class="intro">4. Select the <b>subdomain</b> of the selected paper if you want more domain-specific results.</p>
+                <p class="intro">5. Click <b>“Find Keywords”</b>. It would take about 5 minutes for the first time since it needs to extract keywords from the papers. In the end, the recommendations finding by using the top 3 quality phrases will be displayed.</p>
+                <p class="intro">6. Open the <b>“More Customization”</b> widget to see and select the keywords or entering your own keywords.</p>
+                <p class="intro">7. Click <b>“Generate Results”</b> to find similar works with new keywords.</p>
+                <br>
+                <p>Note: The two available papers are the papers of AutoPhrase. Feel free to read and try to run AutoLibrary on them.</p>
                 <div><img src="{% static 'autolibrary/images/research.jpg' %}" alt="research photo" class="content-img" id="research"/></div>
               </div>
             </div>
