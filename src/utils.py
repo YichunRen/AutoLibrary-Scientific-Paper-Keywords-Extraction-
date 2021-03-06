@@ -6,6 +6,8 @@ import pandas as pd
 from sklearn.metrics import precision_recall_curve
 
 def convert_report(report_in_path, report_out_path, **kwargs):
+    print("\n")
+    print(">>>>>>>>>>>>>>>>>>>>>>>> Running Report... <<<<<<<<<<<<<<<<<<<<<<<<<<<<")
     curdir = os.path.abspath(os.getcwd())
     indir, _ = os.path.split(report_in_path)
     outdir, _ = os.path.split(report_out_path)
@@ -31,6 +33,8 @@ def convert_report(report_in_path, report_out_path, **kwargs):
 
     with open(report_out_path, 'w') as fh:
         fh.write(body)
+    print(" => Done! The Report HTML is saved as '" + report_out_path + "'")
+    print("\n")
 
 def min_max_scale(phrases):
     '''
