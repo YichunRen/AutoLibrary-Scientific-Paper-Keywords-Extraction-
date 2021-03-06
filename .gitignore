@@ -14,3 +14,4 @@ venv
 AutoPhrase/*
 data/*
 */scraped_AutoPhrase.json
+AutoPhrase_[0-9a-z]
