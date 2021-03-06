@@ -36,23 +36,24 @@ python run.py weight
 ```
 python run.py webscrape
 ```
-### Target 5: Test all previous targets on test data
+### Target 5: Convert jupyter notebooks to html
+```
+python run.py report
+```
+### Target 6: Test all previous targets on test data
 Note: For the test run, raw test data and domain for search is in test/testdata directory.
 ```
 python run.py test
 ```
-### Target 6: Activating the website
+### Target 7: Activating the website
 ```
 python run.py website
 ```
-### Target 7: Convert jupyter notebooks to html
-```
-python run.py report
-```
+
 #### Note for local run:
-Since AutoLibary does not have access right to your local documents, if you would like to try other papers, please put the papers in ```~/AutoLibrary/website/autolibrary/documents``` and refresh the website.
+Since AutoLibary does not have access right to your local documents, if you would like to try other papers, please put the papers in ```~/AutoLibrary/website/autolibrary/documents``` and refresh the local website.
 
 ### Responsbilities: 
 - Yichun Ren: Dataset, Weight, Website Development
-- Jiayi Fan: Data, Website Development
-- Bingqi Zhou: Dataset, Webscrap
+- Jiayi Fan: Data, Result Analysis, Website Development
+- Bingqi Zhou: Dataset, Webscrap, Experiments
