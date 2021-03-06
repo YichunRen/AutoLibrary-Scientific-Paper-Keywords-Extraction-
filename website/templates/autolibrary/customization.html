@@ -40,7 +40,7 @@
                       <button type="submit" class="pure-button pure-button-primary" style="margin-top: 8px;background-color: rgb(219, 155, 35);" onclick="event.preventDefault(); display_result();">Find Keywords</button>
                       <br><br>
 
-                      <details>
+                      <details open="open">
                         <summary>More Customization</summary>
                         <div class="pure-g">
                           <div class="pure-u-1 pure-u-md-1-5">
@@ -88,12 +88,12 @@
           <div id="sidebar">
             <div id="logo"> <img src="{% static 'autolibrary/images/logo.png' %}" alt="Nautica X" width="180px" height="110px"/> </div>
             <h4>Documents</h4>
-            <ul class="side-nav" style="padding: 10px;">
+            <ul id="url_upload" class="side-nav" style="padding: 10px;">
                 <label for="url">Enter an URL:</label>
                 <input type="url" name="url" id="url" placeholder="https://arxiv.org/pdf/1702.04457v1.pdf" pattern="https://.*" style="margin-top: 5px; margin-bottom: 5px;" size="23">
                 <button style="padding: 3px 5px;" onclick="event.preventDefault(); upload_url();">Enter</button>
             </ul>
-            <ul class="side-nav" style="padding: 10px;">
+            <ul id="file_upload" class="side-nav" style="padding: 10px;">
                 <form class="upload" style="margin-top: -2px; margin-bottom: -2px;">
                     <label for="uploadFile">Upload a PDF file:</label>
                     <input type="file" name="uploadFile" id="uploadFile" accept=".pdf" style="margin-top: 5px; margin-bottom: 5px;">
@@ -250,7 +250,8 @@
     }
   }
 
-  $.getJSON("{% static 'autolibrary/web_scrap/scraped_AutoPhrase.json' %}", function(data){
+  var unique_key = JSON.parse("{{unique_key|escapejs}}")[0];
+  $.getJSON("{% get_static_prefix %}/autolibrary/web_scrap/scraped_AutoPhrase_" + unique_key + ".json", function(data){
     $.each(data, function(idx, obj){
       var items = [];
       $.each(obj, function(key, value){
@@ -350,6 +351,14 @@
   }
 
   function upload_url() {
+    var ul = document.getElementById("url_upload");
+    var p1 = document.createElement("p");
+    var p2 = document.createElement("p");
+    p1.innerHTML = "Please wait...";
+    p2.innerHTML = "File downloading...";
+    ul.appendChild(p1);
+    ul.appendChild(p2);
+
     var url = document.getElementById("url");
     var selected = {"url": url.value};
     var URL = "{% url 'get_url' %}";
@@ -364,6 +373,14 @@
 
   document.querySelector('.upload').addEventListener('submit', function(e) {
     e.preventDefault();
+    var ul = document.getElementById("file_upload");
+    var p1 = document.createElement("p");
+    var p2 = document.createElement("p");
+    p1.innerHTML = "Please wait...";
+    p2.innerHTML = "File uploading...";
+    ul.appendChild(p1);
+    ul.appendChild(p2);
+
     var file = e.target.uploadFile.files[0];
     var formData = new FormData();
     formData.append('file', file);

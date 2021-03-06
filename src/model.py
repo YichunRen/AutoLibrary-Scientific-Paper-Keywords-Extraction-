@@ -8,22 +8,21 @@ def autophrase(unique_key, data_outdir, pdfname, outdir, filename):
     output_fp = os.path.join(data_outdir, textname)
 
     # copy txt file to AutoPhrase/test/testdata
-    command = 'cp ' + output_fp + ' AutoPhrase'+ unique_key +'/test/testdata'
+    command = 'cp ' + output_fp + ' AutoPhrase' + unique_key + '/test/testdata'
     os.system(command)
-    command = 'mv AutoPhrase'+ unique_key +'/test/testdata/' + textname + ' AutoPhrase'+ unique_key +'/test/testdata/test_raw.txt'
+    command = 'mv AutoPhrase' + unique_key + '/test/testdata/' + textname + ' AutoPhrase' + unique_key + '/test/testdata/test_raw.txt'
     os.system(command)
+
     print("\n")
     print(">>>>>>>>>>>>>>>>>>>>>>>> Running AutoPhrase... <<<<<<<<<<<<<<<<<<<<<<<<<<<<")
 
     print("  => Running AutoPhrase on the input document...")
     # write bash script to call the target test
-
-    with open('src/run.sh', 'w') as rsh:
+    with open('src/run' + unique_key + '.sh', 'w') as rsh:
         rsh.write('''cd AutoPhrase'''+ unique_key +''' \n''')
-        rsh.write('''mkdir test_model \n''')
         rsh.write('''/home/yichunren/AutoLibrary/myvenv/bin/python /home/yichunren/AutoLibrary/AutoPhrase'''+ unique_key +'''/run.py test \n''')
-        rsh.write('''mkdir test_endtest \n''')
-    os.system('bash src/run.sh')
+    command = 'bash src/run' + unique_key + '.sh'
+    os.system(command)
 
     # make a directory if outdir does not exist
     outdir += unique_key
@@ -33,7 +32,6 @@ def autophrase(unique_key, data_outdir, pdfname, outdir, filename):
     # save output
     print("  => Saving results...")
     # filename = 'AutoPhrase' + unique_key + '.txt'
-    filename = 'AutoPhrase.txt'
     output_fp = os.path.join(outdir, filename)
     command = 'cp AutoPhrase'+ unique_key +'/data/out/AutoPhrase_Result/AutoPhrase.txt ' + output_fp
     os.system(command)

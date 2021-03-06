@@ -20,7 +20,7 @@ def main(targets):
     website_config = json.load(open('config/website-params.json'))
     test_config = json.load(open('config/test-params.json'))
 
-    os.system('git submodule update --init')
+    # os.system('git submodule update --init')
     # Getting the target
     # If no target is given, then run 'website'
     if len(sys.argv) == 1:

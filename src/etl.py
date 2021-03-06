@@ -2,9 +2,9 @@ import os
 import pdfbox
 
 def convert_txt(indir, outdir, pdfname):
-    print("\n")
-    print(">>>>>>>>>>>>>>>>>>>>>>>> Installing PDFBox... <<<<<<<<<<<<<<<<<<<<<<<<<<<<")
-    os.system('pip install python-pdfbox')
+    # print("\n")
+    # print(">>>>>>>>>>>>>>>>>>>>>>>> Installing PDFBox... <<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+    # os.system('pip install python-pdfbox')
 
     print("\n")
     print(">>>>>>>>>>>>>>>>>>>>>>>> Converting File... <<<<<<<<<<<<<<<<<<<<<<<<<<<<")
