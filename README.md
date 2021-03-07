@@ -41,6 +41,7 @@ python run.py weight
 python run.py webscrape
 ```
 ### Target 5: Convert jupyter notebooks to html
+Note: Files with human annotations are in the references directory.
 ```
 python run.py report
 ```
