@@ -185,7 +185,8 @@ def webscrape(unique_key, keywords_path, fos_path, out_path):
     print("\n")
     print(">>>>>>>>>>>>>>>>>>>>>>>> Running webscraping... <<<<<<<<<<<<<<<<<<<<<<<<<<<<")
 
-    fos_path = 'data/out/fos' + unique_key + '.json'
+#    fos_path = 'data/out/fos' + unique_key + '.json'
+    fos_path = 'data/out/fos.json'
     try:
         # Extract keywords and fields of study
         given_fos = json.load(open(fos_path))['fos']

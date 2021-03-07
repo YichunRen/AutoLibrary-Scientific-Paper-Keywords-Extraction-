@@ -10,7 +10,8 @@ def change_weight(unique_key, paper_ap_path, selected_domain, domain_ap_path, ou
     try:
         with open('config/domains_abb.json') as f:
             domains_name_dict = json.load(f)
-            add_key_path = 'data/out/selected_domain' + unique_key + '.txt'
+#            add_key_path = 'data/out/selected_domain' + unique_key + '.txt'
+            add_key_path = 'data/out/selected_domain.txt'
             with open(add_key_path) as f2:
                 selected_domain = domains_name_dict[f2.readline()]
                 domain_full_path = domain_ap_path + selected_domain + '/AutoPhrase.txt'
