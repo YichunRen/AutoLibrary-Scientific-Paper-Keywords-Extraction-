@@ -40,7 +40,11 @@
                       <br>
                       <button class="pure-button pure-button-primary" style="margin-top: 8px; background-color: rgb(219, 155, 35);" onclick="event.preventDefault(); display_result();">Find Keywords</button>
                       <br>
-                      <div id="loading-text"></div>
+                      <div id="loading-text">
+                          <h3 id='text' hidden>The 1st run takes about 5 minutes!</h3>
+                          <!--<p id='text2' hidden>It may take longer if multiple people are running it at the same time...</p>-->
+                          <p id='queue' hidden></p>
+                      </div>
                       <img id="loading" src="{% static 'autolibrary/images/loading.gif' %}" style="height: 100px;" class="giphy-embed" allowFullScreen hidden>
                       <br>
 
@@ -151,7 +155,7 @@
     h.innerHTML = file_name;
     div.appendChild(h);
 
-    console.log('pdf-->',"{% static 'autolibrary/documents/' %}" + pdfname)
+    console.log('pdf-->', "{% static 'autolibrary/documents/' %}" + pdfname)
     var embed = document.createElement('embed');
     embed.src = "{% static 'autolibrary/documents/' %}" + pdfname;
     embed.type = "application/pdf";
@@ -168,12 +172,25 @@
       first.innerHTML = domain;
       select1.appendChild(first);
     }
+
+    // display text if 7 people in queue
+    var queue = JSON.parse("{{queue|escapejs}}")[0];
+    console.log('queue-->', queue);
+    var len_queue = queue.length;
+    console.log('queue length: ' + len_queue);
+    if (len_queue >= 7) {
+        var div = document.getElementById('loading-text');
+        var p = document.createElement('p');
+        p.innerHTML = "There are a lot of people in queue right now. Please come back later!";
+        div.appendChild(p);
+    }
   }
 
   function double_select(value) {
     var domains = JSON.parse("{{domains|escapejs}}");
-    if (value.length == 0) document.getElementById("sel2").innerHTML = "<option></option>";
-    else {
+    if (value.length == 0) {
+        document.getElementById("sel2").innerHTML = "<option></option>";
+    } else {
       var subdomain = "<option>" + value + "</option>";
       for (domain in domains[value]) {
         subdomain += "<option>" + domains[value][domain] + "</option>";
@@ -201,15 +218,8 @@
   }
 
   function display_result() {
-    var div = document.getElementById('loading-text');
-    var br = document.createElement('br');
-    var h = document.createElement('h3');
-    h.innerHTML = 'The 1st run takes about 5 minutes!';
-    div.appendChild(br);
-    div.appendChild(h);
-    var p = document.createElement('p');
-    p.innerHTML = 'It may take longer if multiple people are running it at the same time...';
-    div.appendChild(p);
+    var h = document.getElementById('text');
+    h.hidden = false;
     var image = document.getElementById('loading');
     image.hidden = false;
 
@@ -218,22 +228,79 @@
       "subdomain": document.getElementById('sel2').value
     };
     var URL = "{% url 'get_domain1' %}";
-    $.post(URL, selected, function(response){
-      if (response === 'get domain'){
-        var URL = "{% url 'get_domain2' %}";
-        $.post(URL, selected, function(response){
-            if (response === 'get domain'){
-                window.location = "https://yichunren.pythonanywhere.com/autolibrary/customization";
-            }
-            else {
-                alert('Error! :(');
-            }
-        });
-      } else {
-          alert('Error! :(');
-      }
+    console.log('start the process');
+    $.post(URL, selected, function(response) {
+        if (response === 'copy AutoPhrase') {
+            console.log('done copying AutoPhrase');
+            var URL = "{% url 'get_queue' %}";
+            $.post(URL, selected, function(response) {
+                console.log('get_queue response : ' + response);
+                if (response === 'execute') {
+                    console.log('no need to wait');
+                    var URL = "{% url 'get_domain2' %}";
+                    $.post(URL, selected, function(response) {
+                        if (response === 'run autophrase') {
+                            console.log('done running autophrase');
+                            var URL = "{% url 'get_domain3' %}";
+                            $.post(URL, selected, function(response) {
+                                if (response === 'get domain') {
+                                    console.log('done weighting and webscraping');
+                                    window.location = "https://yichunren.pythonanywhere.com/autolibrary/customization";
+                                } else {
+                                    alert('Error! :(');
+                                }
+                            });
+                        } else {
+                            alert('Error! :(');
+                        }
+                    });
+                } else if (response === 'wait') {
+                    console.log('need to wait');
+                    var unique_key = JSON.parse("{{unique_key|escapejs}}")[0];
+                    $.get("{% get_static_prefix %}/autolibrary/queue/" + unique_key + ".txt", function(data) {
+                        if (data === 'execute') {
+                            console.log('static file says execute');
+                        } else {
+                            num = parseInt(data, 10);
+                            time = (Math.floor(num / 2) + 1) * 5;
+                            var p = document.getElementById('queue');
+                            p.innerHTML = 'There are ' + num + ' people ahead of you... The estimated wait time is: ' + time + ' minutes.';
+                            p.hidden = false;
+                            console.log('wait for ' + time / 5 + ' min');
+                            time = (time / 5) * 60000;
+                            // console.log('wait for ' + time + ' min');
+                            // time = time * 60000;
+                            setTimeout(function(){
+                                console.log('done waiting');
+                                var URL = "{% url 'get_domain2' %}";
+                                $.post(URL, selected, function(response) {
+                                    if (response === 'run autophrase') {
+                                        console.log('done running autophrase');
+                                        var URL = "{% url 'get_domain3' %}";
+                                        $.post(URL, selected, function(response) {
+                                            if (response === 'get domain') {
+                                                console.log('done weighting and webscraping');
+                                                window.location = "https://yichunren.pythonanywhere.com/autolibrary/customization";
+                                            } else {
+                                                alert('Error! :(');
+                                            }
+                                        });
+                                    } else {
+                                        alert('Error! :(');
+                                    }
+                                });
+                            }, time);
+                        }
+                    }, 'text');
+                }
+            });
+        } else {
+            alert('Error! :(');
+        }
     });
   }
+
+
 
   function select_doc(e) {
     var selected = {"file_name": e.target.innerHTML};

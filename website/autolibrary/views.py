@@ -42,8 +42,9 @@ def index(request):
     shared_obj['selected_subdomain'] = ''
     shared_obj['selected_keywords'] = ''
     shared_obj['phrases'] = []
-    shared_obj['in_queue'] = "false"
     shared_obj['timestamp'] = ''
+    if 'in_queue' not in shared_obj:
+        shared_obj['in_queue'] = "false"
     request.session['myobj'] = shared_obj
     return render(request, 'autolibrary/index.html', {"data": data})
 
@@ -58,14 +59,25 @@ def result(request):
     selected_doc = shared_obj['selected_doc']
     selected_pdf = shared_obj['selected_pdf']
 
+    # get all sessions in queue
+    sessions = Session.objects.filter(expire_date__gte=timezone.now())
+    queue = []
+    for session in sessions:
+        s = session.get_decoded()
+        session_obj = s['myobj']
+        if 'in_queue' in session_obj:
+            if session_obj['in_queue'] == "true":
+                queue.append(session.session_key)
+
     content = {
         "data": dumps(data),
         "selected_doc": dumps([selected_doc]),
         "selected_pdf": dumps([selected_pdf]),
-        "domains": dumps(domains)
+        "domains": dumps(domains),
+        "unique_key": dumps([unique_key]),
+        "queue": dumps([queue]),
     }
 
-    shared_obj['in_queue'] = "false"
     request.session['myobj'] = shared_obj
     return render(request, 'autolibrary/result.html', content)
 
@@ -94,15 +106,14 @@ def customization(request):
         "domain": dumps([selected_domain]),
         "subdomain": dumps([selected_subdomain]),
         "phrases": dumps(phrases),
-        "keywords":dumps([selected_keywords]),
-        "unique_key":dumps([unique_key]),
+        "keywords": dumps([selected_keywords]),
+        "unique_key": dumps([unique_key]),
     }
 
     if if_customized == "false":
         if_customized = "true"
         shared_obj['if_customized'] = if_customized
 
-    shared_obj['in_queue'] = "false"
     request.session['myobj'] = shared_obj
     return render(request, 'autolibrary/customization.html', content)
 
@@ -141,10 +152,9 @@ def get_file(request):
                 # move new data-params.json to config
                 rsh.write('''cp autolibrary/data-params_''' + unique_key + '''.json  ../config \n''')
                 rsh.write('''cd .. \n''')
-                rsh.write('''/home/yichunren/AutoLibrary/myvenv/bin/python /home/yichunren/AutoLibrary/run.py data ''' + unique_key + ''' \n''')
+                rsh.write('''/home/yichunren/AutoLibrary/myvenv/bin/python -u /home/yichunren/AutoLibrary/run.py data ''' + unique_key + ''' \n''')
             subprocess.Popen(['bash', 'autolibrary/run_' + unique_key + '.sh'])
 
-            shared_obj['in_queue'] = "false"
             request.session['myobj'] = shared_obj
             return HttpResponse('get file')
     return HttpResponse('fail to get file')
@@ -158,39 +168,21 @@ def get_domain1(request):
             # save selected domain to data/out
             selected_domain = request.POST['domain']
             selected_subdomain = request.POST['subdomain']
-            selected_pdf = shared_obj['selected_pdf']
             if selected_domain == '':
                 selected_domain = 'ALL'
             if selected_subdomain == '':
                 selected_subdomain = 'ALL'
-
             shared_obj['selected_domain'] = selected_domain
             shared_obj['selected_subdomain'] = selected_subdomain
 
-            # os.system('mkdir -p ../data/out')
             command = 'mkdir -p ../data/out_' + unique_key
             os.system(command)
 
-            # with open('../data/out/selected_domain_' + unique_key + '.txt', 'w') as fp:
             with open('../data/out_' + unique_key + '/selected_domain.txt', 'w') as fp:
                 fp.write(selected_subdomain)
             config = {'fos': [selected_domain]}
-            # with open('../data/out/fos_' + unique_key + '.json', 'w') as fp:
             with open('../data/out_' + unique_key + '/fos.json', 'w') as fp:
                 json.dump(config, fp)
-
-            # # rewrite data-params.json
-            # config = json.load(open('../config/data-params.json'))
-            # config['pdfname'] = selected_pdf
-            # with open('autolibrary/data-params_' + unique_key + '.json', 'w') as fp:
-            #     json.dump(config, fp)
-
-            # copy AutoPhrase for each user
-            with open('autolibrary/run_' + unique_key + '.sh', 'w') as rsh:
-                rsh.write('''cd .. \n''')
-                rsh.write('''cp -a /home/yichunren/AutoLibrary/AutoPhrase2/. /home/yichunren/AutoLibrary/AutoPhrase_''' + unique_key + '''/ \n''')
-            process = subprocess.Popen(['bash', 'autolibrary/run_' + unique_key + '.sh'])
-            process.wait()
 
             # print to server log
             import sys
@@ -202,7 +194,25 @@ def get_domain1(request):
             shared_obj['timestamp'] = unix
             request.session['myobj'] = shared_obj
             request.session.save()
-            # calculate wait time
+
+            # copy AutoPhrase for each user
+            with open('autolibrary/run_' + unique_key + '.sh', 'w') as rsh:
+                rsh.write('''cd .. \n''')
+                rsh.write('''cp -a /home/yichunren/AutoLibrary/AutoPhrase2/. /home/yichunren/AutoLibrary/AutoPhrase_''' + unique_key + '''/ \n''')
+            process = subprocess.Popen(['bash', 'autolibrary/run_' + unique_key + '.sh'])
+            process.wait()
+
+            request.session['myobj'] = shared_obj
+            return HttpResponse('copy AutoPhrase')
+    return HttpResponse('fail to copy AutoPhrase')
+
+@csrf_exempt
+def get_queue(request):
+    unique_key = str(request.session.session_key)
+    shared_obj = request.session['myobj']
+    if request.method == 'POST':
+        if "domain" in request.POST:
+            # get all sessions in queue
             sessions = Session.objects.filter(expire_date__gte=timezone.now())
             sessions_in_queue = []
             for session in sessions:
@@ -210,12 +220,6 @@ def get_domain1(request):
                 session_obj = s['myobj']
                 if 'in_queue' in session_obj:
                     if session_obj['in_queue'] == "true":
-                        print('in queue\n')
-                        print(session.session_key)
-                        if session.session_key != unique_key:
-                            print('not myself\n')
-                        else:
-                            print('myself\n')
                         # update timestamp if duplicate
                         timestamp = session_obj['timestamp']
                         if timestamp in sessions_in_queue:
@@ -227,32 +231,28 @@ def get_domain1(request):
             print('all sessions in queue\n')
             print(sessions_in_queue)
 
-            # wait if in queue
+            # calculate current position in queue
             shared_obj = request.session['myobj']
             unix = shared_obj['timestamp']
-            wait_time = 5 * sessions_in_queue.index(unix)
-            # wait_time = 0
-            # curr_position = sessions_in_queue.index(unix)
-            # if curr_position != 0:
-            #     time_gap = sessions_in_queue[curr_position] - sessions_in_queue[curr_position - 1]
-            #     if time_gap < 20:
-            #         wait_time = 20 - time_gap
+            curr_position = sessions_in_queue.index(unix)
             print('selected document\n')
+            selected_pdf = shared_obj['selected_pdf']
             print(selected_pdf)
-            print('wait time\n')
-            print(wait_time)
-            # time.sleep(wait_time)
-            # run autophrase
-            with open('autolibrary/run_' + unique_key + '.sh', 'w') as rsh:
-                rsh.write('''cd .. \n''')
-                rsh.write('''/home/yichunren/AutoLibrary/myvenv/bin/python /home/yichunren/AutoLibrary/run.py autophrase ''' + unique_key + ''' \n''')
-            process = subprocess.Popen(['bash', 'autolibrary/run_' + unique_key + '.sh'])
-            process.wait()
+            print('current position\n')
+            print(curr_position)
 
-            shared_obj['in_queue'] = "false"
             request.session['myobj'] = shared_obj
-            return HttpResponse('get domain')
-    return HttpResponse('fail to get domain')
+            if curr_position < 2:
+                os.system('mkdir -p static/autolibrary/queue')
+                with open('static/autolibrary/queue/' + unique_key + '.txt', 'w') as fp:
+                    fp.write('execute')
+                return HttpResponse('execute')
+            else:
+                os.system('mkdir -p static/autolibrary/queue')
+                with open('static/autolibrary/queue/' + unique_key + '.txt', 'w') as fp:
+                    fp.write(str(curr_position - 2))
+                return HttpResponse('wait')
+    return HttpResponse('fail to get queue')
 
 @csrf_exempt
 def get_domain2(request):
@@ -260,11 +260,39 @@ def get_domain2(request):
     shared_obj = request.session['myobj']
     if request.method == 'POST':
         if "domain" in request.POST:
+            # # wait if in queue
+            # shared_obj = request.session['myobj']
+            # unix = shared_obj['timestamp']
+            # wait_time = 5 * sessions_in_queue.index(unix)
+            # print('selected document\n')
+            # selected_pdf = shared_obj['selected_pdf']
+            # print(selected_pdf)
+            # print('wait time\n')
+            # print(wait_time)
+            # time.sleep(wait_time)
+
+            # run autophrase
+            with open('autolibrary/run_' + unique_key + '.sh', 'w') as rsh:
+                rsh.write('''cd .. \n''')
+                rsh.write('''/home/yichunren/AutoLibrary/myvenv/bin/python -u /home/yichunren/AutoLibrary/run.py autophrase ''' + unique_key + ''' \n''')
+            process = subprocess.Popen(['bash', 'autolibrary/run_' + unique_key + '.sh'])
+            process.wait()
+
+            request.session['myobj'] = shared_obj
+            return HttpResponse('run autophrase')
+    return HttpResponse('fail to run autophrase')
+
+@csrf_exempt
+def get_domain3(request):
+    unique_key = str(request.session.session_key)
+    shared_obj = request.session['myobj']
+    if request.method == 'POST':
+        if "domain" in request.POST:
             # run weight and webscrape
             with open('autolibrary/run_' + unique_key + '.sh', 'w') as rsh:
                 rsh.write('''cd .. \n''')
-                rsh.write('''/home/yichunren/AutoLibrary/myvenv/bin/python /home/yichunren/AutoLibrary/run.py weight ''' + unique_key +  ''' \n''')
-                rsh.write('''/home/yichunren/AutoLibrary/myvenv/bin/python /home/yichunren/AutoLibrary/run.py webscrape ''' + unique_key +  ''' \n''')
+                rsh.write('''/home/yichunren/AutoLibrary/myvenv/bin/python -u /home/yichunren/AutoLibrary/run.py weight ''' + unique_key +  ''' \n''')
+                rsh.write('''/home/yichunren/AutoLibrary/myvenv/bin/python -u /home/yichunren/AutoLibrary/run.py webscrape ''' + unique_key +  ''' \n''')
                 rsh.write('''cp data/out_''' + unique_key + '''/scraped_AutoPhrase.json website/static/autolibrary/web_scrap/scraped_AutoPhrase_''' + unique_key + '''.json \n''')
             process = subprocess.Popen(['bash', 'autolibrary/run_' + unique_key + '.sh'])
             process.wait()
@@ -275,6 +303,13 @@ def get_domain2(request):
             if len(phrases) < 5:
                 phrases = data['phrase'][:5].to_list()
             shared_obj['phrases'] = phrases
+
+            # # remove AutoPhrase folder for each user
+            # with open('autolibrary/run_' + unique_key + '.sh', 'w') as rsh:
+            #     rsh.write('''cd .. \n''')
+            #     rsh.write('''rm -rf AutoPhrase_''' + unique_key + ''' \n''')
+            # process = subprocess.Popen(['bash', 'autolibrary/run_' + unique_key + '.sh'])
+            # process.wait()
 
             shared_obj['in_queue'] = "false"
             request.session['myobj'] = shared_obj
@@ -291,19 +326,17 @@ def get_keywords(request):
             selected_keywords = request.POST['keywords']
             shared_obj['selected_keywords'] = selected_keywords
             config = {'keywords': selected_keywords}
-            # with open('../data/out/selected_keywords.json', 'w') as fp:
             with open('../data/out_' + unique_key + '/selected_keywords.json', 'w') as fp:
                 json.dump(config, fp)
 
             # display new webscrape result
             with open('autolibrary/run_' + unique_key + '.sh', 'w') as rsh:
                 rsh.write('''cd .. \n''')
-                rsh.write('''/home/yichunren/AutoLibrary/myvenv/bin/python /home/yichunren/AutoLibrary/run.py webscrape ''' + unique_key +  ''' \n''')
+                rsh.write('''/home/yichunren/AutoLibrary/myvenv/bin/python -u /home/yichunren/AutoLibrary/run.py webscrape ''' + unique_key +  ''' \n''')
                 rsh.write('''cp data/out_''' + unique_key + '''/scraped_AutoPhrase.json website/static/autolibrary/web_scrap/scraped_AutoPhrase_''' + unique_key + '''.json \n''')
             process = subprocess.Popen(['bash', 'autolibrary/run_' + unique_key + '.sh'])
             process.wait()
 
-            shared_obj['in_queue'] = "false"
             request.session['myobj'] = shared_obj
             return HttpResponse('get keywords')
     return HttpResponse('fail to get keywords')
@@ -349,11 +382,10 @@ def get_url(request):
                 # move new data-params.json to config
                 rsh.write('''cp autolibrary/data-params_''' + unique_key + '''.json  ../config \n''')
                 rsh.write('''cd .. \n''')
-                rsh.write('''/home/yichunren/AutoLibrary/myvenv/bin/python /home/yichunren/AutoLibrary/run.py data ''' + unique_key + ''' \n''')
+                rsh.write('''/home/yichunren/AutoLibrary/myvenv/bin/python -u /home/yichunren/AutoLibrary/run.py data ''' + unique_key + ''' \n''')
             process = subprocess.Popen(['bash', 'autolibrary/run_' + unique_key + '.sh'])
             process.wait()
 
-            shared_obj['in_queue'] = "false"
             request.session['myobj'] = shared_obj
             return HttpResponse('get url')
     return HttpResponse('fail to get url')
@@ -401,11 +433,10 @@ def upload_file(request):
                 # move new data-params.json to config
                 rsh.write('''cp autolibrary/data-params_''' + unique_key + '''.json  ../config \n''')
                 rsh.write('''cd .. \n''')
-                rsh.write('''/home/yichunren/AutoLibrary/myvenv/bin/python /home/yichunren/AutoLibrary/run.py data ''' + unique_key + ''' \n''')
+                rsh.write('''/home/yichunren/AutoLibrary/myvenv/bin/python -u /home/yichunren/AutoLibrary/run.py data ''' + unique_key + ''' \n''')
             process = subprocess.Popen(['bash', 'autolibrary/run_' + unique_key + '.sh'])
             process.wait()
 
-            shared_obj['in_queue'] = "false"
             request.session['myobj'] = shared_obj
             return HttpResponse('upload file')
     return HttpResponse('fail to upload file')
