@@ -183,7 +183,7 @@ semantic_fos = {
 
 def webscrape(unique_key, keywords_path, fos_path, out_path):
     print("\n")
-    print(">>>>>>>>>>>>>>>>>>>>>>>> Running websraping... <<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+    print(">>>>>>>>>>>>>>>>>>>>>>>> Running webscraping... <<<<<<<<<<<<<<<<<<<<<<<<<<<<")
 
     fos_path = 'data/out/fos' + unique_key + '.json'
     try:
