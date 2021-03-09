@@ -42,7 +42,6 @@
                       <br>
                       <div id="loading-text">
                           <h3 id='text' hidden>The 1st run takes about 5 minutes!</h3>
-                          <!--<p id='text2' hidden>It may take longer if multiple people are running it at the same time...</p>-->
                           <p id='queue' hidden></p>
                       </div>
                       <img id="loading" src="{% static 'autolibrary/images/loading.gif' %}" style="height: 100px;" class="giphy-embed" allowFullScreen hidden>
@@ -314,8 +313,6 @@
         }
     });
   }
-
-
 
   function select_doc(e) {
     var selected = {"file_name": e.target.innerHTML};
