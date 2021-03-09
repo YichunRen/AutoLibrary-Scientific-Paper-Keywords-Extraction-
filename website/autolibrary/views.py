@@ -43,8 +43,8 @@ def index(request):
     shared_obj['selected_keywords'] = ''
     shared_obj['phrases'] = []
     shared_obj['timestamp'] = ''
-    if 'in_queue' not in shared_obj:
-        shared_obj['in_queue'] = "false"
+    # if 'in_queue' not in shared_obj:
+    shared_obj['in_queue'] = "false"
     request.session['myobj'] = shared_obj
     return render(request, 'autolibrary/index.html', {"data": data})
 
@@ -260,17 +260,6 @@ def get_domain2(request):
     shared_obj = request.session['myobj']
     if request.method == 'POST':
         if "domain" in request.POST:
-            # # wait if in queue
-            # shared_obj = request.session['myobj']
-            # unix = shared_obj['timestamp']
-            # wait_time = 5 * sessions_in_queue.index(unix)
-            # print('selected document\n')
-            # selected_pdf = shared_obj['selected_pdf']
-            # print(selected_pdf)
-            # print('wait time\n')
-            # print(wait_time)
-            # time.sleep(wait_time)
-
             # run autophrase
             with open('autolibrary/run_' + unique_key + '.sh', 'w') as rsh:
                 rsh.write('''cd .. \n''')
