@@ -12,6 +12,8 @@ import time
 import datetime
 from django.utils import timezone
 from django.contrib.sessions.models import Session
+import sys
+import dill
 
 def index(request):
     unique_key = str(request.session.session_key)
@@ -43,8 +45,8 @@ def index(request):
     shared_obj['selected_keywords'] = ''
     shared_obj['phrases'] = []
     shared_obj['timestamp'] = ''
-    # if 'in_queue' not in shared_obj:
-    shared_obj['in_queue'] = "false"
+    if 'in_queue' not in shared_obj:
+        shared_obj['in_queue'] = "false"
     request.session['myobj'] = shared_obj
     return render(request, 'autolibrary/index.html', {"data": data})
 
@@ -143,14 +145,14 @@ def get_file(request):
             # rewrite data-params.json
             config = json.load(open('../config/data-params.json'))
             config['pdfname'] = pdfname
-            with open('autolibrary/data-params_' + unique_key + '.json', 'w') as fp:
+            with open('autolibrary/params/data-params_' + unique_key + '.json', 'w') as fp:
                 json.dump(config, fp)
             with open('autolibrary/run_' + unique_key + '.sh', 'w') as rsh:
                 # move selected document to data/raw
                 rsh.write('''mkdir -p ../data/raw \n''')
                 rsh.write('''cp autolibrary/documents_copy/''' + unique_key + '''/''' + pdfname + ''' ../data/raw \n''')
                 # move new data-params.json to config
-                rsh.write('''cp autolibrary/data-params_''' + unique_key + '''.json  ../config \n''')
+                rsh.write('''cp autolibrary/params/data-params_''' + unique_key + '''.json  ../config \n''')
                 rsh.write('''cd .. \n''')
                 rsh.write('''/home/yichunren/AutoLibrary/myvenv/bin/python -u /home/yichunren/AutoLibrary/run.py data ''' + unique_key + ''' \n''')
             subprocess.Popen(['bash', 'autolibrary/run_' + unique_key + '.sh'])
@@ -158,6 +160,54 @@ def get_file(request):
             request.session['myobj'] = shared_obj
             return HttpResponse('get file')
     return HttpResponse('fail to get file')
+
+@csrf_exempt
+def close_domain(request):
+    print("------")
+    unique_key = str(request.session.session_key)
+    shared_obj = request.session['myobj']
+
+    get_domain1 = "autolibrary/subprocess/get_domain1_" + unique_key
+    get_domain2 = "autolibrary/subprocess/get_domain2_" + unique_key
+    get_domain3 = "autolibrary/subprocess/get_domain3_" + unique_key
+
+    if os.path.exists(get_domain1):
+        print("terminate get_domain1")
+        with open(get_domain1, "rb") as file:
+            res = dill.load(file)
+            try:
+                res.kill()
+            except:
+                print('fail to kill get_domain1 because process does not exist')
+            command = "rm " + get_domain1
+            os.system(command)
+
+    if os.path.exists(get_domain2):
+        print("terminate get_domain2")
+        with open(get_domain2, "rb") as file:
+            res = dill.load(file)
+            try:
+                res.kill()
+            except:
+                print('fail to kill get_domain2 because process does not exist')
+            command = "rm " + get_domain2
+            os.system(command)
+
+    if os.path.exists(get_domain3):
+        print("terminate get_domain3")
+        with open(get_domain3, "rb") as file:
+            res = dill.load(file)
+            try:
+                res.kill()
+            except:
+                print('fail to kill get_domain3 because process does not exist')
+            command = "rm " + get_domain3
+            os.system(command)
+
+    shared_obj['in_queue'] = "false"
+    print(shared_obj)
+    request.session['myobj'] = shared_obj
+    return HttpResponse('succese')
 
 @csrf_exempt
 def get_domain1(request):
@@ -185,7 +235,6 @@ def get_domain1(request):
                 json.dump(config, fp)
 
             # print to server log
-            import sys
             sys.stdout.write("Hello\n")
             # set in_queue and timestamp
             shared_obj['in_queue'] = "true"
@@ -200,6 +249,8 @@ def get_domain1(request):
                 rsh.write('''cd .. \n''')
                 rsh.write('''cp -a /home/yichunren/AutoLibrary/AutoPhrase2/. /home/yichunren/AutoLibrary/AutoPhrase_''' + unique_key + '''/ \n''')
             process = subprocess.Popen(['bash', 'autolibrary/run_' + unique_key + '.sh'])
+            with open("autolibrary/subprocess/get_domain1_" + unique_key, "wb") as file:
+                dill.dump(process, file)
             process.wait()
 
             request.session['myobj'] = shared_obj
@@ -265,6 +316,8 @@ def get_domain2(request):
                 rsh.write('''cd .. \n''')
                 rsh.write('''/home/yichunren/AutoLibrary/myvenv/bin/python -u /home/yichunren/AutoLibrary/run.py autophrase ''' + unique_key + ''' \n''')
             process = subprocess.Popen(['bash', 'autolibrary/run_' + unique_key + '.sh'])
+            with open("autolibrary/subprocess/get_domain2_" + unique_key, "wb") as file:
+                dill.dump(process, file)
             process.wait()
 
             request.session['myobj'] = shared_obj
@@ -284,6 +337,8 @@ def get_domain3(request):
                 rsh.write('''/home/yichunren/AutoLibrary/myvenv/bin/python -u /home/yichunren/AutoLibrary/run.py webscrape ''' + unique_key +  ''' \n''')
                 rsh.write('''cp data/out_''' + unique_key + '''/scraped_AutoPhrase.json website/static/autolibrary/web_scrap/scraped_AutoPhrase_''' + unique_key + '''.json \n''')
             process = subprocess.Popen(['bash', 'autolibrary/run_' + unique_key + '.sh'])
+            with open("autolibrary/subprocess/get_domain3_" + unique_key, "wb") as file:
+                dill.dump(process, file)
             process.wait()
 
             # display phrases with a weighted quality score > 0.5
@@ -299,6 +354,17 @@ def get_domain3(request):
             #     rsh.write('''rm -rf AutoPhrase_''' + unique_key + ''' \n''')
             # process = subprocess.Popen(['bash', 'autolibrary/run_' + unique_key + '.sh'])
             # process.wait()
+
+            # remove subprocess files
+            get_domain1 = "autolibrary/subprocess/get_domain1_" + unique_key
+            get_domain2 = "autolibrary/subprocess/get_domain2_" + unique_key
+            get_domain3 = "autolibrary/subprocess/get_domain3_" + unique_key
+            command = "rm " + get_domain1
+            os.system(command)
+            command = "rm " + get_domain2
+            os.system(command)
+            command = "rm " + get_domain3
+            os.system(command)
 
             shared_obj['in_queue'] = "false"
             request.session['myobj'] = shared_obj
@@ -360,7 +426,7 @@ def get_url(request):
             # rewrite data-params.json
             config = json.load(open('../config/data-params.json'))
             config['pdfname'] = filename
-            with open('autolibrary/data-params_' + unique_key + '.json', 'w') as fp:
+            with open('autolibrary/params/data-params_' + unique_key + '.json', 'w') as fp:
                 json.dump(config, fp)
 
             # convert pdf to txt
@@ -369,7 +435,7 @@ def get_url(request):
                 rsh.write('''mkdir -p ../data/raw \n''')
                 rsh.write('''cp autolibrary/documents_copy/''' + unique_key + '''/''' + filename + ''' ../data/raw \n''')
                 # move new data-params.json to config
-                rsh.write('''cp autolibrary/data-params_''' + unique_key + '''.json  ../config \n''')
+                rsh.write('''cp autolibrary/params/data-params_''' + unique_key + '''.json  ../config \n''')
                 rsh.write('''cd .. \n''')
                 rsh.write('''/home/yichunren/AutoLibrary/myvenv/bin/python -u /home/yichunren/AutoLibrary/run.py data ''' + unique_key + ''' \n''')
             process = subprocess.Popen(['bash', 'autolibrary/run_' + unique_key + '.sh'])
@@ -411,7 +477,7 @@ def upload_file(request):
             # rewrite data-params.json
             config = json.load(open('../config/data-params.json'))
             config['pdfname'] = filename
-            with open('autolibrary/data-params_' + unique_key + '.json', 'w') as fp:
+            with open('autolibrary/params/data-params_' + unique_key + '.json', 'w') as fp:
                 json.dump(config, fp)
 
             # convert pdf to txt
@@ -420,7 +486,7 @@ def upload_file(request):
                 rsh.write('''mkdir -p ../data/raw \n''')
                 rsh.write('''cp autolibrary/documents_copy/''' + unique_key + '''/''' + filename + ''' ../data/raw \n''')
                 # move new data-params.json to config
-                rsh.write('''cp autolibrary/data-params_''' + unique_key + '''.json  ../config \n''')
+                rsh.write('''cp autolibrary/params/data-params_''' + unique_key + '''.json  ../config \n''')
                 rsh.write('''cd .. \n''')
                 rsh.write('''/home/yichunren/AutoLibrary/myvenv/bin/python -u /home/yichunren/AutoLibrary/run.py data ''' + unique_key + ''' \n''')
             process = subprocess.Popen(['bash', 'autolibrary/run_' + unique_key + '.sh'])

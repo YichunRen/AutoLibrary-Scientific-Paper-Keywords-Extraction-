@@ -8,6 +8,7 @@ urlpatterns = [
     path('customization/', views.customization, name='customization'),
     path('a/', views.get_file, name='get_file'),
     path('b/', views.get_domain1, name='get_domain1'),
+    path('bb/', views.close_domain, name='close_domain'),
     path('c/', views.get_queue, name='get_queue'),
     path('d/', views.get_domain2, name='get_domain2'),
     path('e/', views.get_domain3, name='get_domain3'),

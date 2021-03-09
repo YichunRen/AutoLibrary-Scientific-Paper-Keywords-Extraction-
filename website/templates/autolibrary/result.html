@@ -124,6 +124,15 @@
   </body>
 </html>
 <script>
+  window.onbeforeunload = function(event) {
+    console.log("ready to leave")
+    var URL = "{% url 'close_domain' %}";
+    $.get(URL, function(data) {
+      console.log("terminating process")
+                }, 'text');
+    event.returnValue = "...";
+  };
+
   function initiate(){
     // sidebar
     var data = JSON.parse("{{data|escapejs}}");
