@@ -36,13 +36,9 @@
                         <select id="sel2" class="pure-u-3-4">
                           <option value="" disabled selected>Select</option>
                         </select>
-                      </div>
-                      <br>
+                      </div><br>
                       <button class="pure-button pure-button-primary" style="margin-top: 8px; background-color: rgb(219, 155, 35);" onclick="event.preventDefault(); display_result();">Find Keywords</button>
-                      <br>
-                      <div id="loading-text"></div>
-                      <img id="loading" src="{% static 'autolibrary/images/loading.gif' %}" style="height: 100px;" class="giphy-embed" allowFullScreen hidden>
-                      <br>
+                      <br><br>
 
                       <details>
                         <summary>More Customization</summary>
@@ -83,6 +79,12 @@
                         </div>
                         <button type="submit" class="pure-button pure-button-primary" style="margin-top: 10px;background-color: rgb(219, 155, 35);" onclick="event.preventDefault(); alter_result();">Generate Results</button>
                       </details>
+                      <br>
+                      <div id="loading-text">
+                        <h3 id='text' hidden>The 1st run takes about 5 minutes!</h3>
+                      </div>
+                      <img id="loading" src="{% static 'autolibrary/images/loading.gif' %}" style="height: 100px;" class="giphy-embed" allowFullScreen hidden>
+                      <br>
                       
                     </fieldset>
                   </form>
@@ -189,12 +191,8 @@
   }
 
   function display_result() {
-    var div = document.getElementById('loading-text');
-    var br = document.createElement('br');
-    var h = document.createElement('h3');
-    h.innerHTML = 'The 1st run takes about 5 minutes!';
-    div.appendChild(br);
-    div.appendChild(h);
+    var h = document.getElementById('text');
+    h.hidden = false;
     var image = document.getElementById('loading');
     image.hidden = false;
 

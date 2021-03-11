@@ -77,6 +77,9 @@
                         <button type="submit" class="pure-button pure-button-primary" style="margin-top: 10px; background-color: rgb(219, 155, 35);" onclick="event.preventDefault(); alter_result();">Generate Results</button>
                       </details>
                       <br>
+                      <div id="loading-text">
+                        <h3 id='text' hidden>The 1st run takes about 5 minutes!</h3>
+                      </div>
                       <img id="loading" src="{% static 'autolibrary/images/loading.gif' %}" style="height: 100px;" class="giphy-embed" allowFullScreen hidden>
                       <br>
                       
@@ -191,7 +194,6 @@
 
     // display selected phrases
     var display = JSON.parse("{{customized|escapejs}}"); 
-    console.log('customized-->', display);
     var keywords = JSON.parse("{{keywords|escapejs}}"); 
     console.log('keywords-->', keywords);
     if (display[0] == "true") {
@@ -315,6 +317,8 @@
   }
 
   function display_result() {
+    var h = document.getElementById('text');
+    h.hidden = false;
     var image = document.getElementById('loading');
     image.hidden = false;
 

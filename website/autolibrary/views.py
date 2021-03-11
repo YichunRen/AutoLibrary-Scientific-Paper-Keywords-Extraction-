@@ -30,6 +30,7 @@ def index(request):
     shared_obj['phrases'] = []
     shared_obj['in_queue'] = "false"
     shared_obj['timestamp'] = ''
+    shared_obj['first_run'] = "true"
     request.session['myobj'] = shared_obj
 
     return render(request, 'autolibrary/index.html', {"data": data})
@@ -62,6 +63,10 @@ def customization(request):
     selected_pdf = shared_obj['selected_pdf']
     selected_doc = shared_obj['selected_doc']
     selected_keywords = shared_obj['selected_keywords']
+    if shared_obj['first_run'] == "true":
+        shared_obj['selected_domain'] = ''
+        shared_obj['selected_subdomain'] = ''
+        shared_obj['phrases'] = []
     selected_domain = shared_obj['selected_domain']
     selected_subdomain = shared_obj['selected_subdomain']
     phrases = shared_obj['phrases']
@@ -108,6 +113,7 @@ def get_file(request):
             os.system(command)
 
             shared_obj['in_queue'] = "false"
+            shared_obj['first_run'] = "true"
             request.session['myobj'] = shared_obj
             return HttpResponse('get file')
     return HttpResponse('fail to get file')
@@ -153,7 +159,7 @@ def get_domain(request):
                 # run all targets
                 rsh.write('''cd .. \n''')
                 rsh.write('''python run.py data \n''')
-                rsh.write('''python run.py autophrase \n''')
+                # rsh.write('''python run.py autophrase \n''')
                 rsh.write('''python run.py weight ''' + unique_key +  '''\n''')
                 rsh.write('''python run.py webscrape ''' + unique_key +  '''\n''')
                 rsh.write('''cp data/out/scraped_AutoPhrase.json website/static/autolibrary/web_scrap/scraped_AutoPhrase.json \n''')
@@ -167,11 +173,11 @@ def get_domain(request):
                 phrases = data['phrase'][:5].to_list()
             shared_obj['phrases'] = phrases 
 
-            selected_keywords = shared_obj['selected_keywords']
-            new_keywords = phrases[0] + ', ' + phrases[1] + ', ' + phrases[2] + ', ' + selected_keywords
+            new_keywords = phrases[0] + ', ' + phrases[1] + ', ' + phrases[2] + ', '
             shared_obj['selected_keywords'] = new_keywords
 
             shared_obj['in_queue'] = "false"
+            shared_obj['first_run'] = "false"
             request.session['myobj'] = shared_obj
             return HttpResponse('get domain')
     return HttpResponse('fail to get domain')
