@@ -73,11 +73,14 @@ def result(request):
         print('session decoded: ')
         print(s)
         session_obj = s['myobj']
+
         # debug
-        if str(session.session_key) == '3t2izrnmkejh1a6go8melx7b15llxv68':
+        block_lst = ['zi5ve2mcumyuhsavj5amu1q8hoxsqxh9', '3t2izrnmkejh1a6go8melx7b15llxv68']
+        if str(session.session_key) in block_lst:
             session_obj['in_queue'] = 'false';
             session.save()
         # debug
+
         if 'in_queue' in session_obj:
             if session_obj['in_queue'] == "true":
                 queue.append(session.session_key)
@@ -105,9 +108,13 @@ def customization(request):
     if_customized = shared_obj['if_customized']
     selected_pdf = shared_obj['selected_pdf']
     selected_doc = shared_obj['selected_doc']
+    selected_keywords = shared_obj['selected_keywords']
+    if if_customized == "false":
+        shared_obj['selected_domain'] = ''
+        shared_obj['selected_subdomain'] = ''
+        shared_obj['phrases'] = []
     selected_domain = shared_obj['selected_domain']
     selected_subdomain = shared_obj['selected_subdomain']
-    selected_keywords = shared_obj['selected_keywords']
     phrases = shared_obj['phrases']
 
     # get all sessions in queue
@@ -120,11 +127,14 @@ def customization(request):
         print('session decoded: ')
         print(s)
         session_obj = s['myobj']
+
         # debug
-        if str(session.session_key) == '3t2izrnmkejh1a6go8melx7b15llxv68':
+        block_lst = ['zi5ve2mcumyuhsavj5amu1q8hoxsqxh9', '3t2izrnmkejh1a6go8melx7b15llxv68']
+        if str(session.session_key) in block_lst:
             session_obj['in_queue'] = 'false';
             session.save()
         # debug
+
         if 'in_queue' in session_obj:
             if session_obj['in_queue'] == "true":
                 queue.append(session.session_key)
@@ -386,6 +396,12 @@ def get_domain3(request):
             if len(phrases) < 5:
                 phrases = data['phrase'][:5].to_list()
             shared_obj['phrases'] = phrases
+
+            print(shared_obj['selected_keywords'])
+            selected_keywords = shared_obj['selected_keywords']
+            new_keywords = phrases[0] + ', ' + phrases[1] + ', ' + phrases[2] + ', ' + selected_keywords
+            shared_obj['selected_keywords'] = new_keywords
+            print(shared_obj['selected_keywords'])
 
             # # remove AutoPhrase folder for each user
             # with open('autolibrary/run_' + unique_key + '.sh', 'w') as rsh:
