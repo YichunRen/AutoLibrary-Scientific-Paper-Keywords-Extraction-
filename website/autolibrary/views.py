@@ -62,10 +62,6 @@ def customization(request):
     selected_pdf = shared_obj['selected_pdf']
     selected_doc = shared_obj['selected_doc']
     selected_keywords = shared_obj['selected_keywords']
-    if if_customized == "false":
-        shared_obj['selected_domain'] = ''
-        shared_obj['selected_subdomain'] = ''
-        shared_obj['phrases'] = []
     selected_domain = shared_obj['selected_domain']
     selected_subdomain = shared_obj['selected_subdomain']
     phrases = shared_obj['phrases']
