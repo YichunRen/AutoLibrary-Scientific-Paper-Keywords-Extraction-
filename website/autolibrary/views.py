@@ -22,6 +22,11 @@ from django.contrib.sessions.models import Session
 def index(request):
     data = os.listdir('autolibrary/documents')
     data = dumps(data) 
+    
+    os.system('mkdir -p ../data/out')
+    os.system('mkdir -p static/autolibrary/documents')
+    os.system('mkdir -p static/autolibrary/web_scrap')
+
     #new
     shared_obj = request.session.get('myobj',{}) 
     shared_obj['selected_doc'] = ''
@@ -114,8 +119,7 @@ def get_file(request):
             shared_obj['selected_pdf'] = selected_pdf
             shared_obj['selected_doc'] = selected_doc
 
-            os.system('mkdir -p static/autolibrary/documents')
-            os.system('mkdir -p static/autolibrary/web_scrap')
+            
             command = 'cp autolibrary/documents_copy/' + pdfname + ' static/autolibrary/documents'
             os.system(command)
 
