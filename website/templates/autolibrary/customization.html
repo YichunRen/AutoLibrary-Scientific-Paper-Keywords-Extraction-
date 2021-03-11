@@ -184,13 +184,14 @@
       }
     } else {
       for (var i = 1; i <= 3; i++) {
-          var label = document.getElementById('p' + i);
-          label.innerHTML = "<input id='b" + i + "' type='checkbox' onchange='check_box(event);'> " + "pharse " + i;
-        }
+        var label = document.getElementById('p' + i);
+        label.innerHTML = "<input id='b" + i + "' type='checkbox' onchange='check_box(event);'> " + "pharse " + i;
+      }
     }
 
     // display selected phrases
     var display = JSON.parse("{{customized|escapejs}}"); 
+    console.log('customized-->', display);
     var keywords = JSON.parse("{{keywords|escapejs}}"); 
     console.log('keywords-->', keywords);
     if (display[0] == "true") {
@@ -215,10 +216,10 @@
         input_phrases.value = keywords[keywords.length - 1];
       }
     } else {
-        if (keywords[0] != '') {
-          keywords = keywords[0].split(', ');
-          var input_phrases = document.getElementById('input_phrases');
-          input_phrases.value = keywords[keywords.length - 1];
+      if (keywords[0] != '') {
+        keywords = keywords[0].split(', ');
+        var input_phrases = document.getElementById('input_phrases');
+        input_phrases.value = keywords[keywords.length - 1];
       }
     }
   }  
