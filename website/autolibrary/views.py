@@ -28,7 +28,9 @@ def index(request):
     command = 'cp autolibrary/documents_copy/* ' + 'autolibrary/documents_copy/' + unique_key
     os.system(command)
 
-    # make dir in static/autolibrary
+    # make directories
+    os.system('mkdir -p autolibrary/params')
+    os.system('mkdir -p autolibrary/subprocess')
     os.system('mkdir -p static/autolibrary/documents')
     os.system('mkdir -p static/autolibrary/web_scrap')
 
@@ -65,8 +67,17 @@ def result(request):
     sessions = Session.objects.filter(expire_date__gte=timezone.now())
     queue = []
     for session in sessions:
+        print('session unique_key: ')
+        print(session)
         s = session.get_decoded()
+        print('session decoded: ')
+        print(s)
         session_obj = s['myobj']
+        # debug
+        if str(session.session_key) == '3t2izrnmkejh1a6go8melx7b15llxv68':
+            session_obj['in_queue'] = 'false';
+            session.save()
+        # debug
         if 'in_queue' in session_obj:
             if session_obj['in_queue'] == "true":
                 queue.append(session.session_key)
@@ -99,6 +110,25 @@ def customization(request):
     selected_keywords = shared_obj['selected_keywords']
     phrases = shared_obj['phrases']
 
+    # get all sessions in queue
+    sessions = Session.objects.filter(expire_date__gte=timezone.now())
+    queue = []
+    for session in sessions:
+        print('session unique_key: ')
+        print(session)
+        s = session.get_decoded()
+        print('session decoded: ')
+        print(s)
+        session_obj = s['myobj']
+        # debug
+        if str(session.session_key) == '3t2izrnmkejh1a6go8melx7b15llxv68':
+            session_obj['in_queue'] = 'false';
+            session.save()
+        # debug
+        if 'in_queue' in session_obj:
+            if session_obj['in_queue'] == "true":
+                queue.append(session.session_key)
+
     content = {
         "customized": dumps([if_customized]),
         "data": dumps(data),
@@ -110,6 +140,7 @@ def customization(request):
         "phrases": dumps(phrases),
         "keywords": dumps([selected_keywords]),
         "unique_key": dumps([unique_key]),
+        "queue": dumps([queue]),
     }
 
     if if_customized == "false":
@@ -271,15 +302,23 @@ def get_queue(request):
                 session_obj = s['myobj']
                 if 'in_queue' in session_obj:
                     if session_obj['in_queue'] == "true":
-                        # update timestamp if duplicate
                         timestamp = session_obj['timestamp']
-                        if timestamp in sessions_in_queue:
-                            timestamp += 1
-                        session_obj['timestamp'] = timestamp
-                        session.save()
-                        sessions_in_queue.append(timestamp)
+                        # prevent guest users from running
+                        if timestamp == '':
+                            os.system('mkdir -p static/autolibrary/queue')
+                            with open('static/autolibrary/queue/' + str(session.session_key) + '.txt', 'w') as fp:
+                                fp.write(str(10))
+                            session_obj['in_queue'] = 'false'
+                            session.save()
+                        else:
+                            # update timestamp if duplicate
+                            if timestamp in sessions_in_queue:
+                                timestamp += 1
+                            session_obj['timestamp'] = timestamp
+                            session.save()
+                            sessions_in_queue.append(timestamp)
             sessions_in_queue.sort()
-            print('all sessions in queue\n')
+            print('sorted all sessions in queue\n')
             print(sessions_in_queue)
 
             # calculate current position in queue

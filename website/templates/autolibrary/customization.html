@@ -77,6 +77,10 @@
                         <button type="submit" class="pure-button pure-button-primary" style="margin-top: 10px;background-color: rgb(219, 155, 35);" onclick="event.preventDefault(); alter_result();">Generate Results</button>
                       </details>
                       <br>
+                      <div id="loading-text">
+                          <h3 id='text' hidden>The 1st run takes about 5 minutes!</h3>
+                          <p id='queue' hidden></p>
+                      </div>
                       <img id="loading" src="{% static 'autolibrary/images/loading.gif' %}" style="height: 100px;" class="giphy-embed" allowFullScreen hidden>
                       <br>
 
@@ -117,6 +121,16 @@
   </body>
 </html>
 <script>
+  window.onbeforeunload = function(event) {
+    console.log("ready to leave")
+    var URL = "{% url 'close_domain' %}";
+    $.get(URL, function(data) {
+      console.log("terminating process")
+                }, 'text');
+    // event.returnValue = "...";
+    event.preventDefault();
+  };
+
   function initiate(){
     // sidebar
     var data = JSON.parse("{{data|escapejs}}");
@@ -177,26 +191,37 @@
 
     // display weighted phrases
     var phrases = JSON.parse("{{phrases|escapejs}}");
-    for (var i = 1; i <= 5; i++) {
-      var label = document.getElementById('p' + i);
-      if (i <= 3) {
-        label.innerHTML = "<input id='b" + i + "' type='checkbox' checked='yes' onchange='check_box(event);'> " + phrases[i - 1];
-      } else {
-        label.innerHTML = "<input id='b" + i + "' type='checkbox' onchange='check_box(event);'> " + phrases[i - 1];
-      }
-    }
-    var select = document.getElementById('others');
-    for (var i = 5; i < phrases.length; i++) {
-      var option = document.createElement('option');
-      option.value = phrases[i];
-      option.innerHTML = phrases[i];
-      select.appendChild(option);
+    console.log('phrases-->', phrases);
+    if (phrases.length > 0) {
+        for (var i = 1; i <= 5; i++) {
+          var label = document.getElementById('p' + i);
+          if (i <= 3) {
+            label.innerHTML = "<input id='b" + i + "' type='checkbox' checked='yes' onchange='check_box(event);'> " + phrases[i - 1];
+          } else {
+            label.innerHTML = "<input id='b" + i + "' type='checkbox' onchange='check_box(event);'> " + phrases[i - 1];
+          }
+        }
+
+        var select = document.getElementById('others');
+        for (var i = 5; i < phrases.length; i++) {
+          var option = document.createElement('option');
+          option.value = phrases[i];
+          option.innerHTML = phrases[i];
+          select.appendChild(option);
+        }
+    } else {
+        for (var i = 1; i <= 3; i++) {
+          var label = document.getElementById('p' + i);
+          label.innerHTML = "<input id='b" + i + "' type='checkbox' onchange='check_box(event);'> " + "pharse " + i;
+        }
     }
 
     // display selected phrases
     var display = JSON.parse("{{customized|escapejs}}");
+    console.log('customized-->', display);
+    var keywords = JSON.parse("{{keywords|escapejs}}");
+    console.log('keywords-->', keywords);
     if (display[0] == "true") {
-      var keywords = JSON.parse("{{keywords|escapejs}}");
       if (keywords[0] != '') {
         keywords = keywords[0].split(', ');
         var idx = 0;
@@ -217,6 +242,26 @@
         var input_phrases = document.getElementById('input_phrases');
         input_phrases.value = keywords[keywords.length - 1];
       }
+    } else {
+        if (keywords[0] != '') {
+        keywords = keywords[0].split(', ');
+        var input_phrases = document.getElementById('input_phrases');
+        input_phrases.value = keywords[keywords.length - 1];
+      }
+    }
+
+    // disable button if 7 people in queue
+    var queue = JSON.parse("{{queue|escapejs}}")[0];
+    console.log('queue-->', queue);
+    var len_queue = queue.length;
+    console.log('queue length: ' + len_queue);
+    if (len_queue >= 7) {
+        var div = document.getElementById('loading-text');
+        var h = document.createElement('h3');
+        h.innerHTML = "There are a lot of people using it right now. Please come back later!";
+        div.appendChild(h);
+        var btn = document.getElementById('find-keywords');
+        btn.disabled = true;
     }
   }
 
@@ -258,7 +303,6 @@
           if (key=="link"){
             var new_key = key.charAt(0).toUpperCase() + key.slice(1);
             items.push( "<li id='" + key + "'>" + new_key + ": <a href='" + value + "'>" + value + "</a></li>" );
-            console.log(value);
           }
           else if (key=="authors") {
             var names = ""
@@ -311,6 +355,8 @@
   }
 
   function display_result() {
+    var h = document.getElementById('text');
+    h.hidden = false;
     var image = document.getElementById('loading');
     image.hidden = false;
 
@@ -319,20 +365,79 @@
       "subdomain": document.getElementById('sel2').value
     };
     var URL = "{% url 'get_domain1' %}";
-    $.post(URL, selected, function(response){
-      if (response === 'get domain'){
-        var URL = "{% url 'get_domain2' %}";
-        $.post(URL, selected, function(response){
-            if (response === 'get domain'){
-                window.location = "https://yichunren.pythonanywhere.com/autolibrary/customization";
-            }
-            else {
-                alert('Error! :(');
-            }
-        });
-      } else {
-          alert('Error! :(');
-      }
+    console.log('start the process');
+    $.post(URL, selected, function(response) {
+        if (response === 'copy AutoPhrase') {
+            console.log('done copying AutoPhrase');
+            var URL = "{% url 'get_queue' %}";
+            $.post(URL, selected, function(response) {
+                console.log('get_queue response : ' + response);
+                if (response === 'execute') {
+                    console.log('no need to wait');
+                    var URL = "{% url 'get_domain2' %}";
+                    $.post(URL, selected, function(response) {
+                        if (response === 'run autophrase') {
+                            console.log('done running autophrase');
+                            var URL = "{% url 'get_domain3' %}";
+                            $.post(URL, selected, function(response) {
+                                if (response === 'get domain') {
+                                    console.log('done weighting and webscraping');
+                                    window.location = "https://yichunren.pythonanywhere.com/autolibrary/customization";
+                                } else {
+                                    alert('Error! :(');
+                                }
+                            });
+                        } else {
+                            alert('Error! :(');
+                        }
+                    });
+                } else if (response === 'wait') {
+                    console.log('need to wait');
+                    var unique_key = JSON.parse("{{unique_key|escapejs}}")[0];
+                    $.get("{% get_static_prefix %}/autolibrary/queue/" + unique_key + ".txt", function(data) {
+                        if (data === 'execute') {
+                            console.log('static file says execute');
+                        } else {
+                            num = parseInt(data, 10);
+                            if (num >= 5) {
+                                console.log('too many people in queue');
+                                window.location = "https://yichunren.pythonanywhere.com/autolibrary/result";
+                            }
+                            time = (Math.floor(num / 2) + 1) * 5;
+                            var p = document.getElementById('queue');
+                            p.innerHTML = 'There are ' + num + ' people ahead of you... The estimated wait time is: ' + time + ' minutes.';
+                            p.hidden = false;
+                            // console.log('wait for ' + time / 5 + ' min');
+                            // time = (time / 5) * 60000;
+                            console.log('wait for ' + time + ' min');
+                            time = time * 60000;
+                            setTimeout(function(){
+                                console.log('done waiting');
+                                var URL = "{% url 'get_domain2' %}";
+                                $.post(URL, selected, function(response) {
+                                    if (response === 'run autophrase') {
+                                        console.log('done running autophrase');
+                                        var URL = "{% url 'get_domain3' %}";
+                                        $.post(URL, selected, function(response) {
+                                            if (response === 'get domain') {
+                                                console.log('done weighting and webscraping');
+                                                window.location = "https://yichunren.pythonanywhere.com/autolibrary/customization";
+                                            } else {
+                                                alert('Error! :(');
+                                            }
+                                        });
+                                    } else {
+                                        alert('Error! :(');
+                                    }
+                                });
+                            }, time);
+                        }
+                    }, 'text');
+                }
+            });
+        } else {
+            alert('Error! :(');
+        }
     });
   }
 
