@@ -159,7 +159,7 @@ def get_domain(request):
                 # run all targets
                 rsh.write('''cd .. \n''')
                 rsh.write('''python run.py data \n''')
-                # rsh.write('''python run.py autophrase \n''')
+                rsh.write('''python run.py autophrase \n''')
                 rsh.write('''python run.py weight ''' + unique_key +  '''\n''')
                 rsh.write('''python run.py webscrape ''' + unique_key +  '''\n''')
                 rsh.write('''cp data/out/scraped_AutoPhrase.json website/static/autolibrary/web_scrap/scraped_AutoPhrase.json \n''')
