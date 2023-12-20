@@ -16,6 +16,8 @@ Use port-forwarding on dsmlp to open the website:
 ## Website
 - Our published website enables users to upload papers via URLs/Local Machine
 - If you are curious about our code for published website, you can switch the branch to website.
+- <img width="1107" alt="Screen Shot 2023-12-20 at 3 34 10 PM" src="https://github.com/YichunRen/AutoLibrary-Scientific-Paper-Keywords-Extraction-/assets/38923159/57f341ba-6f8d-4194-a2c3-aadcaf81d0c2">
+
 
 ## Local Run
 - Please refer to `requirements.txt` to check if all the packages and libraries needed are installed.
